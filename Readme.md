@@ -2,8 +2,6 @@
 Author: Sean Pesce  
   
   
-To build project:  
--Clean & Build in netbeans  
--run make.bat  
+To build project, run make.bat  
   
 @TODO: Documentation, etc.
