@@ -45,6 +45,17 @@ IF "%1"=="clean" (
 	echo Creating .jar package...
 	javapackager -createjar -nocss2bin -appclass dscfgutil.DSCfgUtil -classpath "lib\apache-commons-io-2.4.jar";"lib\commons-lang3-3.4.jar" -outdir "%~dp0build" -outfile DSCfgUtil -srcdir "%~dp0build\src"
 
+	del /f /s /q "%~dp0build\src\dscfgutil\configs" 2> nul > nul
+	rmdir "%~dp0build\src\dscfgutil\configs" 2> nul > nul
+	del /f /s /q "%~dp0build\src\dscfgutil\dialog" 2> nul > nul
+	rmdir "%~dp0build\src\dscfgutil\dialog" 2> nul > nul
+	del /f /s /q "%~dp0build\src\dscfgutil\FileIO" 2> nul > nul
+	rmdir "%~dp0build\src\dscfgutil\FileIO" 2> nul > nul
+	del /f /s /q "%~dp0build\src\dscfgutil\view" 2> nul > nul
+	del /f /q "%~dp0build\src\dscfgutil\DSCfgUtil.class" 2> nul > nul
+	del /f /q "%~dp0build\src\dscfgutil\DSCfgUtilConstants.class" 2> nul > nul
+	rmdir "%~dp0build\src\dscfgutil\view" 2> nul > nul
+	
 	mkdir "%~dp0dist" 2> nul
 
 	echo Creating native .exe package...
