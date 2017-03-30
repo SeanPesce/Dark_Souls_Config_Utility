@@ -766,15 +766,17 @@ public class DSFixFileController {
         }
         
         //Format each linebreak to be displayed correctly in a text file
-        String formattedText = text.replaceAll("\n", String.format("%n"));
+        //String formattedText = text.replaceAll("\n", String.format("%n")); // Or don't
+        String formattedText = text;
         //Initialize BufferedWriter to write string to file
         BufferedWriter fileWriter = new BufferedWriter(new FileWriter(writeFile));
         //Write the file
-        Scanner scanner = new Scanner(formattedText);
+        /*Scanner scanner = new Scanner(formattedText);
         while(scanner.hasNextLine()){
-            fileWriter.write(scanner.nextLine());
+            fileWriter.write(scanner.nextLine().trim());
             fileWriter.newLine();
-        }
+        }*/
+        fileWriter.write(formattedText, 0, formattedText.length());
         
         fileWriter.close();
     }

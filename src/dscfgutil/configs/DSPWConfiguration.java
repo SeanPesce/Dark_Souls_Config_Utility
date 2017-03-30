@@ -200,7 +200,7 @@ public class DSPWConfiguration {
             while(templateReader.hasNextLine()){
                 String line = templateReader.nextLine();
                 if(line.startsWith("#") || line.length() < 2){
-                    output += line + String.format("%n");
+                    output += line.trim() + String.format("%n");
                 }else{
                     output += DSPW_SETTING_NAMES[settingsApplied] + " "
                                 + settings.get(settingsApplied).toString()
