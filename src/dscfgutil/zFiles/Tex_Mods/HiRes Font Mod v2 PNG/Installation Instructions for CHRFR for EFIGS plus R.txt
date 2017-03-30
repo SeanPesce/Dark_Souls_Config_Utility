@@ -1,0 +1,7 @@
+Complete High-Resolution Font Replacement for EFIGS plus R - PNG version
+-------------------------------------------------------------------------------
+
+To install, place desired flavour (I suggest 1024x) in tex_override and reap
+the benefits. Wheel skeletons not included. Praise the sun. 
+
+Version 2.0. 25/09/2012

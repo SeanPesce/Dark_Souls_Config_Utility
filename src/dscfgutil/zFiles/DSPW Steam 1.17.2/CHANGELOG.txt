@@ -1,0 +1,155 @@
+1.17.2
+  new: as requested on /dsg/ (post #111487918), overlay text can now
+       be freely aligned (left, center, right). see dspwsteam.ini
+  new: an entirely new and funny challenge for some people!
+
+1.17.1
+  fix: fringe case where rofap + mom + tb ring triggered a hp warning
+
+1.17.0
+  fix: (final fix for) kick function. thanks to anyone who provided
+       reports for this one - not everyone was crashing (i wasn't)
+       so that was a tricky one to fix with no local feedback.
+       i am deeply sorry for all these new versions coming out,
+       hopefully, we should be able to let it rest for a while now.
+       thanks again for your patience.
+
+1.16.8
+  new: you can now choose wheter or not to lock the arena freeze
+       effect in dspwsteam.ini
+
+1.16.7
+  fix: kick and leave fixed again... report back.
+  new: courtesy message for beta users
+
+1.16.6
+  fix: kick and leave now work again. this one was a weird update.
+
+1.16.5
+  fix: new offsets for dark souls version dated june 24th 2015
+
+1.16.4
+  new: name(length)crash protection (thanks jellybaby34)
+       this comes with a price, though: 'summoning failed' will 
+       pop up when summoning phantoms with their names exceeding
+       the maximum length
+  fix: character's name in new game screen
+
+1.16.3
+  new: keybindings (see dspwsteam.ini)
+  new: 1 more effect is being locked (thanks jellybaby34)
+  new: more namecrash protection (report back if something's up)
+  fix: (declared) SL display for cheaters
+
+1.16.0
+  new: 12 more potentially dangerous effects are now being selectively
+       locked during multiplayer sessions. nothing should break, still
+       do feel free to report back if something is amiss
+  fix: part of the game tagged text processor has been rewritten,
+       this should hopefully mean the end of the namecrash bug in
+       all its occurrences and forms. it's been a wild ride, jellybaby
+  etc: misc fixes and code speedups
+
+1.15.4
+  new: now preventing two crafty exploits :}
+  fix: improved egg-head management. should be fine-ish now
+  fix: ShowVersionBanner and F9 will work as intended now  
+  bye: SL display on non cheaters because some kid wouldn't stop
+       crying about it. now let's wait for him to start crying
+       also about the player display itself. clarification:
+       http://www.reddit.com/r/darksouls/comments/2wigwe/watchdog_update_doesnt_show_sl_anymore/corbj5x
+  bye: easter egg! discovered on Querns' twitch stream :} gg Squid
+
+1.15.3
+  fix: crash on japanese language OS
+
+1.15.2
+  fix: the infamous namecrash bug should either be fixed or at least
+       heavily alleviated now. thanks FROMsoft for ignoring my bug report
+       for a whole fucking year!
+
+1.15.0
+  fix: crashing when the game was being launched in offline mode
+  new: you can choose to increase the node limit to 32 or just let the
+       game default to 20
+  bye: permanent dried finger effect - some good points were brought
+       to my attention, it's not coming back. use the dried finger
+       as usual :)
+
+1.14.9
+  fix: kick/leave offsets hotfix
+  fix: new steamworks build
+  new: increased the client pool limit to 32 nodes (game defaults to 20)
+  new: in anticipation of future patches and to avoid issues,
+       dspw will now refuse to load if the dark souls executable
+       is not the correct version
+
+1.14.6
+  fix: hotfixed a glitch with the wanderer coat
+
+1.14.5
+  fix: invisi-man should have a harder time now...
+
+1.14.4
+  new: an option to show how many nodes are in your current client pool
+       is now available. this should help people decide whether a game
+       restart is in order to fix the matchmaking or not
+
+1.14.3
+  new: we can now kick cheaters only when hosting and leave the session
+       when we're clients
+  new: update notifier
+
+1.13.3
+  new: optional permanent dried finger effect for invasion cooldown timers
+  new: you can now set a custom font size for the in-game overlay,
+       see dspwsteam.ini for more details
+  fix: about dialog should now appear on top of the main window,
+       the easter egg should be easier to invoke now
+  fix: improved hotkey polling
+
+1.12.1
+  fix: F9 now toggles between visible and hidden overlay
+  new: cheaters can't use watchdog online anymore
+
+1.11.3
+  fix: hotkey polling
+
+1.11.2
+  fix: mix-match of ShowOverlay/ShowBanner wasn't working as intended
+
+1.11.1
+  fix: you can now kick cheaters out of your world / get out of theirs
+       instantly by pressing F1
+  new: you can now hide both the version banner and the in-game overlay
+       entirely, see dspwsteam.ini
+
+1.10.1
+  new: dll chaining, see dspwsteam.ini
+
+1.10.0
+  fix: new offsets for steam
+
+1.09.1
+  fix: switching between windowed mode and fullscreen, changing resolutions,
+       or alt-tabbing while in fullscreen mode won't crash dark souls anymore.
+
+1.08.4
+  fix: hector salamanca's ding-spam when phantom latency was falsely detected as 0ms
+  upd: phantoms latency is now being checked every 2 seconds instead of 1
+
+1.08.3
+  new: different sound notifications for invaders and cheaters
+
+1.08.2
+  new: optional system date and clock display
+
+1.08.1
+  new: HandAxeOP 8-bit Querns special
+
+1.07.1
+  new: phantoms latency check via icmp_echo_request
+
+1.06
+  major codebase rewrite
+  new: elite cleric and mage smith sets aren't classified as 'hacks' anymore

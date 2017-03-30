@@ -1,0 +1,222 @@
+19-01-2015 -- version 2.4
+=========================
+- The FPS override now scans the binary to try and find the correct addresses
+  to perform the patching required for variable FPS support (Nwks)
+
+
+15-12-2014 -- version 2.3
+=========================
+- Make FPS override work with the Steamworks version (all credit goes to boowoo90 for the quick fix)
+
+
+28-09-2013 -- version 2.2
+=========================
+- Updated AA, SSAO and screenshot functionality to be compatible with latest Dark Souls version
+- Screenshots are now stored as PNG
+- Reduced number of state changes with AA and SSAO enabled
+- Added "VSSAO2" AO option (based on a configuration contributed by Asmodean)
+
+
+19-09-2013 -- version 2.1
+=========================
+- Made FPS unlocking compatible with the updated version of Dark Souls released 2 days ago
+  (thanks boowoo90 for providing the updated addresses)
+- Added a configurable pause key (built for taking nice action screenshots. Don't try to use online)
+- Changed frame rate calculation to perhaps prevent rare 59 FPS issue when playing for a long time
+
+
+22-12-2012 -- version 2.0.1
+=========================
+- Fixed HUD modification bug introduced in 2.0
+
+
+21-12-2012 -- version 2.0
+=========================
+- Updated the framerate unlock feature to work with the patched version of the game (Nwks)
+- Updated post-processing AA to work with the patched version of the game
+- Added "PresentWidth" and "PresentHeight" for full control over (windowed) downsampling 
+- Fixed an issue where hudless screenshots would sometimes not correctly capture some effects
+
+
+25-10-2012 -- version 1.9 beta
+==============================
+- Added 2 new ambient occlusion algorithms: HBAO and SCAO
+- Added scale option for ambient occlusion on lower-end systems
+- Disabled hotkeys when Dark Souls is not active
+- Reinstated the texture filtering option with slightly better implementation
+- Small bug fixes in frame rate limits calculation
+- Rework WindowManager::resize to center the window along with resizing, and call on startup (wT)
+- Fix prevExStyle in WindowManager::toggleBorderlessFullscreen (wT)
+
+
+21-10-2012 -- version 1.8 beta
+==============================
+- Added FXAA option for AA
+- Added 30 FPS limit toggle
+- Greatly improved SSAO depth usage, removed thickness model hack
+
+
+29-09-2012 -- version 1.7 beta
+==============================
+- Re-implemented the FPS limiter. It's quite exact now and also performed at a better point in time 
+  (before presenting the frame)
+- Made frame period calculation (for animation) slightly more exact
+- Added FPS thresholding for SMAA
+
+
+29-09-2012 -- version 1.6.1 beta
+================================
+- Fixed sporadic graphics issues introduced in 1.6
+- Fixed modified HUD issues with very long spell names
+- Fixed modified HUD issues with "POISONED"/"BLOOD LOSS" text
+
+
+29-09-2012 -- version 1.6 beta
+==============================
+- Unlocked framerate. Thanks to the hard work of Clément Barnier, the framerate can now be unlocked entirely.
+  (look into the .ini for details)
+- Fixed the SMAA issue introduced in 1.5 (with edges touching the skybox)
+- Fixed the HUD issues with damage numbers and subtitles (other issues remain)
+- Various small performance tweaks
+
+
+22-09-2012 -- version 1.5 beta
+==============================
+Bugfixes:
+- fixed issue with SSAO being rendered on top of particle effects/fog/water, instead of below them
+- improved method of determining when to apply SMAA/SSAO, better renderstate management
+  (may fix random display corruption issue)
+- tweaked SSAO a bit
+New features:
+- Can load .dds texture overrides in addition to .png
+- Can set the desired target FPS of the game in the .ini, thanks to Clément Barnier!
+  (This now also works correctly together with the intro skip feature)
+
+
+14-09-2012 -- version 1.4 beta
+==============================
+Bugfixes:
+- textures with a hash code starting with 0 will now be correctly named when dumped
+  and loaded when overriden (with prefix 0s)
+- (hopefully) fixed another alt-tab crash cause
+- fixed modified HUD performance, particularly in conjunction with SMAA and VSSAO
+- fixed modified HUD not showing effects like poison or bleeding correctly
+- various code cleanups
+
+
+13-09-2012 -- version 1.3 beta
+==============================
+Bugfixes:
+- fixed dynamic shadows being cut off in some areas
+- fixed some icons still not correctly handled by Hud toggle
+New features:
+- Hud scaling, opacity manipulation and minimalistic Hud
+- .ini options and toggle action for the above
+
+
+11-09-2012 -- version 1.2 beta
+==============================
+Bugfixes:
+- fixed some symbols still appearing with HUD toggled off
+- fixed cut-off messages at some specific resolutions
+- improved SSAO quality and speed, reduced distant artifacts
+New features:
+- texture override functionality
+- texture dumping can now be enabled in the .ini
+- screenshot folder can be specified in the .ini
+
+
+09-09-2012 -- version 1.1 beta
+==============================
+Bugfixes:
+- SSAO depth buffer inaccuracy fixed. Removes line artifacts from SSAO
+- further renderpipeline state restoration after SMAA and checks whether we are at the correct stage
+- fixed windows scaling issue when toggling between borderless windowed fullscreen and windowed mode
+New features:
+- SSAO now configurable in .ini
+- Optional high-quality DoF blur
+- HUD on/off toggle as bindable key action
+
+
+07-09-2012 -- version 1.0 beta
+==============================
+Bugfixes:
+- fixed crashing bug when alt-tabbing from/to fullscreen mode
+- fixed some unrestored renderpipeline state after SMAA
+New features:
+- configurable keybindings (see DSfixKeys.ini)
+- SSAO integration
+
+
+04-09-2012 -- version 0.9 alpha
+===============================
+Bugfixes:
+- Save backups should now be correctly limited to the amount specified
+- Language override is more resilient in case of crashes and cleans up the registry
+New features:
+- SMAA1x integration
+- Hudless screenshots can be taken with F5
+
+
+01-09-2012 -- version 0.8 alpha
+===============================
+- DSfix is now a Direct Input wrapper instead of a d3d9.dll wrapper
+  this was done to fix the optimus issue, and it should also allow people to use 
+  other wrappers for postprocessing effects
+- there is a new setting "dinput8dllWrapper" which allows you to use additional
+  DirectInput wrappers on top of DSfix should you so desire
+- the way logging was handled when disabled has been improved, so you could see
+  slightly improved performance in CPU limited situations with "logLevel 0" (the default) 
+
+
+01-09-2012 -- version 0.7.5 alpha
+=================================
+- made intro detection much more robust
+
+
+31-08-2012 -- version 0.7 alpha
+===============================
+- added save game backup option
+- added intro skipping option
+
+
+28-08-2012 -- version 0.6 alpha
+===============================
+- added borderless windowed fullscreen mode
+  (F8 and ini setting)
+- added .ini language override
+- refactored code base
+
+
+26-08-2012 -- version 0.5 alpha
+===============================
+- fixed cursor toggling (F9), added cursor capturing (F10)
+- also added .ini settings for both of those
+- improved the fix introduced in 0.2 for cut-off text/buttons
+  no longer nearly as invasive
+
+
+25-08-2012 -- version 0.4 alpha
+===============================
+- .ini setting for overriding DoF rendering resolution
+- also added an option to disable DoF scaling
+- better documentation of the options in the .ini
+
+
+24-08-2012 -- version 0.3 alpha
+===============================
+- .ini setting for texture filtering override level (from 0 to 2)
+- press F9 to toggle mouse cursor on/off
+
+
+24-08-2012 -- version 0.2 alpha
+===============================
+- Fixed text/button prompt cutoff
+- Force all sampler to 16x anisotropic. This should fix downsampling for everyone
+  (If it causes any problems I'll make it optional, but I didn't see any so far)
+
+
+23-08-2012 -- version 0.1 alpha
+===============================
+- Initial release
+- This will probably break everything horribly
