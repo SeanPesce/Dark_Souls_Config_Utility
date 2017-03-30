@@ -1,3 +1,4 @@
+;Author: Sean Pesce
 ;This file will be executed next to the application bundle image
 ;I.e. current directory will contain folder DSCfgUtil with application files
 [Setup]

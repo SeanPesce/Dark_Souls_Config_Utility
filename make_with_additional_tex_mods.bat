@@ -1,4 +1,5 @@
 @echo off
+REM Author: Sean Pesce
 echo:
 echo Make sure to run "Clean and Build" in NetBeans before running this script.
 echo NOTE: If NetBeans fails to build, try restarting it (and manually deleting the /dist/ directory)
