@@ -2,16 +2,16 @@
 ;This file will be executed next to the application bundle image
 ;I.e. current directory will contain folder DSCfgUtil with application files
 [Setup]
-AppId={{dscfgutil}}
+AppId=dscfgutil
 AppName=Dark Souls Configuration Utility
 AppVersion=0.94
-AppVerName=DSCfgUtil 0.94
+AppVerName=Dark Souls Config Utility v0.94
 AppPublisher=Sean Pesce
 AppComments=AIO Configuration Utility for Dark Souls: Prepare to Die Edition
 AppCopyright=Copyright (C) 2017
-;AppPublisherURL=https://github.com/SeanPesce
-AppSupportURL=https://github.com/SeanPesce
-;AppUpdatesURL=https://github.com/SeanPesce
+AppPublisherURL=https://twitter.com/SeanPesce
+AppSupportURL=https://reddit.com/u/SeanPesce
+AppUpdatesURL=https://github.com/SeanPesce
 DefaultDirName={pf}\SeanP Software\Dark Souls Config Utility
 DisableStartupPrompt=Yes
 DisableDirPage=No
@@ -24,16 +24,23 @@ DefaultGroupName=SeanP Software
 ;LicenseFile=
 ;WinXP or above:
 MinVersion=0,5.1 
-OutputBaseFilename=DSCfgUtil-0.94
+OutputBaseFilename=DSCfgUtil-0.94_setup
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=lowest
 SetupIconFile=DSCfgUtil\app\src\dscfgutil\zFiles\images\DSCfgUtil.ico
-UninstallDisplayIcon=DSCfgUtil\app\src\dscfgutil\zFiles\images\DSCfgUtil.ico
-UninstallDisplayName=DSCfgUtil
+UninstallDisplayIcon={app}\DSCfgUtil.exe
+UninstallDisplayName=Dark Souls Config Utility
 WizardImageStretch=No
-WizardSmallImageFile=DSCfgUtil\app\src\dscfgutil\zFiles\images\DSCfgUtil-setup-icon.bmp   
+WizardSmallImageFile=DSCfgUtil\app\src\dscfgutil\zFiles\images\DSCfgUtil-setup-icon.bmp
+;WizardImageBackColor=
+;WizardImageFile=
 ;ArchitecturesInstallIn64BitMode=x64
+VersionInfoVersion=0.9.4.0
+OutputDir=Installer
+;BackColor=$2A446D
+;BackColor2=clBlack
+
 
 
 [Languages]
