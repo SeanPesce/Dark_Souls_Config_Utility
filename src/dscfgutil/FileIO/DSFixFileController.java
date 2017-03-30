@@ -161,7 +161,8 @@ public class DSFixFileController {
                 if(i != DSF_FILES.length - 2){
                     FileUtils.copyFile(srcFile, destFile);
                 }else{
-                    FileUtils.copyDirectory(srcFile, destFile);
+                    //FileUtils.copyDirectory(srcFile, destFile);
+                    FileUtils.forceMkdir(destFile);
                 }
                 ui.printConsole(COPYING + file);
             }catch(IOException iOE){
