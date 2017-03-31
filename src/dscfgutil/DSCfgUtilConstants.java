@@ -141,7 +141,8 @@ public class DSCfgUtilConstants {
     public static String STAT_ICON_MOD_FILES[] = {"6b0e84c1.png"};
     public static String THIEF_MASK_MOD_FILES[] = {"260c069f.png"};
     public static String TREE_MOD_FILES[] = {"0ca7009e.dds", "7bf5653b.dds", "30fef25a.dds",
-                                    "65bff455.dds", "407561a6.dds", "ae451971.dds"};
+                                    "65bff455.dds", "407561a6.dds", "ae451971.dds", 
+                                    "72fc5850.dds", "8106835c.dds", "b902fe0a.dds"};
     public static String MESSAGES_MOD_FILES[] = {"d130f1d6.dds", "ed5ea154.dds"};
     public static String SIGNS_MOD_FILES[] = {"36e28b90.dds", "290d87fd.dds",
                                 "3271fdc4.dds", "10445a76.dds"};
