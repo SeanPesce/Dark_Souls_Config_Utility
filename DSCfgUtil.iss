@@ -1,11 +1,15 @@
 ;Author: Sean Pesce
 ;This file will be executed next to the application bundle image
 ;I.e. current directory will contain folder DSCfgUtil with application files
+#define VerFile FileOpen("DSCfgUtil\app\src\dscfgutil\zFiles\version")
+#define AppVer FileRead(VerFile)
+#expr FileClose(VerFile)
+#undef VerFile
 [Setup]
 AppId=dscfgutil
 AppName=Dark Souls Configuration Utility
 AppVersion=0.94
-AppVerName=Dark Souls Config Utility v0.94
+AppVerName=Dark Souls Config Utility v{#AppVer}
 AppPublisher=Sean Pesce
 AppComments=AIO Configuration Utility for Dark Souls: Prepare to Die Edition
 AppCopyright=Copyright (C) 2017
@@ -24,7 +28,7 @@ DefaultGroupName=SeanP Software
 ;LicenseFile=
 ;WinXP or above:
 MinVersion=0,5.1 
-OutputBaseFilename=DSCfgUtil-0.94_setup
+OutputBaseFilename=DSCfgUtil-{#AppVer}_setup
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=lowest
@@ -36,7 +40,7 @@ WizardSmallImageFile=DSCfgUtil\app\src\dscfgutil\zFiles\images\DSCfgUtil-setup-i
 ;WizardImageBackColor=
 ;WizardImageFile=
 ArchitecturesInstallIn64BitMode=x64
-VersionInfoVersion=0.9.4.0
+VersionInfoVersion={#AppVer}.0.0
 OutputDir=Installer
 ;BackColor=$2A446D
 ;BackColor2=clBlack

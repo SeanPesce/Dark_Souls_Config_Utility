@@ -68,6 +68,7 @@ import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSM;
 import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSPW;
 import static dscfgutil.DSCfgUtilConstants.IOEX_FILE_WRITER;
 import static dscfgutil.DSCfgUtilConstants.NONE;
+import static dscfgutil.DSCfgUtilConstants.PROGRAM_VERSION;
 import static dscfgutil.DSCfgUtilConstants.RENAMING_FILE;
 import static dscfgutil.DSCfgUtilConstants.SEE_CONSOLE;
 import static dscfgutil.DSCfgUtilConstants.TEMPLATES_DIR;
@@ -81,6 +82,7 @@ import static dscfgutil.DSCfgUtilConstants.UNABLE_TO_READ_DS_INI;
 import static dscfgutil.DSCfgUtilConstants.UNINSTALLING_DSF;
 import static dscfgutil.DSCfgUtilConstants.UNINSTALLING_DSM;
 import static dscfgutil.DSCfgUtilConstants.UNINSTALLING_DSPW;
+import static dscfgutil.DSCfgUtilConstants.UNKNOWN_VERSION;
 import static dscfgutil.DSCfgUtilConstants.WRITING_FILE;
 import dscfgutil.dialog.AlertDialog;
 import dscfgutil.dialog.ContinueDialog;
@@ -103,6 +105,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javax.imageio.IIOException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  *
@@ -375,6 +378,19 @@ public class DSFixFileController {
         if(exportedFolder != null){
             ui.getConfig().exportDSFix(exportedFolder.getPath());
             ui.getDSFKeybinds().writeSettingsToIniFile(exportedFolder + DSF_FOLDER + "\\" + DSF_FILES[2]);
+        }
+    }
+    
+    public void getVersion(){
+        try {
+            PROGRAM_VERSION = readTextFile(FILES_DIR + "\\version").trim();
+        } catch (FileNotFoundException ex) {
+            // Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+            PROGRAM_VERSION = "?.??";
+        }
+        if(PROGRAM_VERSION.equals("0.00") || !NumberUtils.isParsable(PROGRAM_VERSION)){
+            PROGRAM_VERSION = "?.??";
+            ui.printConsole(UNKNOWN_VERSION);
         }
     }
     

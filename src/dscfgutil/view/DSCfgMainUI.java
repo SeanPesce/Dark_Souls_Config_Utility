@@ -330,6 +330,7 @@ public class DSCfgMainUI {
         primaryStage = initStage;
         fileController = new DSFixFileController(this);
         consoleLog = new String("");
+        fileController.getVersion();
         initUI();
     }
     

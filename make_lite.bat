@@ -25,7 +25,7 @@ IF "%1"=="clean" (
 		goto :done
 	)
 ) ELSE (
-	echo Task: Build (Standard version)
+	echo Task: Build (Lite)
 
 	REM Remove old build files:
 	del /f /s /q "%~dp0build" 2> nul > nul
@@ -65,25 +65,25 @@ IF "%1"=="clean" (
 	mkdir "%~dp0dist" 2> nul
 
 	echo Creating native .exe package...
-	javapackager -deploy -native image -outdir dist -outfile DSCfgUtil -srcdir "%~dp0\build" -appclass dscfgutil.DSCfgUtil -name "DSCfgUtil"  -title "Dark Souls Config Utility" -vendor "SeanP Software" -description "AIO configuration utility for Dark Souls Prepare to Die Edition" -BappVersion="%dscfgutil_version%" -Bicon="src\dscfgutil\zFiles\images\DSCfgUtil.ico"
+	javapackager -deploy -native image -outdir dist -outfile DSCfgUtil -srcdir "%~dp0\build" -appclass dscfgutil.DSCfgUtil -name "DSCfgUtil"  -title "Dark Souls Config Utility" -vendor "SeanP Software" -description "AIO configuration utility for Dark Souls Prepare to Die Edition" -Bruntime= -BappVersion="%dscfgutil_version%" -Bicon="src\dscfgutil\zFiles\images\DSCfgUtil.ico"
 
 	REM Create the Readme:
-	echo Dark Souls Configuration Utility v%dscfgutil_version% ^(Standalone Build^) - Readme> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt
-	echo:>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt
-	echo This is a standalone build of the Dark Souls Config Utility, which has a larger file size than the Lite build, but can run independently on any Windows machine ^(no Java install required^).>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt
-	echo:>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt
-	echo For more info and/or the add-on texture mod pack, visit https://github.com/SeanPesce/Dark_Souls_Config_Utility>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt
-	echo -Sean P>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt
+	echo Dark Souls Configuration Utility v%dscfgutil_version% ^(Lite Build^) - Readme> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt
+	echo:>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt
+	echo This is a Lite build of the Dark Souls Config Utility, which has a smaller file size than the standalone build, but requires Java to operate. Java can be downloaded here: https://java.com/en/download/>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt
+	echo:>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt
+	echo For more info and/or the add-on texture mod pack, visit https://github.com/SeanPesce/Dark_Souls_Config_Utility>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt
+	echo -Sean P>> dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt
 	
 	echo Creating installer...
 	copy /y "%~dp0DSCfgUtil.iss" "%~dp0dist\bundles\DSCfgUtil.iss"  2> nul > nul
 	iscc "%~dp0dist\bundles\DSCfgUtil.iss"
 	del /f "%~dp0dist\bundles\DSCfgUtil.iss" 2> nul
-	del /f "%~dp0dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%.txt" 2> nul
+	del /f "%~dp0dist\bundles\DSCfgUtil\Readme_DSCfgUtil-v%dscfgutil_version%L.txt" 2> nul
 	
 	mkdir "%~dp0Release" 2> nul
-	robocopy "%~dp0dist\bundles\DSCfgUtil" "%~dp0Release\DSCfgUtil-v%dscfgutil_version%_Portable" /s /e > nul
-	copy /y "%~dp0dist\bundles\Installer\DSCfgUtil-%dscfgutil_version%_setup.exe" "%~dp0Release\DSCfgUtil-v%dscfgutil_version%_Setup.exe" > nul
+	robocopy "%~dp0dist\bundles\DSCfgUtil" "%~dp0Release\DSCfgUtil-v%dscfgutil_version%L_Portable" /s /e > nul
+	copy /y "%~dp0dist\bundles\Installer\DSCfgUtil-%dscfgutil_version%_setup.exe" "%~dp0Release\DSCfgUtil-v%dscfgutil_version%L_Setup.exe" > nul
 	
 	goto :done
 )

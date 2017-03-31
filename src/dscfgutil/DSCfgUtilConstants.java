@@ -20,7 +20,7 @@ public class DSCfgUtilConstants {
     public static String PROGRAM_SHORT = "DSCfgUtil";
     public static String PROGRAM = "DSConfigUtil";
     public static String PROGRAM_LONG = "Dark Souls Configuration Utility";
-    public static String PROGRAM_VERSION = "0.94";
+    public static String PROGRAM_VERSION = "x.xx";
     public static String DS = "Dark Souls";
     public static String DS_PTD = "Dark Souls: Prepare to Die Edition";
     public static String DS_AUTHOR = "From Software";
@@ -900,6 +900,7 @@ public class DSCfgUtilConstants {
                                             "delete files?";
     
     //Error Messages:
+    public static String UNKNOWN_VERSION = "Unable to determine program version number.";
     public static String DS_INSTALL_NOT_FOUND = DS + " install " + DIRECTORY +
                                              " was not found. Specify location "
                                              + "via " + DIRECTORY + " browser.";
