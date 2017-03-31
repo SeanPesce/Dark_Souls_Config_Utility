@@ -13,23 +13,21 @@ First of all, there exist several other programs with the same functionality (mo
 ## Overview  
 The Dark Souls Configuration Utility is a launcher, mod manager, and configuration tool for [Dark Souls: Prepare to Die Edition](http://store.steampowered.com/app/211420/) on PC. Dark Souls is awesome, but it's probably one of the worst PC ports of all time. Luckily, the game has a very dedicated fanbase, and the community came together to create various fixes and updates to make it more playable. Unfortunately it can be a bit of a hassle to install and configure most of these fixes, and many people can't be bothered with doing so (nor do they want to play a game as broken as this one). The Dark Souls Configuration Utility aims to mitigate this issue by providing an easy-to-use, all-in-one resource for installing and configuring the most essential community fixes/mods.  
   
-## Features  
-*@TODO*  
+## Usage and Features  
+To run the Dark Souls Configuration Utility, open DSCfgUtil.exe in the main program directory (or search for "Dark Souls Config Utility" in the start menu if you used an installer). For in-depth usage and feature descriptions, see the documentation in the /docs/ folder.  
+*@TODO: Add documentation in /docs/ with in-depth descriptions of usage/features.*  
   
 ## Compiling  
-If you want to build the project yourself (rather than downloading a [pre-compiled version](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases)), simply download the project and run `make.bat`. However, the script will only work if you meet the following criteria:  
+If you want to build the project yourself (rather than downloading a [pre-compiled version](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases)), simply download the project and run `make_all.bat`. However, the script will only work if you meet the following criteria:  
 
 * [Install the JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)  
 * Add the JDK install directory to your %PATH% environment variable (See below for instructions)  
 * Install [Inno Setup](http://www.jrsoftware.org/isdl.php)   
 * Add the Inno Setup install directory to your %PATH% (See below)  
-* If your JDK is installed somewhere other than `C:\Program Files\Java\jdk1.8.0_121`, you'll need to edit line 33 of `make.bat` (and/or line 8 of `make_with_additional_tex_mods.bat`) with your JDK directory (Maybe I'll update this script to be more universal at some point so this won't be necessary).  
+* If your JDK is installed somewhere other than `C:\Program Files\Java\jdk1.8.0_121`, you'll need to edit line 39 of `make.bat`, line 10 of `make_with_additional_tex_mods.bat`, line 39 of `make_lite.bat`, and line 10 of `make_lite_w_extra_tex_mods.bat` with your JDK directory (Maybe I'll update this script to be more universal at some point so this won't be necessary).  
 
-After compiling the project with the batch script, three different compiled projects will be available:  
-
-* An bundled installer in `\\dist\\bundles\\Installer`  
-* A portable version of the program in `\\dist\\bundles\\DSCfgUtil`  
-* A "lite" (executable .jar) version of the program in `\\build`. This version is significantly smaller than the .exe versions, but Java must be installed to run it; use the command `java -jar DSCfgUtil.jar`)  
+After compiling the project with the batch script, the 8 different package variations (and the extra texture mods pack) will be available in the /Release/ folder.  
+*@TODO: Describe standard vs lite and installer vs portable bundles*  
   
 ## Special Thanks  
 This project wouldn't exist if it weren't for these guys:  
