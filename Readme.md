@@ -60,13 +60,13 @@ Last but not least, the creators of the texture mods included with this program:
 * [Xbox One Button Icons](http://www.nexusmods.com/darksouls/mods/1061/)*  
 * [Thief Mask Texture Fix](http://www.nexusmods.com/darksouls/mods/355/)  
 * [Tree LoD Texture Fix](http://www.nexusmods.com/darksouls/mods/67/)  
-*  * [Andre's Cranial Ember (Improved face textures)](http://www.nexusmods.com/darksouls/mods/23/)  
-*  * [HD Anor Londo distance textures](http://www.nexusmods.com/darksouls/mods/132/)  
-*  * [Black background for BANDAI NAMCO splash screen](http://www.nexusmods.com/darksouls/mods/175/)  
-*  * [HD Painting of Ariamis](http://www.nexusmods.com/darksouls/mods/148/)  
-*  * [Removed Player Auras](http://www.nexusmods.com/darksouls/mods/62/)  
-*  * [Revamped Status Icons](http://www.nexusmods.com/darksouls/mods/8/)  
-*  * [Revamped Arrows & Quiver](http://www.nexusmods.com/darksouls/mods/197/)  
+  * [Andre's Cranial Ember (Improved face textures)](http://www.nexusmods.com/darksouls/mods/23/)  
+  * [HD Anor Londo distance textures](http://www.nexusmods.com/darksouls/mods/132/)  
+  * [Black background for BANDAI NAMCO splash screen](http://www.nexusmods.com/darksouls/mods/175/)  
+  * [HD Painting of Ariamis](http://www.nexusmods.com/darksouls/mods/148/)  
+  * [Removed Player Auras](http://www.nexusmods.com/darksouls/mods/62/)  
+  * [Revamped Status Icons](http://www.nexusmods.com/darksouls/mods/8/)  
+  * [Revamped Arrows & Quiver](http://www.nexusmods.com/darksouls/mods/197/)  
   
 *<sub><sup>Texture mods that I worked on to complete, fix, or improve in some way (Note: My edits aren't on the Nexus versions of these mods)</sup></sub>  
 • <sub><sup>"Essential" texture mods (included in all program bundles)</sup></sub>  
