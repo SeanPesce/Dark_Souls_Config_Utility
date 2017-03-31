@@ -3,7 +3,7 @@
 Author: Sean Pesce  
   
 ## Background  
-This is an old project that I created a few years ago with the intent to become more familiar with JavaFX and UI design. I wasn't planning on releasing it, but I found myself reinstalling it for myself and my friends every time I installed Dark Souls on a new computer. The file size is **way** larger than it needs to be (mostly due to the self-contained JRE), but this is far outweighed by the program's usefulness if you're a hardcore Dark Souls fan (bandwidth isn't an issue for most people these days anyway).  
+This is an old project that I created a few years ago with the intent to become more familiar with JavaFX and UI design. I wasn't planning on releasing it, but I found that I was repeatedly reinstalling it for myself and my friends every time we installed Dark Souls on a new computer. The file size is **way** larger than it needs to be (mostly due to the self-contained JRE), but this is far outweighed by the program's usefulness if you're a hardcore Dark Souls fan (bandwidth isn't an issue for most people these days anyway).  
   
 ## Disclaimer  
 First of all, there exist several other programs with the same functionality (more or less) as this one (most are smaller by orders of magnitude, but are also less feature-complete). Additionally, the code is poorly laid out and generally a bit of a mess, because (as I said before) **this project was a learning experience** first and foremost. I understand that there are far better languages for a program with this scope, but efficiency and optimization were not my priorities. I might update it a bit more to finish a few things, but I probably won't be doing any code refactoring or implementing any major changes.
