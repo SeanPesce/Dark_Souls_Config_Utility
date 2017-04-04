@@ -25,7 +25,7 @@ IF "%1"=="clean" (
 		goto :done
 	)
 ) ELSE (
-	echo Task: Build (Standard version)
+	echo Task: Build ^(Standard version^)
 
 	REM Remove old build files:
 	del /f /s /q "%~dp0build" 2> nul > nul

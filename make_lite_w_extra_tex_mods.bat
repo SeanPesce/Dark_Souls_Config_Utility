@@ -3,7 +3,7 @@ REM Author: Sean Pesce
 
 SET /p dscfgutil_version= < "%~dp0src/dscfgutil/zFiles/version"
 
-echo Task: Build (Lite with extra texture mods)
+echo Task: Build ^(Lite with extra texture mods^)
 
 echo Compiling Java...
 mkdir "%~dp0build\src" 2> nul
