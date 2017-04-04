@@ -540,7 +540,12 @@ public class DSPWPane extends ScrollPane{
         banLabel = new Label(BAN_LABEL + "  ");
         banLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         banPicker = new ComboBox(keybinds);
-        banPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_BanPhantom.toString())));
+        try{
+            banPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_BanPhantom.toString())));
+        }catch(IndexOutOfBoundsException iobEx){
+            // ui.printConsole("Unknown \"Ban Phantom\" keybind value detected.");
+            banPicker.setValue(keybinds.get(0));
+        }
         banPane.getChildren().addAll(banLabel, banPicker);
         //
         //Ignore Phantom
@@ -549,7 +554,12 @@ public class DSPWPane extends ScrollPane{
         ignoreLabel = new Label(IGNORE_LABEL + "  ");
         ignoreLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         ignorePicker = new ComboBox(keybinds);
-        ignorePicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_IgnorePhantom.toString())));
+        try{
+            ignorePicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_IgnorePhantom.toString())));
+        }catch(IndexOutOfBoundsException iobEx){
+            // ui.printConsole("Unknown \"Ignore Phantom\" keybind value detected.");
+            ignorePicker.setValue(keybinds.get(1));
+        }
         ignorePane.getChildren().addAll(ignoreLabel, ignorePicker);
         //
         //Toggle Overlay
@@ -558,7 +568,12 @@ public class DSPWPane extends ScrollPane{
         toggleOverlayLabel = new Label(TOGGLE_OVERLAY_LABEL + "  ");
         toggleOverlayLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         toggleOverlayPicker = new ComboBox(keybinds);
-        toggleOverlayPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_HideOverlay.toString())));
+        try{
+            toggleOverlayPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_HideOverlay.toString())));
+        }catch(IndexOutOfBoundsException iobEx){
+            // ui.printConsole("Unknown \"Toggle Overlay\" keybind value detected.");
+            toggleOverlayPicker.setValue(keybinds.get(2));
+        }
         toggleOverlayPane.getChildren().addAll(toggleOverlayLabel, toggleOverlayPicker);
         //
         //About Dark Souls PvP Watchdog
@@ -567,7 +582,12 @@ public class DSPWPane extends ScrollPane{
         aboutLabel = new Label(ABOUT_DSPW_LABEL + "  ");
         aboutLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         aboutPicker = new ComboBox(keybinds);
-        aboutPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_AboutDSPW.toString())));
+        try{
+            aboutPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_AboutDSPW.toString())));
+        }catch(IndexOutOfBoundsException iobEx){
+            // ui.printConsole("Unknown \"About DSPW\" keybind value detected.");
+            aboutPicker.setValue(keybinds.get(3));
+        }
         aboutPane.getChildren().addAll(aboutLabel, aboutPicker);
         
         primaryVBox.getChildren().addAll(titleBar, restoreDefaultsBar, spacerHBox,

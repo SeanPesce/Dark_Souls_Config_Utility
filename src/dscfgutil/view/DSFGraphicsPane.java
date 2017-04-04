@@ -360,7 +360,12 @@ public class DSFGraphicsPane extends ScrollPane {
         aaQualityLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         aaQualityLabel.setTooltip(new Tooltip(AA_QUALITY_TT));
         aaQualityPicker = new ComboBox(FXCollections.observableArrayList(AAQUALITIES));
-        aaQualityPicker.setValue(AAQUALITIES[config.aaQuality.get()]);
+        try{
+                aaQualityPicker.setValue(AAQUALITIES[config.aaQuality.get()]);
+        }catch(IndexOutOfBoundsException iobEx){
+                ui.printConsole("WARNING: Unknown AA Quality value detected. Setting to " + AAQUALITIES[0] + " instead...");
+                aaQualityPicker.setValue(AAQUALITIES[0]);
+        }
         aaQualityPane.getChildren().addAll(aaQualityLabel, aaQualityPicker);
         //
         //AA Type
@@ -387,7 +392,12 @@ public class DSFGraphicsPane extends ScrollPane {
         ssaoStrengthLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         ssaoStrengthLabel.setTooltip(new Tooltip(SSAO_STRENGTH_TT));
         ssaoStrengthPicker = new ComboBox(FXCollections.observableArrayList(SSAOSTRENGTHS));
-        ssaoStrengthPicker.setValue(SSAOSTRENGTHS[config.ssaoStrength.get()]);
+        try{
+                ssaoStrengthPicker.setValue(SSAOSTRENGTHS[config.ssaoStrength.get()]);
+        }catch(IndexOutOfBoundsException iobEx){
+                ui.printConsole("WARNING: Unknown SSAO Strength value detected. Setting to " + SSAOSTRENGTHS[0] + " instead...");
+                ssaoStrengthPicker.setValue(SSAOSTRENGTHS[0]);
+        }
         ssaoStrengthPane.getChildren().addAll(ssaoStrengthLabel, ssaoStrengthPicker);
         //
         //SSAO Scale
@@ -398,6 +408,12 @@ public class DSFGraphicsPane extends ScrollPane {
         ssaoScaleLabel.setTooltip(new Tooltip(SSAO_SCALE_TT));
         ssaoScalePicker = new ComboBox(FXCollections.observableArrayList(SSAOSCALES));
         ssaoScalePicker.setValue(SSAOSCALES[config.ssaoScale.get() - 1]);
+        try{
+                ssaoScalePicker.setValue(SSAOSCALES[config.ssaoScale.get() - 1]);
+        }catch(IndexOutOfBoundsException iobEx){
+                ui.printConsole("WARNING: Unknown SSAO Scale value detected. Setting to " + SSAOSCALES[1] + " instead...");
+                ssaoScalePicker.setValue(SSAOSCALES[1]);
+        }
         if(config.ssaoStrength.get() == 0){
             ssaoScalePicker.setDisable(true);
         }
@@ -514,7 +530,12 @@ public class DSFGraphicsPane extends ScrollPane {
         //
         fpsFixKey = getFPSFixKey();
         if(fpsFixKey != null){
-            fpsFixKeyPicker.setValue(FPS_FIX_KEYS[FPS_FIX_KEYS_HEX_ARRAY_LIST.indexOf("0x" + fpsFixKey)]);
+            try{
+                fpsFixKeyPicker.setValue(FPS_FIX_KEYS[FPS_FIX_KEYS_HEX_ARRAY_LIST.indexOf("0x" + fpsFixKey)]);
+            }catch(IndexOutOfBoundsException iobEx){
+                // ui.printConsole("Unknown Bonfire FPS Fix keybind value detected.");
+                fpsFixKeyPicker.setValue("0x" + fpsFixKey);
+            }
         }else{
             fpsFixKeyPicker.setValue(FPS_FIX_KEYS[4]);
             fpsFixKeyPicker.setDisable(true);
@@ -872,9 +893,18 @@ public class DSFGraphicsPane extends ScrollPane {
         });
         
         fpsFixKeyPicker.setOnAction(e -> {
-            String fpsFixKeyNew = FPS_FIX_KEYS_HEX[FPS_FIX_KEYS_ARRAY_LIST.indexOf(fpsFixKeyPicker.getValue())].substring(2);
+            String fpsFixKeyNew = FPS_FIX_KEYS_HEX[0];
+            try{
+                fpsFixKeyNew = FPS_FIX_KEYS_HEX[FPS_FIX_KEYS_ARRAY_LIST.indexOf(fpsFixKeyPicker.getValue())].substring(2);
+            }catch(IndexOutOfBoundsException iobEx){
+                fpsFixKeyNew = FPS_FIX_KEYS_HEX[0];
+            }
             setFPSFixKey(fpsFixKeyNew);
-            fpsFixKey = FPS_FIX_KEYS_HEX[FPS_FIX_KEYS_ARRAY_LIST.indexOf(fpsFixKeyPicker.getValue())].substring(2);
+            try{
+                fpsFixKey = FPS_FIX_KEYS_HEX[FPS_FIX_KEYS_ARRAY_LIST.indexOf(fpsFixKeyPicker.getValue())].substring(2);
+            }catch(IndexOutOfBoundsException iobEx){
+                fpsFixKey = FPS_FIX_KEYS_HEX[0];
+            }
         });
         
         fpsLimitField.textProperty().addListener(new ChangeListener<String>() {
