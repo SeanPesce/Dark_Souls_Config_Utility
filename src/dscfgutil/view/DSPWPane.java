@@ -89,6 +89,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -98,6 +99,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -775,6 +778,58 @@ public class DSPWPane extends ScrollPane{
                         dllChainField.setText(dll.getName());
                         dllChainField.setStyle("-fx-text-fill: black;");
                         noChainButton.setDisable(false);
+                    }
+                }
+            }
+        });
+        
+        dllChainField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2){
+                    FileChooser dllChooser = new FileChooser();
+                    dllChooser.setTitle(DIALOG_TITLE_DLL);
+                    if(ui.getDataFolder() != null){
+                        dllChooser.setInitialDirectory(ui.getDataFolder());
+                    }
+                    ExtensionFilter dllFilter = new ExtensionFilter(DLL_EXT_FILTER[0], DLL_EXT_FILTER[1]);
+                    dllChooser.getExtensionFilters().add(dllFilter);
+
+                    File dll = dllChooser.showOpenDialog(ui.getStage());
+
+                    if(dll != null && ui.getDataFolder() != null){
+                        File checkDLL = new File(ui.getDataFolder() + "\\" + dll.getName());
+                        if(!checkDLL.exists()){
+                            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_WRONG_FOLDER,
+                                                            DLL_MUST_BE_IN_DATA, DIALOG_BUTTON_TEXTS[0]);
+                        }else{
+                            if(dll.getName().equals(DSM_FILES[0])){
+                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                                            CANT_CHAIN_DLL_WITH_DSM,
+                                                                DIALOG_BUTTON_TEXTS[0]);
+                            }else if(dll.getName().equals(DSF_FILES[0])){
+                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                                            CANT_CHAIN_DLL_WITH_DSF,
+                                                                DIALOG_BUTTON_TEXTS[0]);
+                            }else if(dll.getName().equals(DS_DEFAULT_DLLS[0]) ||
+                                    dll.getName().equals(DS_DEFAULT_DLLS[1]) ||
+                                    dll.getName().equals(DS_DEFAULT_DLLS[2])){
+                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                                            CANT_CHAIN_DLL_WITH_DEFAULT,
+                                                                DIALOG_BUTTON_TEXTS[0]);
+                            }else if(dll.getName().equals(DSPW_FILES[1]) ||
+                                    dll.getName().equals(DSPW_FILES[4]) ||
+                                    dll.getName().equals(DSPW_FILES[5])){
+                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                                            CANT_CHAIN_DSPW_WITH_DSPW,
+                                                                DIALOG_BUTTON_TEXTS[0]);
+                            }else{
+                                config.d3d9dllWrapper.replace(0, config.d3d9dllWrapper.length(), dll.getName());
+                                dllChainField.setText(dll.getName());
+                                dllChainField.setStyle("-fx-text-fill: black;");
+                                noChainButton.setDisable(false);
+                            }
+                        }
                     }
                 }
             }

@@ -957,6 +957,33 @@ public class DSCfgMainUI {
             }
             
         });
+        //
+        consoleText.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2){
+                    consoleWindow = new CopyableMsgDialog(500.0, 200.0, 
+                                        CONSOLE.toUpperCase(), consoleLog,
+                                        DIALOG_BUTTON_TEXTS[5]);
+                consoleWindow.getAlert().initModality(Modality.NONE);
+                primaryVBox.getChildren().remove(primaryVBox.getChildren().size() - 1);
+
+                showConsoleBar = false;
+                showConsoleWindow = true;
+
+                consoleWindow.getAlert().setResizable(true);
+                //consoleWindow.getStage().setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 
+                //                            consoleWindow.getDPane().getMinWidth() - 30); //this was causing issues for some people
+                consoleWindow.show();
+
+                if(showConsoleWindow){
+                    showConsoleWindow = false;
+                    showConsoleBar = true;
+                    primaryVBox.getChildren().add(consoleBar);
+                }
+                }
+            }
+        });
         
         //When exiting program:
         primaryStage.setOnCloseRequest(e -> {

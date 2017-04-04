@@ -58,6 +58,7 @@ import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -65,6 +66,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -355,6 +358,31 @@ class DSFOtherSettingsPane extends ScrollPane {
             }
         });
         
+        screenshotDirField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2){
+                    DirectoryChooser dirChooser = new DirectoryChooser();
+                    dirChooser.setTitle(DIALOG_TITLE_SCREENSHOTS);
+                    if(ui.getDataFolder() != null && config.screenshotDir.toString().equals(".")){
+                        dirChooser.setInitialDirectory(ui.getDataFolder());
+                    }
+
+                    File ssDir = dirChooser.showDialog(ui.getStage());
+                    if(ssDir != null){
+                        if(ui.getDataFolder() != null && ssDir.equals(ui.getDataFolder())){
+                            config.screenshotDir.replace(0, config.screenshotDir.length(), ".");
+                            useBaseDirButton.setDisable(true);
+                        }else{
+                            config.screenshotDir.replace(0, config.screenshotDir.length(), ssDir.getPath());
+                            useBaseDirButton.setDisable(false);
+                        }
+                        screenshotDirField.setText(ssDir.getPath());
+                    }
+                }
+            }
+        });
+        
         useBaseDirButton.setOnAction(e -> {
             config.screenshotDir.replace(0, config.screenshotDir.length(), ".");
             if(ui.getDataFolder() != null){
@@ -417,6 +445,60 @@ class DSFOtherSettingsPane extends ScrollPane {
                             dsmButton.setDisable(false);
                         }else{
                             dsmButton.setDisable(true);
+                        }
+                    }
+                }
+            }
+        });
+        
+        dllChainField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2){
+                    FileChooser dllChooser = new FileChooser();
+                    dllChooser.setTitle(DIALOG_TITLE_DLL);
+                    if(ui.getDataFolder() != null){
+                        dllChooser.setInitialDirectory(ui.getDataFolder());
+                    }
+                    ExtensionFilter dllFilter = new ExtensionFilter(DLL_EXT_FILTER[0], DLL_EXT_FILTER[1]);
+                    dllChooser.getExtensionFilters().add(dllFilter);
+
+                    File dll = dllChooser.showOpenDialog(ui.getStage());
+
+                    if(dll != null && ui.getDataFolder() != null){
+                        File checkDLL = new File(ui.getDataFolder() + "\\" + dll.getName());
+                        if(!checkDLL.exists()){
+                            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_WRONG_FOLDER,
+                                                            DLL_MUST_BE_IN_DATA, DIALOG_BUTTON_TEXTS[0]);
+                        }else{
+                            if(dll.getName().equals(DSM_FILES[0])){
+                                dsmButton.setDisable(true);
+                                config.dinput8dllWrapper.replace(0, config.dinput8dllWrapper.length(), dll.getName());
+                                dllChainField.setText(dll.getName());
+                                dllChainField.setStyle("-fx-text-fill: black;");
+                                noChainButton.setDisable(false);
+                            }else if(dll.getName().equals(DSF_FILES[0])){
+                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                                            CANT_CHAIN_DLL_WITH_SELF,
+                                                                DIALOG_BUTTON_TEXTS[0]);
+                            }else if(dll.getName().equals(DS_DEFAULT_DLLS[0]) ||
+                                    dll.getName().equals(DS_DEFAULT_DLLS[1]) ||
+                                    dll.getName().equals(DS_DEFAULT_DLLS[2])){
+                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                                            CANT_CHAIN_DLL_WITH_DEFAULT,
+                                                                DIALOG_BUTTON_TEXTS[0]);
+                            }else{
+                                config.dinput8dllWrapper.replace(0, config.dinput8dllWrapper.length(), dll.getName());
+                                dllChainField.setText(dll.getName());
+                                dllChainField.setStyle("-fx-text-fill: black;");
+                                noChainButton.setDisable(false);
+                                File checkDSM = new File(ui.getDataFolder().getPath() + "\\" + DSM_FILES[0]);
+                                if(checkDSM.exists()){
+                                    dsmButton.setDisable(false);
+                                }else{
+                                    dsmButton.setDisable(true);
+                                }
+                            }
                         }
                     }
                 }
