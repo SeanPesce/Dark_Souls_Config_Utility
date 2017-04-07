@@ -34,7 +34,7 @@ After compiling the project with the batch script, the 8 different package varia
   
 ## Special Thanks  
 This project wouldn't exist if it weren't for these guys:  
-
+https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases
 * **Peter "Durante" Thoman** ([Website](http://blog.metaclassofnil.com/), [Twitter](https://twitter.com/Durante_PT), [GitHub](https://github.com/PeterTh)) for creating [DSFix](http://www.nexusmods.com/darksouls/mods/19/), undeniably the most essential fix for Dark Souls on PC.  
 * **Alessandro "eur0pa" De Micheli** ([Website](https://alessandro.pw/), [Twitter](https://twitter.com/eur0pa_), [GitHub](https://github.com/eur0pa)) for creating [Dark Souls PvP Watchdog](http://www.nexusmods.com/darksouls/mods/849/), the closest thing to anti-cheat that's available for Dark Souls: Prepare to Die Edition.  
 * **Lane "Wulf2k" Hatland** ([Website](http://wulf2k.ca/), [GitHub](https://github.com/Wulf2k), [Reddit](https://www.reddit.com/user/Wulf2k/)) for creating the [Dark Souls Connectivity Mod](http://wulf2k.ca/PC/DaS/DSCM.html) to remedy the horrific wait times and general difficulties players would otherwise experience when attempting to engage in online play. Wulf2k also has some other extremely interesting work related to modding/reverse engineering Dark Souls; I highly recommend checking out his website.  
