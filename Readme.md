@@ -14,7 +14,7 @@ The code's a bit of a mess, because (as I said before) **this project was a lear
 The Dark Souls Configuration Utility is a launcher, mod manager, and configuration tool for [Dark Souls: Prepare to Die Edition](http://store.steampowered.com/app/211420/) on PC. Dark Souls is awesome, but it's probably one of the worst PC ports of all time. Luckily, the game has a very dedicated fanbase, and the community came together to create various fixes and updates to make it more playable. Unfortunately it can be a bit of a hassle to install and configure most of these fixes, and many people can't be bothered with doing so (nor do they want to play a game as broken as this one). The Dark Souls Configuration Utility aims to mitigate this issue by providing an easy-to-use, all-in-one resource for installing and configuring the most essential community fixes/mods.  
   
 ## Usage and Features  
-To run the Dark Souls Configuration Utility, open DSCfgUtil.exe in the main program directory (or search for "Dark Souls Config Utility" in the start menu if you used an installer). For in-depth usage and feature descriptions, see the documentation in the /docs/ folder.  
+To run the Dark Souls Configuration Utility, open DSCfgUtil.exe in the main program directory (or search for "Dark Souls Config Utility" in the start menu if you used an installer). For in-depth usage and feature descriptions, see the documentation in the /docs/ folder. A video demo of the program can also be found [here](https://www.youtube.com/watch?v=OiVRokZtZAo).  
 *@TODO: Add documentation in /docs/ with in-depth descriptions of usage/features.*  
   
 ## Compiling  
