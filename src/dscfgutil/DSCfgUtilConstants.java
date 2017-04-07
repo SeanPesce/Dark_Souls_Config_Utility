@@ -26,16 +26,19 @@ public class DSCfgUtilConstants {
     public static String DS_AUTHOR = "From Software";
     public static String DS_AUTHOR_WEBSITE[] = {"http://www.fromsoftware.jp/pc/",
                                                 "http://www.preparetodie.com/"};
-    public static String DS_VERSION = "1.17.0"; //@todo: try to verify version number
+    public static String DS_VERSION = "1.0.2.0";
     public static String DSF = "DSFix";
     public static String DSF_AUTHOR = "Durante";
     public static String DSF_AUTHOR_WEBSITE = "http://blog.metaclassofnil.com/";
     public static String DSF_VERSION = "2.4";
     public static String DSM = "DSMFix";
     public static String DSMOUSE = "DSMouseFix";
-    public static String DSM_AUTHOR = "yrooref@tznvy.pbz";
-    public static String DSM_AUTHOR_WEBSITE = "http://pages.cs.wisc.edu/~petska/";
-    public static String DSM_VERSION = "09-Steamworks";
+    public static String DSM_LEGACY_AUTHOR = "yrooref@tznvy.pbz";
+    public static String DSM_LEGACY_AUTHOR_WEBSITE = "http://pages.cs.wisc.edu/~petska/";
+    public static String DSM_LEGACY_VERSION = "09-Steamworks";
+    public static String DSM_AUTHOR = "Methanhydrat";
+    public static String DSM_AUTHOR_WEBSITE = "http://community.pcgamingwiki.com/index.php?app=core&module=search&do=user_activity&search_app=downloads&mid=3019";
+    public static String DSM_VERSION = "1.3";
     public static String DSPW = "Dark Souls PvP Watchdog";
     public static String DSPW_SHORT = "PvP Watchdog";
     public static String DSPW_ABBREV = "DSPW";
@@ -87,17 +90,27 @@ public class DSCfgUtilConstants {
         "dsfix\\tex_dump\\", "dsfix\\tex_override\\3f28b833.png"};
     public static String DSF_VERIFICATION = "# You can configure DSfix by editing this file"; //The first line of DSfix.ini, for verifying that an .ini file is a real DSFix ini file and not just some random .ini
     public static String DSF_KEYBINDS_VERIFICATION = "## DSfix Keybindings";
+    public static String DSF_HELP_URL = "http://blog.metaclassofnil.com/?p=684";
     //
-        //DSMFix Files/Directories
-    public static String DSM_FOLDER = "\\dsmfix09-steamworks";
-    public static String DSM_FILES[] = {"dsmfix.dll", "dsmfix.ini",
+        //DSMFix Files/Directories (Older version)
+    public static String DSM_LEGACY_FOLDER = "\\dsmfix09-steamworks";
+    public static String DSM_LEGACY_FILES[] = {"dsmfix.dll", "dsmfix.ini",
                                         "dsmfixgui.exe", "README.txt"};
+    //
+        //Dark Souls Mouse Fix Files/Directories (Newer, separate mouse fix mod)
+    public static String DSM_FOLDER = "\\DarkSoulsMouseFix_v1.3";
+    public static String DSM_FILES[] = {"DarkSoulsMouseFix.dll", "DarkSoulsMouseFix.ini",
+                                            "DarkSoulsMouseFixGUI.exe",
+                                            "DarkSoulsMouseFixReadme.md",
+                                            "DarkSoulsMouseFixReadme.pdf"};
+    public static String DSM_HELP_URL = "https://www.reddit.com/r/pcgaming/comments/5x6ec9/darksoulsmousefix_v10_beta_released_raw_mouse/";
     //
         //DS PvP Watchdog Files/Directories
     public static String DSPW_FOLDER = "\\DSPW Steam 1.17.2";
     public static String DSPW_FILES[] = {"CHANGELOG.txt", "d3d9.dll", "DSPW_README.txt",
                                         "DSPWSteam.ini", "msvcp120.dll", "msvcr120.dll",
                                         "VERSION"};
+    public static String DSPW_HELP_URL = "https://bitbucket.org/infausto/dark-souls-pvp-watchdog";
     //
         //Dark Souls Connectivity Mod Files/Directories
     public static String DSCM_FOLDER = "\\DSCM-2016-05-31-21";
@@ -170,6 +183,10 @@ public class DSCfgUtilConstants {
     public static String CSS_DIRECTORY = "/dscfgutil/style/Style.css";
     public static String INI_EXT_FILTER[] = {"ini Files (*.ini)", "*.ini"};
     public static String DLL_EXT_FILTER[] = {"dll Files (*.dll)", "*.dll"};
+    public static String DSCU_CHECK_UPDATES_URL = "https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases";
+    public static String DSCU_HELP_URL = "https://github.com/SeanPesce/Dark_Souls_Config_Utility/blob/master/Readme.md";
+    public static String GET_DS_URL = "http://store.steampowered.com/app/211420/";
+    public static String GET_MODS_URL = "http://www.nexusmods.com/darksouls/";
     
     
     //Menus & Interface Strings/Constants
@@ -205,6 +222,7 @@ public class DSCfgUtilConstants {
             public static String REINSTALL_DSM = "Reinstall " + DSM;
             public static String UNINSTALL_DSM = "Uninstall " + DSM;
             public static String CONFIGURE_DSM = "Configure " + DSM;
+            public static int DSM_DELAY = 5; // Time to wait for Dark Souls Mouse Fix configuration UI to open (in seconds)
         //DS PvP Watchdog Menu
             public static String APPLY_DSPW_CONFIG = "Apply current " + DSPW_ABBREV + " config";
             public static String INSTALL_DSPW = "Install " + DSPW_SHORT;
@@ -220,8 +238,14 @@ public class DSCfgUtilConstants {
         public static String TOGGLE_CONSOLE[] = {"Show console", "Hide console"};
         //Help menu
         public static String HELP = "Help";
-            public static String ABOUT_DSF = DSF + " Readme";
-            public static String ABOUT_DSCU = "About " + PROGRAM;
+            public static String CHECK_DSCU_UPDATES = "Check for updates";
+            public static String ABOUT = "About ";
+            public static String ABOUT_DSCU = ABOUT + PROGRAM;
+            public static String ABOUT_DSF = ABOUT + DSF;
+            public static String ABOUT_DSM = ABOUT + DSMOUSE;
+            public static String ABOUT_DSPW = ABOUT + DSPW_SHORT;
+            public static String GET_DS = "Get " + DS;
+            public static String GET_MODS = "Get DS mods";
         //
         //Tabs (Settings Categories)
         public static String GRAPHICS = "Graphics";
@@ -794,8 +818,11 @@ public class DSCfgUtilConstants {
     public static String END_TRYING_DS_PROCESS = DS_EXE + " could not be found.";
     public static String COULDNT_CHECK_PROCESSES = "Error occurred when trying to check current process list. Defaulting to " +
                             DSCM_DELAY + " second wait timer.";
+    public static String COULDNT_CHECK_PROCESS_DSM = "Error occurred when trying to check current process list. Defaulting to " +
+                            DSM_DELAY + " second wait timer.";
     public static String WAITING[] = {"Waiting... ", " seconds remaining"};
     public static String RECHECKING[] = {"Rechecking... (", " tries remaining)"};
+    public static String END_TRYING_DSM_PROCESS = "Mouse Fix UI is taking too long to load.";
     
     //Dialog Messages:
     public static String COPY_MESSAGE = "Auto-Copy";
@@ -901,6 +928,8 @@ public class DSCfgUtilConstants {
     
     //Error Messages:
     public static String UNKNOWN_VERSION = "Unable to determine program version number.";
+    public static String UNSUPPORTED_DESKTOP = "Error: Unsupported desktop.";
+    public static String FAILED_TO_OPEN_URL = "Error - Failed to open the following URL: ";
     public static String DS_INSTALL_NOT_FOUND = DS + " install " + DIRECTORY +
                                              " was not found. Specify location "
                                              + "via " + DIRECTORY + " browser.";

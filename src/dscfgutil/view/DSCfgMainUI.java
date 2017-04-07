@@ -7,6 +7,8 @@ package dscfgutil.view;
 
 import static dscfgutil.DSCfgUtilConstants.ABOUT_DSF;
 import static dscfgutil.DSCfgUtilConstants.ABOUT_DSCU;
+import static dscfgutil.DSCfgUtilConstants.ABOUT_DSM;
+import static dscfgutil.DSCfgUtilConstants.ABOUT_DSPW;
 import static dscfgutil.DSCfgUtilConstants.APPLY_CONFIG;
 import static dscfgutil.DSCfgUtilConstants.APPLY_DSF_KEYBINDS;
 import static dscfgutil.DSCfgUtilConstants.APPLY_DSPW_CONFIG;
@@ -16,6 +18,7 @@ import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSM;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSPW;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DS_REG_ENTRIES;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_STEAM_LIBRARY;
+import static dscfgutil.DSCfgUtilConstants.CHECK_DSCU_UPDATES;
 import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_ITE_ERR;
 import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_NO_REG_ACC_ERR;
 import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_PROCESS;
@@ -29,6 +32,7 @@ import static dscfgutil.DSCfgUtilConstants.CONSOLE_POPOUT_HOVER;
 import static dscfgutil.DSCfgUtilConstants.CONSOLE_POPOUT_ICON;
 import static dscfgutil.DSCfgUtilConstants.COULDNT_APPLY_CFG_ERR;
 import static dscfgutil.DSCfgUtilConstants.COULDNT_CHECK_PROCESSES;
+import static dscfgutil.DSCfgUtilConstants.COULDNT_CHECK_PROCESS_DSM;
 import static dscfgutil.DSCfgUtilConstants.COULDNT_EXPORT_INVALID_INPUT_ERR;
 import static dscfgutil.DSCfgUtilConstants.COULDNT_FIND_DS_PROCESS;
 import static dscfgutil.DSCfgUtilConstants.CSS_DIRECTORY;
@@ -63,21 +67,27 @@ import static dscfgutil.DSCfgUtilConstants.DSCM_FOLDER;
 import static dscfgutil.DSCfgUtilConstants.DSCM_SHORT;
 import static dscfgutil.DSCfgUtilConstants.DSF;
 import static dscfgutil.DSCfgUtilConstants.DSCUTIL_FILE_NOT_FOUND;
+import static dscfgutil.DSCfgUtilConstants.DSCU_CHECK_UPDATES_URL;
+import static dscfgutil.DSCfgUtilConstants.DSCU_HELP_URL;
 import static dscfgutil.DSCfgUtilConstants.DSCU_OPTIONS;
 import static dscfgutil.DSCfgUtilConstants.DSF_FILES;
 import static dscfgutil.DSCfgUtilConstants.DSF_FOUND;
+import static dscfgutil.DSCfgUtilConstants.DSF_HELP_URL;
 import static dscfgutil.DSCfgUtilConstants.DSF_NOT_FOUND;
 import static dscfgutil.DSCfgUtilConstants.DSF_PARTIALLY_FOUND;
 import static dscfgutil.DSCfgUtilConstants.DSF_STATUS;
 import static dscfgutil.DSCfgUtilConstants.DSF_STATUS_DESC;
 import static dscfgutil.DSCfgUtilConstants.DSM;
 import static dscfgutil.DSCfgUtilConstants.DSMOUSE;
+import static dscfgutil.DSCfgUtilConstants.DSM_DELAY;
 import static dscfgutil.DSCfgUtilConstants.DSM_FILES;
 import static dscfgutil.DSCfgUtilConstants.DSM_FOUND;
+import static dscfgutil.DSCfgUtilConstants.DSM_HELP_URL;
 import static dscfgutil.DSCfgUtilConstants.DSM_NOT_FOUND;
 import static dscfgutil.DSCfgUtilConstants.DSM_STATUS_DESC;
 import static dscfgutil.DSCfgUtilConstants.DSPW_FILES;
 import static dscfgutil.DSCfgUtilConstants.DSPW_FOUND;
+import static dscfgutil.DSCfgUtilConstants.DSPW_HELP_URL;
 import static dscfgutil.DSCfgUtilConstants.DSPW_KEYBIND_HEX;
 import static dscfgutil.DSCfgUtilConstants.DSPW_KEYBIND_NAMES;
 import static dscfgutil.DSCfgUtilConstants.DSPW_NOT_FOUND;
@@ -87,6 +97,7 @@ import static dscfgutil.DSCfgUtilConstants.DS_EXE;
 import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_NOT_FOUND;
 import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_REG_VALUE_NAME;
 import static dscfgutil.DSCfgUtilConstants.DS_REGISTRY_KEY;
+import static dscfgutil.DSCfgUtilConstants.END_TRYING_DSM_PROCESS;
 import static dscfgutil.DSCfgUtilConstants.END_TRYING_DS_PROCESS;
 import static dscfgutil.DSCfgUtilConstants.EXIT_PROGRAM;
 import static dscfgutil.DSCfgUtilConstants.EXPORT_DSF;
@@ -111,8 +122,13 @@ import static dscfgutil.DSCfgUtilConstants.RECHECK_DSF;
 import static dscfgutil.DSCfgUtilConstants.REINSTALL_DSF;
 import static dscfgutil.DSCfgUtilConstants.EXPORT_MENU;
 import static dscfgutil.DSCfgUtilConstants.FAILED_OPEN_FOLDER_ERR;
+import static dscfgutil.DSCfgUtilConstants.FAILED_TO_OPEN_URL;
 import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
 import static dscfgutil.DSCfgUtilConstants.FOUND_DS_PROCESS;
+import static dscfgutil.DSCfgUtilConstants.GET_DS;
+import static dscfgutil.DSCfgUtilConstants.GET_DS_URL;
+import static dscfgutil.DSCfgUtilConstants.GET_MODS;
+import static dscfgutil.DSCfgUtilConstants.GET_MODS_URL;
 import static dscfgutil.DSCfgUtilConstants.INSTALL_DSM;
 import static dscfgutil.DSCfgUtilConstants.INSTALL_DSPW;
 import static dscfgutil.DSCfgUtilConstants.LAUNCH;
@@ -151,6 +167,7 @@ import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSF;
 import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSM;
 import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSPW;
 import static dscfgutil.DSCfgUtilConstants.UNSAFE_OPS;
+import static dscfgutil.DSCfgUtilConstants.UNSUPPORTED_DESKTOP;
 import static dscfgutil.DSCfgUtilConstants.WAITING;
 import static dscfgutil.DSCfgUtilConstants.WINDOW_MOUSE;
 import static dscfgutil.DSCfgUtilConstants.WRITING_FILE;
@@ -201,6 +218,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -277,8 +295,13 @@ public class DSCfgMainUI {
         MenuItem toggleConsole;
     Menu helpMenu;
     //////Help options
-        MenuItem aboutDSF;
+        MenuItem updatesDSCU;
         MenuItem aboutDSCU;
+        MenuItem aboutDSF;
+        MenuItem aboutDSM;
+        MenuItem aboutDSPW;
+        MenuItem getDS;
+        MenuItem getMods;
     //
     //Directory toolbar
     HBox directoryToolbar;
@@ -479,9 +502,14 @@ public class DSCfgMainUI {
         optionsMenu.getItems().add(toggleConsole);
         
         //Help menu options
-        aboutDSF = new MenuItem(ABOUT_DSF);
+        updatesDSCU = new MenuItem(CHECK_DSCU_UPDATES);
         aboutDSCU = new MenuItem(ABOUT_DSCU);
-        helpMenu.getItems().addAll(aboutDSF, aboutDSCU);
+        aboutDSF = new MenuItem(ABOUT_DSF);
+        aboutDSM = new MenuItem(ABOUT_DSM);
+        aboutDSPW = new MenuItem(ABOUT_DSPW);
+        getDS = new MenuItem(GET_DS);
+        getMods = new MenuItem(GET_MODS);
+        helpMenu.getItems().addAll(updatesDSCU, aboutDSCU, aboutDSF, aboutDSM, aboutDSPW, getDS, getMods);
     }
     
     private void initializeDirectoryToolbar(){
@@ -781,11 +809,51 @@ public class DSCfgMainUI {
         });
         //
         configureDSM.setOnAction(e -> {
+            boolean renamedDSPW = false;
+            File checkDspwDLL = new File(this.getDataFolder().getPath() + "\\" + DSPW_FILES[1]);
+            File renamedDspwDLL = new File(this.getDataFolder().getPath() + "\\_" + DSPW_FILES[1]);
             try {
                 printConsole(LAUNCHING_DSM);
+                if(checkDspwDLL.exists()){
+                    // This fixes an issue with the MouseFix GUI when PvP Watchdog is installed
+                    FileUtils.moveFile(checkDspwDLL, renamedDspwDLL);
+                }
                 String cfgDSM = dataFolder.toPath() + "\\" + DSM_FILES[2];
                 File cfgDSMFile = new File(cfgDSM);
                 Process dsmFix = Runtime.getRuntime().exec(cfgDSMFile.getPath(), null, dataFolder);
+                disableElementsForSleeping();
+                for(int i = DSM_DELAY; i >= 0; i--){
+                    try {
+                        Thread.sleep(1000); //Sleep 0.5 seconds
+                        try{
+                            if(processIsRunning(DSM_FILES[2])){
+                                //Mouse Fix UI process found
+                                i = -1; //End counter and loop
+                                Thread.sleep(500);
+                            }else{
+                                //Mouse Fix UI process not found
+                                if(i == 0){
+                                    printConsole(END_TRYING_DSM_PROCESS);
+                                    Thread.sleep(1000);
+                                }
+                            }
+                        }catch(SecurityException | IOException ex){
+                            //Error when attempting to check current process list
+                            i = -1; //End counter and loop
+                            printConsole(COULDNT_CHECK_PROCESS_DSM);
+                            for(int j = DSM_DELAY; j >= 0; j--){
+                                Thread.sleep(1000); //Sleep 1 second
+                                printConsole(WAITING[0] + j + WAITING[1]);
+                            }
+                        }
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(DSCfgMainUI.class.getName()).log(Level.SEVERE, null, ex);
+                        printConsole(SLEEP_INTERRUPTED);
+                    }
+
+                }
+                enableElementsForSleeping();
+                FileUtils.moveFile(renamedDspwDLL, checkDspwDLL);
             } catch (IOException ex) {
                 printConsole(CONFIGURE_DSM_FAILED + ": " + ex.toString());
             }
@@ -910,6 +978,85 @@ public class DSCfgMainUI {
             }
             enableAndDisableElements();
         });
+        //
+        // Help Menu
+        updatesDSCU.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(DSCU_CHECK_UPDATES_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException dscuUpdatesEx){
+                printConsole(FAILED_TO_OPEN_URL + DSCU_CHECK_UPDATES_URL);
+            }
+        });
+        aboutDSCU.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(DSCU_HELP_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException dscuHelpEx){
+                printConsole(FAILED_TO_OPEN_URL + DSCU_HELP_URL);
+            }
+        });
+        aboutDSF.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(DSF_HELP_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException dsfHelpEx){
+                printConsole(FAILED_TO_OPEN_URL + DSF_HELP_URL);
+            }
+        });
+        aboutDSM.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(DSM_HELP_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException dsmHelpEx){
+                printConsole(FAILED_TO_OPEN_URL + DSM_HELP_URL);
+            }
+        });
+        aboutDSPW.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(DSPW_HELP_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException dspwHelpEx){
+                printConsole(FAILED_TO_OPEN_URL + DSPW_HELP_URL);
+            }
+        });
+        getDS.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(GET_DS_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException getDSHelpEx){
+                printConsole(FAILED_TO_OPEN_URL + GET_DS_URL);
+            }
+        });
+        getMods.setOnAction(e -> {
+            try{
+                if(Desktop.isDesktopSupported()){
+                  Desktop.getDesktop().browse(new URI(GET_MODS_URL));
+                }else{
+                    printConsole(UNSUPPORTED_DESKTOP);
+                }
+            }catch(IOException | URISyntaxException getModsHelpEx){
+                printConsole(FAILED_TO_OPEN_URL + GET_MODS_URL);
+            }
+        });
         
         //Directory bar
         //
@@ -958,7 +1105,7 @@ public class DSCfgMainUI {
             
         });
         //
-        consoleText.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        /*consoleText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2){
@@ -983,7 +1130,7 @@ public class DSCfgMainUI {
                 }
                 }
             }
-        });
+        });*/
         
         //When exiting program:
         primaryStage.setOnCloseRequest(e -> {

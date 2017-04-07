@@ -959,11 +959,11 @@ public class DSFGraphicsPane extends ScrollPane {
         dofOverridePicker.setOnAction(e -> {
             if(dofOverridePicker.getItems().indexOf(dofOverridePicker.getValue()) == (dofOverridePicker.getItems().size() - 1)){
                 //No DOF
-                ContinueDialog cD = new ContinueDialog(300.0, 80.0, DIALOG_TITLE_NOT_RECOMMENDED,
+                /*ContinueDialog cD = new ContinueDialog(300.0, 80.0, DIALOG_TITLE_NOT_RECOMMENDED,
                                                     DIALOG_MSG_TRY_ALTERNATE_NO_DOF,
                                                     DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[3]);
                 
-                if(cD.show()){
+                if(cD.show()){*/
                     config.disableDOF();
                     dofScalingEnabled.setDisable(true);
                     dofScalingDisabled.setDisable(true);
@@ -985,7 +985,7 @@ public class DSFGraphicsPane extends ScrollPane {
                     recheckTextInput(presentHeightField);
                     recheckTextInput(renderWidthField);
                     recheckTextInput(renderHeightField);
-                }else{
+                /*}else{
                     
                     Platform.runLater(new Runnable(){
                         @Override
@@ -1002,7 +1002,7 @@ public class DSFGraphicsPane extends ScrollPane {
                             }
                         }
                     });
-                }
+                }*/
             }else{
                 config.disableDOF = false;
                 dofScalingEnabled.setDisable(false);
