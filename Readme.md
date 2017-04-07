@@ -27,7 +27,10 @@ If you want to build the project yourself (rather than downloading a [pre-compil
 * If your JDK is installed somewhere other than `C:\Program Files\Java\jdk1.8.0_121`, you'll need to edit line 39 of `make.bat`, line 10 of `make_with_additional_tex_mods.bat`, line 39 of `make_lite.bat`, and line 10 of `make_lite_w_extra_tex_mods.bat` with your JDK directory (Maybe I'll update this script to be more universal at some point so this won't be necessary).  
 
 After compiling the project with the batch script, the 8 different package variations (and the extra texture mods pack) will be available in the /Release/ folder.  
-*@TODO: Describe standard vs lite and installer vs portable bundles*  
+* **Portable** packages come in a .zip and don't require installation. They can be run from anywhere on your computer, a flash drive, etc.  
+* **Setup** packages will run an installer to install the program onto your computer (adding a Start Menu entry and an Uninstall entry in the Control Panel).  
+* **Lite** packages (marked with an "**L**") come **without** a self-contained Java Runtime Environment (JRE), which means that the file size is significantly smaller than the normal standalone packages. However, **you must have a JRE installed on your computer for Lite packages to function**. You can download the latest JRE [here](https://java.com/en/download/).  
+* Packages marked with an "**X**" come with **additional texture mods pre-installed**. If you downloaded a package without the extra texture mods, you can download the **[extra texture mod pack](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases/download/0.94/Extra_TexMod_Pack.zip)** as a separate file and merge it with your program folder to install them.  
   
 ## Special Thanks  
 This project wouldn't exist if it weren't for these guys:  
