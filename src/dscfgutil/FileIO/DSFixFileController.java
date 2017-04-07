@@ -424,7 +424,7 @@ public class DSFixFileController {
         File fileToDelete = null;
         boolean deleteError = false;
         
-        for(int i = DSF_FILES.length - 1; i >= 0; i--){
+        for(int i = DSF_FILES.length - 3; i >= 0; i--){ // Don't delete tex_dump or tex_override folders (starting from length-3)
             String file = DSF_FILES[i];
             fileToDelete = new File(ui.getDataFolder().getPath() + "\\" + file);
             if(fileToDelete.exists()){
