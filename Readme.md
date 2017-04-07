@@ -30,11 +30,11 @@ After compiling the project with the batch script, the 8 different package varia
 * **Portable** packages come in a .zip and don't require installation. They can be run from anywhere on your computer, a flash drive, etc.  
 * **Setup** packages will run an installer to install the program onto your computer (adding a Start Menu entry and an Uninstall entry in the Control Panel).  
 * **Lite** packages (marked with an "**L**") come **without** a self-contained Java Runtime Environment (JRE), which means that the file size is significantly smaller than the normal standalone packages. However, **you must have a JRE installed on your computer for Lite packages to function**. You can download the latest JRE [here](https://java.com/en/download/).  
-* Packages marked with an "**X**" come with **additional texture mods pre-installed**. If you downloaded a package without the extra texture mods, you can download the **[extra texture mod pack](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases/download/0.94/Extra_TexMod_Pack.zip)** as a separate file and merge it with your program folder to install them.  
+* Packages marked with an "**X**" come with **additional texture mods pre-installed**. If you downloaded a package without the extra texture mods, you can download the **[extra texture mod pack](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases)** as a separate file and merge it with your program folder to install them.  
   
 ## Special Thanks  
 This project wouldn't exist if it weren't for these guys:  
-https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases
+
 * **Peter "Durante" Thoman** ([Website](http://blog.metaclassofnil.com/), [Twitter](https://twitter.com/Durante_PT), [GitHub](https://github.com/PeterTh)) for creating [DSFix](http://www.nexusmods.com/darksouls/mods/19/), undeniably the most essential fix for Dark Souls on PC.  
 * **Alessandro "eur0pa" De Micheli** ([Website](https://alessandro.pw/), [Twitter](https://twitter.com/eur0pa_), [GitHub](https://github.com/eur0pa)) for creating [Dark Souls PvP Watchdog](http://www.nexusmods.com/darksouls/mods/849/), the closest thing to anti-cheat that's available for Dark Souls: Prepare to Die Edition.  
 * **Lane "Wulf2k" Hatland** ([Website](http://wulf2k.ca/), [GitHub](https://github.com/Wulf2k), [Reddit](https://www.reddit.com/user/Wulf2k/)) for creating the [Dark Souls Connectivity Mod](http://wulf2k.ca/PC/DaS/DSCM.html) to remedy the horrific wait times and general difficulties players would otherwise experience when attempting to engage in online play. Wulf2k also has some other extremely interesting work related to modding/reverse engineering Dark Souls; I highly recommend checking out his website.  
