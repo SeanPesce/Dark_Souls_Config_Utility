@@ -23,10 +23,14 @@ To run the Dark Souls Configuration Utility, open DSCfgUtil.exe in the main prog
 If you want to build the project yourself (rather than downloading a [pre-compiled version](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases)), simply download the project and run `make_all.bat`. However, the script will only work if you meet the following criteria:  
 
 * [Install the JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)  
-* Add the JDK install directory to your %PATH% environment variable (See below for instructions)  
+* Add the JDK install directory to your %PATH% environment variable (See "Adding to the %PATH% variable" below for instructions)  
 * Install [Inno Setup](http://www.jrsoftware.org/isdl.php)   
 * Add the Inno Setup install directory to your %PATH% (See below)  
 * If your JDK is installed somewhere other than `C:\Program Files\Java\jdk1.8.0_121`, you'll need to edit line 39 of `make.bat`, line 10 of `make_with_additional_tex_mods.bat`, line 39 of `make_lite.bat`, and line 10 of `make_lite_w_extra_tex_mods.bat` with your JDK directory (Maybe I'll update this script to be more universal at some point so this won't be necessary).  
+  
+  
+**Adding to the %PATH% variable:** You can add to your %PATH% by going to Start→Edit the System Environment Variables→Advanced tab→Environment Variables→select "Path"→Edit→New→paste the program directory→OK  
+  
 
 After compiling the project with the batch script, the 8 different package variations (and the extra texture mods pack) will be available in the /Release/ folder.  
 * **Portable** packages come in a .zip and don't require installation. They can be run from anywhere on your computer, a flash drive, etc.  
