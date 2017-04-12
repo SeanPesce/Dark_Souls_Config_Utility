@@ -63,6 +63,15 @@ Filename: "{app}\DSCfgUtil.exe"; Parameters: "-Xappcds:generatecache"; Check: re
 Filename: "{app}\DSCfgUtil.exe"; Description: "{cm:LaunchProgram,DSCfgUtil}"; Flags: nowait postinstall skipifsilent; Check: returnTrue()
 Filename: "{app}\DSCfgUtil.exe"; Parameters: "-install -svcName ""DSCfgUtil"" -svcDesc ""DSCfgUtil"" -mainExe ""DSCfgUtil.exe""  "; Check: returnFalse()
 
+[UninstallDelete]
+Type: files; Name: "{app}\app\src\dscfgutil\zFiles\patches\DARKSOULS_*.exe"
+Type: dirifempty; Name: "{app}\app\src\dscfgutil\zFiles\patches"
+Type: dirifempty; Name: "{app}\app\src\dscfgutil\zFiles"
+Type: dirifempty; Name: "{app}\app\src\dscfgutil"
+Type: dirifempty; Name: "{app}\app\src"
+Type: dirifempty; Name: "{app}\app"
+Type: dirifempty; Name: "{app}"
+
 [UninstallRun]
 Filename: "{app}\DSCfgUtil.exe "; Parameters: "-uninstall -svcName DSCfgUtil -stopOnUninstall"; Check: returnFalse()
 
