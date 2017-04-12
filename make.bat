@@ -3,6 +3,10 @@ REM Author: Sean Pesce
 
 SET /p dscfgutil_version= < "%~dp0src/dscfgutil/zFiles/version"
 
+del /f /q "%~dp0src/dscfgutil/zFiles/patches/DARKSOULS_Latest.exe" 2> nul
+del /f /q "%~dp0src/dscfgutil/zFiles/patches/DARKSOULS_Beta.exe" 2> nul
+del /f /q "%~dp0src/dscfgutil/zFiles/patches/DARKSOULS_Debug.exe" 2> nul
+
 IF "%1"=="clean" (
 	echo Task: Clean
 	IF "%2"=="-v" (
