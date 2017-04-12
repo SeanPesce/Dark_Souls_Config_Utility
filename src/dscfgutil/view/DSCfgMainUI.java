@@ -12,6 +12,7 @@ import static dscfgutil.DSCfgUtilConstants.ABOUT_DSPW;
 import static dscfgutil.DSCfgUtilConstants.APPLY_CONFIG;
 import static dscfgutil.DSCfgUtilConstants.APPLY_DSF_KEYBINDS;
 import static dscfgutil.DSCfgUtilConstants.APPLY_DSPW_CONFIG;
+import static dscfgutil.DSCfgUtilConstants.CHANGE_DS_VERSION;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DS;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSF;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSM;
@@ -19,6 +20,7 @@ import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSPW;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DS_REG_ENTRIES;
 import static dscfgutil.DSCfgUtilConstants.CHECKING_STEAM_LIBRARY;
 import static dscfgutil.DSCfgUtilConstants.CHECK_DSCU_UPDATES;
+import static dscfgutil.DSCfgUtilConstants.CHECK_DS_VERSION;
 import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_ITE_ERR;
 import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_NO_REG_ACC_ERR;
 import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_PROCESS;
@@ -97,6 +99,19 @@ import static dscfgutil.DSCfgUtilConstants.DS_EXE;
 import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_NOT_FOUND;
 import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_REG_VALUE_NAME;
 import static dscfgutil.DSCfgUtilConstants.DS_REGISTRY_KEY;
+import static dscfgutil.DSCfgUtilConstants.DS_SIZES;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSIONS;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_CHECKING;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DESC;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED_MISSING;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED_UNKNOWN;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_MENU;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_WARN_DESC;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_BETA;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_DEBUG;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_LATEST;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_UNKNOWN;
 import static dscfgutil.DSCfgUtilConstants.END_TRYING_DSM_PROCESS;
 import static dscfgutil.DSCfgUtilConstants.END_TRYING_DS_PROCESS;
 import static dscfgutil.DSCfgUtilConstants.EXIT_PROGRAM;
@@ -125,6 +140,7 @@ import static dscfgutil.DSCfgUtilConstants.FAILED_OPEN_FOLDER_ERR;
 import static dscfgutil.DSCfgUtilConstants.FAILED_TO_OPEN_URL;
 import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
 import static dscfgutil.DSCfgUtilConstants.FOUND_DS_PROCESS;
+import static dscfgutil.DSCfgUtilConstants.GAME_VERSION;
 import static dscfgutil.DSCfgUtilConstants.GET_DS;
 import static dscfgutil.DSCfgUtilConstants.GET_DS_URL;
 import static dscfgutil.DSCfgUtilConstants.GET_MODS;
@@ -144,6 +160,7 @@ import static dscfgutil.DSCfgUtilConstants.LOAD_DSF_CFG;
 import static dscfgutil.DSCfgUtilConstants.LOAD_DSF_KEYBINDS;
 import static dscfgutil.DSCfgUtilConstants.NONE;
 import static dscfgutil.DSCfgUtilConstants.OPEN_DATA_FOLDER;
+import static dscfgutil.DSCfgUtilConstants.OPEN_PROGRAM_DIR;
 import static dscfgutil.DSCfgUtilConstants.PROGRAM_LONG;
 import static dscfgutil.DSCfgUtilConstants.PROGRAM_VERSION;
 import static dscfgutil.DSCfgUtilConstants.RECHECKING;
@@ -169,6 +186,7 @@ import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSPW;
 import static dscfgutil.DSCfgUtilConstants.UNSAFE_OPS;
 import static dscfgutil.DSCfgUtilConstants.UNSUPPORTED_DESKTOP;
 import static dscfgutil.DSCfgUtilConstants.WAITING;
+import static dscfgutil.DSCfgUtilConstants.WARNING_DSPW_CORRUPT;
 import static dscfgutil.DSCfgUtilConstants.WINDOW_MOUSE;
 import static dscfgutil.DSCfgUtilConstants.WRITING_FILE;
 import dscfgutil.FileIO.DSFixFileController;
@@ -227,6 +245,7 @@ import org.apache.commons.io.FileUtils;
 public class DSCfgMainUI {
     
     //INSTANCE VARIABLES:
+    private int dsVersion = DS_VER_ENUM_UNKNOWN; // Current version of Dark Souls (Latest, Beta, Debug, or Unknown)
     private int dsfStatus; //Installed status of DSFix (Installed, Not Installed, or Unknown)
     private int dsmStatus; //Installed status of DSMouseFix (Installed, Not Installed, or Unknown)
     private int dspwStatus; //Installed status of DS PvP Watchdog (Installed, Not Installed, or Unknown)
@@ -257,12 +276,19 @@ public class DSCfgMainUI {
             MenuItem exportDSFIni;
             MenuItem exportDSFKeybindsIni;
             MenuItem exportDSF;
+        MenuItem openProgramDir;
         MenuItem exitProgram;
     //////Dark Souls options
     Menu dsMenu;
         MenuItem launchDS;
         MenuItem configureDS;
         MenuItem openDataFolder;
+        Menu dsVersionMenu;
+            MenuItem checkDSVersion;
+            Menu changeDSVersion;
+                MenuItem latestDSVersion;
+                MenuItem betaDSVersion;
+                MenuItem debugDSVersion;
     //
     ///////DSFix options
     Menu dsfMenu;
@@ -339,6 +365,8 @@ public class DSCfgMainUI {
     Button consoleButton;
     //Status bar
     HBox statusBar;
+    Label dsVersionLabeller;
+    Label dsVersionLabel;
     Label dsfStatusLabeller;
     Label dsfStatusLabel;
     Label dsmStatusLabeller;
@@ -460,14 +488,23 @@ public class DSCfgMainUI {
             exportDSFKeybindsIni = new MenuItem(EXPORT_DSF_KEYBINDS_INI);
             exportDSF = new MenuItem(EXPORT_DSF);
         exportMenu.getItems().addAll(exportDSFIni, exportDSFKeybindsIni, exportDSF);
+        openProgramDir = new MenuItem(OPEN_PROGRAM_DIR);
         exitProgram = new MenuItem(EXIT_PROGRAM);
-        fileMenu.getItems().addAll(loadMenu, exportMenu, exitProgram);
+        fileMenu.getItems().addAll(loadMenu, exportMenu, openProgramDir, exitProgram);
         
         //Dark Souls menu options
         launchDS = new MenuItem(LAUNCH + " " + DS);
         configureDS = new MenuItem(CONFIGURE_DS);
         openDataFolder = new MenuItem(OPEN_DATA_FOLDER);
-        dsMenu.getItems().addAll(launchDS, openDataFolder); //@todo: add configureDS if you want to add support for configuring in-game settings
+        dsVersionMenu = new Menu(DS_VERSION_MENU);
+            checkDSVersion = new MenuItem(CHECK_DS_VERSION);
+            changeDSVersion = new Menu(CHANGE_DS_VERSION);
+                latestDSVersion = new MenuItem(DS_VERSIONS[DS_VER_ENUM_LATEST]);
+                betaDSVersion = new MenuItem("Steamworks " + DS_VERSIONS[DS_VER_ENUM_BETA]);
+                debugDSVersion = new MenuItem(DS_VERSIONS[DS_VER_ENUM_DEBUG] + " build");
+            changeDSVersion.getItems().addAll(latestDSVersion, betaDSVersion, debugDSVersion);
+        dsVersionMenu.getItems().addAll(checkDSVersion, changeDSVersion);
+        dsMenu.getItems().addAll(launchDS, openDataFolder, dsVersionMenu); //@TODO: add configureDS if you want to add support for configuring in-game settings
         
         //DSFix menu options
         applyConfig = new MenuItem(APPLY_CONFIG);
@@ -622,10 +659,15 @@ public class DSCfgMainUI {
     
     private void initializeStatusBar(){
         
-        
+
         //Initialize
         statusBar = new HBox();
         statusBar.setMinHeight(24.0);
+        dsVersionLabeller = new Label("  " + GAME_VERSION + ": ");
+        dsVersionLabeller.setTooltip(new Tooltip(DS_VERSION_DESC));
+        dsVersionLabel = new Label();
+        dsVersionLabel.setTextOverrun(OverrunStyle.CLIP);
+        dsVersionLabel.setTooltip(new Tooltip(DS_VERSION_DESC));
         dsfStatusLabeller = new Label("  " + DSF + " " + STATUS + ": ");
         dsfStatusLabeller.setTooltip(new Tooltip(DSF_STATUS_DESC));
         dsfStatusLabel = new Label();
@@ -645,6 +687,11 @@ public class DSCfgMainUI {
         //Stylize
         statusBar.getStyleClass().add("light_gray_background_border");
         statusBar.setAlignment(Pos.TOP_CENTER);
+        dsVersionLabeller.getStyleClass().add("translate_y_4");
+        dsVersionLabeller.setPrefWidth(100.0);
+        dsVersionLabeller.setAlignment(Pos.CENTER_RIGHT);
+        dsVersionLabel.setPrefWidth(80.0);
+        //dsVersionLabel.setAlignment(Pos.CENTER);
         dsfStatusLabeller.getStyleClass().add("translate_y_4");
         dsfStatusLabeller.setPrefWidth(80.0);
         //dsfStatusLabeller.setPrefWidth(primaryStage.getWidth() - 487.0);
@@ -662,7 +709,8 @@ public class DSCfgMainUI {
         dspwStatusLabel.setPrefWidth(80.0);
         //dspwStatusLabel.setAlignment(Pos.CENTER);
         
-        statusBar.getChildren().addAll(dsfStatusLabeller, dsfStatusLabel,
+        statusBar.getChildren().addAll(dsVersionLabeller, dsVersionLabel,
+                                       dsfStatusLabeller, dsfStatusLabel,
                                        dsmStatusLabeller, dsmStatusLabel,
                                        dspwStatusLabeller, dspwStatusLabel);
     }
@@ -710,6 +758,15 @@ public class DSCfgMainUI {
             fileController.exportDSFKeybindsIniFile();
         });
         //
+        openProgramDir.setOnAction(e -> {
+            try {
+                Desktop.getDesktop().open(new File(System.getProperty("user.dir")));
+            } catch (IOException ex) {
+                //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                printConsole(FAILED_OPEN_FOLDER_ERR + ": " + System.getProperty("user.dir"));
+            }
+        });
+        //
         exitProgram.setOnAction(e -> {
             if(showConsoleWindow & consoleWindow != null){
                 consoleWindow.close();
@@ -734,8 +791,37 @@ public class DSCfgMainUI {
                 Desktop.getDesktop().open(dataFolder);
             } catch (IOException ex) {
                 //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
-                printConsole(FAILED_OPEN_FOLDER_ERR);
+                printConsole(FAILED_OPEN_FOLDER_ERR + ": " + dataFolder.getPath());
             }
+        });
+        //
+        checkDSVersion.setOnAction(e -> {
+            checkDSVersion();
+            enableAndDisableElements();
+        });
+        //
+        latestDSVersion.setOnAction(e -> {
+            disableElementsForSleeping();
+            fileController.changeDSVersion(DS_VER_ENUM_LATEST);
+            enableElementsForSleeping();
+            checkDSVersion();
+            enableAndDisableElements();
+        });
+        //
+        betaDSVersion.setOnAction(e -> {
+            disableElementsForSleeping();
+            fileController.changeDSVersion(DS_VER_ENUM_BETA);
+            enableElementsForSleeping();
+            checkDSVersion();
+            enableAndDisableElements();
+        });
+        //
+        debugDSVersion.setOnAction(e -> {
+            disableElementsForSleeping();
+            fileController.changeDSVersion(DS_VER_ENUM_DEBUG);
+            enableElementsForSleeping();
+            checkDSVersion();
+            enableAndDisableElements();
         });
         //
         //DSFix menu
@@ -817,6 +903,7 @@ public class DSCfgMainUI {
                 if(checkDspwDLL.exists()){
                     // This fixes an issue with the MouseFix GUI when PvP Watchdog is installed
                     FileUtils.moveFile(checkDspwDLL, renamedDspwDLL);
+                    renamedDSPW = true;
                 }
                 String cfgDSM = dataFolder.toPath() + "\\" + DSM_FILES[2];
                 File cfgDSMFile = new File(cfgDSM);
@@ -853,9 +940,19 @@ public class DSCfgMainUI {
 
                 }
                 enableElementsForSleeping();
-                FileUtils.moveFile(renamedDspwDLL, checkDspwDLL);
+                if(renamedDSPW){
+                    FileUtils.moveFile(renamedDspwDLL, checkDspwDLL);
+                }
             } catch (IOException ex) {
                 printConsole(CONFIGURE_DSM_FAILED + ": " + ex.toString());
+                if(renamedDSPW){
+                    try {
+                        FileUtils.moveFile(renamedDspwDLL, checkDspwDLL);
+                    } catch (IOException ioEx) {
+                        //Logger.getLogger(DSCfgMainUI.class.getName()).log(Level.SEVERE, null, ex1);
+                        printConsole(WARNING_DSPW_CORRUPT);
+                    }
+                }
             }
         });
         //
@@ -1059,6 +1156,21 @@ public class DSCfgMainUI {
         });
         
         //Directory bar
+        directoryLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(dataFolder != null && mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                        try {
+                            Desktop.getDesktop().open(dataFolder);
+                        } catch (IOException ex) {
+                            //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                            printConsole(FAILED_OPEN_FOLDER_ERR + ": " + dataFolder.getPath());
+                        }
+                    }
+                }
+            }
+        });
         //
         directoryField.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -1069,7 +1181,7 @@ public class DSCfgMainUI {
                             Desktop.getDesktop().open(dataFolder);
                         } catch (IOException ex) {
                             //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
-                            printConsole(FAILED_OPEN_FOLDER_ERR);
+                            printConsole(FAILED_OPEN_FOLDER_ERR + ": " + dataFolder.getPath());
                         }
                     }
                 }
@@ -1281,6 +1393,8 @@ public class DSCfgMainUI {
             }
         }
         
+        checkDSVersion();
+        
         if(dataFolder != null && dataFolder.exists()){
             checkForDSFix();
             checkForDSPW();
@@ -1328,6 +1442,37 @@ public class DSCfgMainUI {
         }else{
             dataFolder = null;
             setDSFStatus(2);
+        }
+    }
+    
+    public void checkDSVersion(){
+        if(dataFolder == null){
+            setDSVersion(DS_VER_ENUM_UNKNOWN);
+        }
+        
+        printConsole(DS_VERSION_CHECKING);
+        
+        File gameExecutable = new File(dataFolder.getPath() + "\\" + DS_EXE);
+        
+        if(!gameExecutable.exists()){
+            setDSVersion(DS_VER_ENUM_UNKNOWN);
+            printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_UNKNOWN] + DS_VERSION_DETECTED_MISSING);
+        }
+        
+        long gameExecutableSize = gameExecutable.length();
+        
+        if(gameExecutableSize == DS_SIZES[DS_VER_ENUM_LATEST]){
+            setDSVersion(DS_VER_ENUM_LATEST);
+            printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_LATEST]);
+        }else if(gameExecutableSize == DS_SIZES[DS_VER_ENUM_BETA]){
+            setDSVersion(DS_VER_ENUM_BETA);
+            printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_BETA]);
+        }else if(gameExecutableSize == DS_SIZES[DS_VER_ENUM_DEBUG]){
+            setDSVersion(DS_VER_ENUM_DEBUG);
+            printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_DEBUG]);
+        }else{
+            setDSVersion(DS_VER_ENUM_UNKNOWN);
+            printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_UNKNOWN] + DS_VERSION_DETECTED_UNKNOWN);
         }
     }
     
@@ -1500,18 +1645,45 @@ public class DSCfgMainUI {
         //Dark Souls menu
         if(dataFolder != null){
             openDataFolder.setDisable(false);
+            dsVersionMenu.setDisable(false);
             File dsEXE = new File(dataFolder.toPath() + "\\" + DS_EXE);
             if(dsEXE.exists()){
                 launchDS.setDisable(false);
                 configureDS.setDisable(false);
+                changeDSVersion.setDisable(false);
             }else{
                 launchDS.setDisable(true);
                 configureDS.setDisable(true);
+                changeDSVersion.setDisable(true);
+            }
+            switch(dsVersion){
+                case DS_VER_ENUM_LATEST:
+                    latestDSVersion.setDisable(true);
+                    betaDSVersion.setDisable(false);
+                    debugDSVersion.setDisable(false);
+                    break;
+                case DS_VER_ENUM_BETA:
+                    latestDSVersion.setDisable(false);
+                    betaDSVersion.setDisable(true);
+                    debugDSVersion.setDisable(false);
+                    break;
+                case DS_VER_ENUM_DEBUG:
+                    latestDSVersion.setDisable(false);
+                    betaDSVersion.setDisable(false);
+                    debugDSVersion.setDisable(true);
+                    break;
+                default:
+                    // Unknown game version
+                    latestDSVersion.setDisable(false);
+                    betaDSVersion.setDisable(false);
+                    debugDSVersion.setDisable(false);
+                    break;
             }
         }else{
             launchDS.setDisable(true);
             configureDS.setDisable(true);
             openDataFolder.setDisable(true);
+            dsVersionMenu.setDisable(true);
         }
         
         //DSFix menu
@@ -1815,6 +1987,33 @@ public class DSCfgMainUI {
     }
     
     //Setter/Mutator Methods
+    public void setDSVersion(int newVersion){
+        dsVersion = newVersion;
+        dsVersionLabel.setText(DS_VERSIONS[newVersion] + "      ");
+        dsVersionLabel.getStyleClass().clear();
+        
+        switch (newVersion) {
+            case DS_VER_ENUM_LATEST: //Latest version of Dark Souls is installed
+                dsVersionLabel.getStyleClass().addAll("label", "translate_y_4",
+                        "green_text");
+                dsVersionLabel.setTooltip(new Tooltip(DS_VERSION_DESC));
+                break;
+            case DS_VER_ENUM_BETA: // Steamworks Beta version of Dark Souls is installed
+            case DS_VER_ENUM_DEBUG: // Debug version of Dark Souls is installed
+                dsVersionLabel.getStyleClass().addAll("label", "translate_y_4",
+                        "yellow_text");
+                dsVersionLabel.setTooltip(new Tooltip(DS_VERSION_WARN_DESC));
+                break;
+            default:
+                //Game is not installed, or version is unknown
+                dsVersionLabel.getStyleClass().addAll("label", "translate_y_4",
+                        "red_text");
+                dsVersionLabel.setTooltip(new Tooltip(DS_VERSION_DESC));
+                break;
+        }
+        
+    }
+    
     public void setDSFStatus(int newStatus){
         dsfStatus = newStatus;
         dsfStatusLabel.setText(DSF_STATUS[newStatus] + "         ");
@@ -1892,5 +2091,9 @@ public class DSCfgMainUI {
     
     public void showConsoleWindow(boolean show){
         showConsoleWindow = show;
+    }
+    
+    public int getDSVersion(){
+        return dsVersion;
     }
 }

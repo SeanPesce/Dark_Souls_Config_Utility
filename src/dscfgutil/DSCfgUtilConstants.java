@@ -27,6 +27,12 @@ public class DSCfgUtilConstants {
     public static String DS_AUTHOR_WEBSITE[] = {"http://www.fromsoftware.jp/pc/",
                                                 "http://www.preparetodie.com/"};
     public static String DS_VERSION = "1.0.2.0";
+    public static final int DS_VER_ENUM_LATEST = 0; // @TODO: Implement a real enumerator
+    public static final int DS_VER_ENUM_BETA = 1;
+    public static final int DS_VER_ENUM_DEBUG = 2;
+    public static final int DS_VER_ENUM_UNKNOWN = 3;
+    public static String[] DS_VERSIONS = { "Latest", "Beta", "Debug", "Unknown" };
+    public static final long[] DS_SIZES = { 17616896, 17607240, 17630720, 0 }; // File sizes of the different versions of the Dark Souls executable
     public static String DSF = "DSFix";
     public static String DSF_AUTHOR = "Durante";
     public static String DSF_AUTHOR_WEBSITE = "http://blog.metaclassofnil.com/";
@@ -178,6 +184,14 @@ public class DSCfgUtilConstants {
     public static String FILES_DIR = "src\\dscfgutil\\zFiles";
     public static String TEMPLATES_DIR = FILES_DIR + "\\templates";
     public static String IMAGE_DIRECTORY = FILES_DIR + "\\images";
+    public static String PATCHES_FOLDER = "\\patches";
+    public static String PATCHES_DIRECTORY = FILES_DIR + PATCHES_FOLDER;
+    public static String BSPATCH = "bspatch.exe";
+    public static String BSPATCH_AUTHOR = "Colin Percival";
+    public static String BSPATCH_AUTHOR_EMAIL = "cperciva@freebsd.org";
+    public static String EXE_BACKUP[] = { "DARKSOULS_Latest.exe", "DARKSOULS_Beta.exe", "DARKSOULS_Debug.exe" };
+    public static String PATCH_TO_LATEST[] = { "", "ds_patch_steambeta_to_latest", "ds_patch_debug_to_latest" };
+    public static String PATCH_FROM_LATEST[] = { "", "ds_patch_latest_to_steambeta", "ds_patch_latest_to_debug" };
     public static String PROGRAM_ICON = "DSCU Icon.png";
     public static String CONSOLE_POPOUT_ICON = "Popout.png";
     public static String CSS_DIRECTORY = "/dscfgutil/style/Style.css";
@@ -205,11 +219,16 @@ public class DSCfgUtilConstants {
             public static String EXPORT_DSF = DSF + " with config & keybinds";
             public static String EXPORT_CFG_TOOLTIP = "Export " + DSF + " with " +
                                                     "the current configuration";
+            public static String OPEN_PROGRAM_DIR = "Open program folder";
+            // public static String OPEN_PROGRAM_DIR_TOOLTIP = "Opens the " + PROGRAM + " directory in Windows File Explorer";
             public static String EXIT_PROGRAM = "Exit";
         //Dark Souls Menu
             public static String LAUNCH = "Launch";
             public static String CONFIGURE_DS = "Change in-game settings";
             public static String OPEN_DATA_FOLDER = "Open DATA folder";
+            public static String DS_VERSION_MENU = "Game version...";
+                public static String CHECK_DS_VERSION = "Recheck version";
+                public static String CHANGE_DS_VERSION = "Switch version...";
         //DSFix Menu
             public static String APPLY_CONFIG = "Apply current " + DSF + " config";
             public static String APPLY_DSF_KEYBINDS = "Apply current " + DSF + " keybinds";
@@ -730,8 +749,14 @@ public class DSCfgUtilConstants {
     public static String OPTIONS = "Options";
     public static String DIRECTORY = "directory";
     public static String STATUS = "Status";
+    public static String GAME_VERSION = "Game Version";
     public static String FOLDER = "folder";
     public static String NONE = "none";
+    public static String DS_VERSION_DESC = "Signifies the version of " + DS + " installed on this machine.\n"
+                                        + "Supported versions are \"" + DS_VERSIONS[0] + "\", \"" + DS_VERSIONS[1]
+                                        + "\", or \"" + DS_VERSIONS[2] + "\".";
+    public static String DS_VERSION_WARN_DESC = "Warning: The Beta and Debug versions of " + DS
+                                                + " will\nNOT work if mods are installed!";
     public static String DSF_STATUS_DESC = "Signifies whether or not " + DSF +
                                            " is installed in the current directory."
                                            + "\nPossible statuses" +
@@ -774,6 +799,14 @@ public class DSCfgUtilConstants {
     public static String SETTINGS_LOADED = DSF + " settings loaded successfully.";
     public static String KEYBINDS_LOADED = DSF + " keybinds loaded successfully.";
     public static String DSPW_SETTINGS_LOADED = DSPW_SHORT + " settings loaded successfully.";
+    public static String DS_VERSION_CHECKING = "Checking game version...";
+    public static String DS_VERSION_SWITCHING = "Switching " + DS_EXE + " to build: ";
+    public static String DS_VERSION_CREATING_BACKUP = "Creating game backup: ";
+    public static String DS_VERSION_PATCHING[] = { "Creating patched file ", " using source file " };
+    public static String DS_VERSION_REMOVING_INVALID_BACKUP = "Removing corrupt game backup: ";
+    public static String DS_VERSION_DETECTED[] = { "Detected latest supported build.", "Detected Steamworks beta build.", "Detected Debug build.", "Unknown game version" };
+    public static String DS_VERSION_DETECTED_UNKNOWN = ": " + DS_EXE + " exists, but the build version could not be determined.";
+    public static String DS_VERSION_DETECTED_MISSING = ": " + DS_EXE + " is missing!";
     public static String INSTALLING_DSF = "Installing " + DSF + "...";
     public static String INSTALLING_DSM = "Installing " + DSM + "...";
     public static String INSTALLING_DSPW = "Installing " + DSPW_SHORT + "...";
@@ -929,7 +962,11 @@ public class DSCfgUtilConstants {
     //Error Messages:
     public static String UNKNOWN_VERSION = "Unable to determine program version number.";
     public static String UNSUPPORTED_DESKTOP = "Error: Unsupported desktop.";
+    public static String FAILED_TO_OVERWRITE = "Error: Failed to overwrite ";
+    public static String FAILED_TO_PATCH = "Error: Failed to create patched version of ";
     public static String FAILED_TO_OPEN_URL = "Error - Failed to open the following URL: ";
+    public static String SAME_VERSION = "That version of " + DS + " is already installed.";
+    public static String CANT_PATCH = "Error: Can't patch; ";
     public static String DS_INSTALL_NOT_FOUND = DS + " install " + DIRECTORY +
                                              " was not found. Specify location "
                                              + "via " + DIRECTORY + " browser.";
@@ -944,9 +981,10 @@ public class DSCfgUtilConstants {
     public static String CONFIG_PARTIALLY_LOADED = "Config only partially loaded. "
                                                 + "Settings may be corrupt. " +
                                                 "Restoring default settings...";
-    public static String FAILED_OPEN_FOLDER_ERR = "Failed to open folder.";
+    public static String FAILED_OPEN_FOLDER_ERR = "Failed to open folder";
     public static String FAILED_FILE_COPY_ERR = "File failed to copy: ";
     public static String FAILED_FILE_DELETE_ERR = "Failed to delete file: ";
+    public static String FAILED_FILE_PATCH_ERR = "Failed to create patched file: ";
     public static String COULDNT_APPLY_CFG_ERR = "Config was not applied " +
                                             "because one or more settings inputs " +
                                             "are invalid.";
@@ -996,6 +1034,8 @@ public class DSCfgUtilConstants {
     public static String LAUNCH_DS_FAILED = "Unable to launch " + DS;
     public static String CONFIGURE_DSM_FAILED = "Unable to launch " + DSM_FILES[2] +
                                               "; could not configure " + DSM;
+    public static String WARNING_DSPW_CORRUPT = "WARNING: " + DSPW_SHORT + " installation may have been"
+                                                + " corrupted. Re-installation recommended.";
     public static String LAUNCH_DSCM_FAILED = "Unable to launch " + DSCM_FILES[1];
     public static String CANT_WRITE_DIR = "Unable to write to this directory.";
     public static String EXPORT_FAILED = "Export failed.";

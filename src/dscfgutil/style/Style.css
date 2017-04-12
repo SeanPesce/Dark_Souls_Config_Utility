@@ -57,6 +57,11 @@
     -fx-text-fill: #009933;
 }
 
+.yellow_text{
+    -fx-font-color: #a99600;
+    -fx-text-fill: #a99600;
+}
+
 .red_text{
     -fx-font-color: #b30000;
     -fx-text-fill: #b30000;

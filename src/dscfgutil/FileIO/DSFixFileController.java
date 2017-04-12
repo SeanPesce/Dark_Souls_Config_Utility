@@ -9,7 +9,9 @@ import static dscfgutil.DSCfgUtilConstants.AA_SETTING;
 import static dscfgutil.DSCfgUtilConstants.APPDATA;
 import static dscfgutil.DSCfgUtilConstants.APPDATA_INI;
 import static dscfgutil.DSCfgUtilConstants.APPLY_DSPW_FPS_FIX;
+import static dscfgutil.DSCfgUtilConstants.BSPATCH;
 import static dscfgutil.DSCfgUtilConstants.BUTTONS_MOD_FILES;
+import static dscfgutil.DSCfgUtilConstants.CANT_PATCH;
 import static dscfgutil.DSCfgUtilConstants.COPYING;
 import static dscfgutil.DSCfgUtilConstants.CREATING_INI;
 import static dscfgutil.DSCfgUtilConstants.DATA_FOLDER;
@@ -53,9 +55,25 @@ import static dscfgutil.DSCfgUtilConstants.DSPW_UNINSTALLED_ERRORS;
 import static dscfgutil.DSCfgUtilConstants.DSPW_UNINSTALLED_SUCCESS;
 import static dscfgutil.DSCfgUtilConstants.DS_EXE;
 import static dscfgutil.DSCfgUtilConstants.DS_INI;
+import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_NOT_FOUND;
+import static dscfgutil.DSCfgUtilConstants.DS_SIZES;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSIONS;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_CREATING_BACKUP;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_PATCHING;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_REMOVING_INVALID_BACKUP;
+import static dscfgutil.DSCfgUtilConstants.DS_VERSION_SWITCHING;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_BETA;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_DEBUG;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_LATEST;
+import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_UNKNOWN;
+import static dscfgutil.DSCfgUtilConstants.EXE_BACKUP;
 import static dscfgutil.DSCfgUtilConstants.FAILED_FILE_COPY_ERR;
 import static dscfgutil.DSCfgUtilConstants.FAILED_FILE_DELETE_ERR;
+import static dscfgutil.DSCfgUtilConstants.FAILED_FILE_PATCH_ERR;
 import static dscfgutil.DSCfgUtilConstants.FAILED_OPEN_FOLDER_ERR;
+import static dscfgutil.DSCfgUtilConstants.FAILED_TO_OVERWRITE;
+import static dscfgutil.DSCfgUtilConstants.FAILED_TO_PATCH;
 import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
 import static dscfgutil.DSCfgUtilConstants.FILE_DELETED;
 import static dscfgutil.DSCfgUtilConstants.FILE_WRITE_FAILED;
@@ -68,9 +86,14 @@ import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSM;
 import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSPW;
 import static dscfgutil.DSCfgUtilConstants.IOEX_FILE_WRITER;
 import static dscfgutil.DSCfgUtilConstants.NONE;
+import static dscfgutil.DSCfgUtilConstants.PATCHES_DIRECTORY;
+import static dscfgutil.DSCfgUtilConstants.PATCH_FROM_LATEST;
+import static dscfgutil.DSCfgUtilConstants.PATCH_TO_LATEST;
 import static dscfgutil.DSCfgUtilConstants.PROGRAM_VERSION;
 import static dscfgutil.DSCfgUtilConstants.RENAMING_FILE;
+import static dscfgutil.DSCfgUtilConstants.SAME_VERSION;
 import static dscfgutil.DSCfgUtilConstants.SEE_CONSOLE;
+import static dscfgutil.DSCfgUtilConstants.SLEEP_INTERRUPTED;
 import static dscfgutil.DSCfgUtilConstants.TEMPLATES_DIR;
 import static dscfgutil.DSCfgUtilConstants.TEXTURE_MODS_FOLDER;
 import static dscfgutil.DSCfgUtilConstants.TEX_MOD_INSTALLED_SUCCESS;
@@ -99,6 +122,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.AccessDeniedException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.DirectoryChooser;
@@ -844,5 +868,204 @@ public class DSFixFileController {
     public static void launchProgram(String filePath)
             throws IOException {
         Runtime.getRuntime().exec(filePath);
+    }
+    
+    public void changeDSVersion(int newVersion){
+        if(ui.getDataFolder() == null){
+            ui.printConsole(CANT_PATCH + DS_INSTALL_NOT_FOUND);
+            return;
+        }
+        
+        if(newVersion >= DS_VER_ENUM_UNKNOWN){
+            // Can't change to an unknown version
+            ui.printConsole(CANT_PATCH + "target is " + DS_VERSION_DETECTED[DS_VER_ENUM_UNKNOWN]);
+            return;
+        }
+        
+        if(newVersion == ui.getDSVersion()){
+            ui.printConsole(SAME_VERSION);
+            return;
+        }
+        
+        File backupExecutable = new File(PATCHES_DIRECTORY + "\\" + EXE_BACKUP[newVersion]);
+        File gameExecutable = new File(ui.getDataFolder().getPath() + "\\" + DS_EXE);
+        
+        // Check for backups of DARKSOULS.exe (and create them if they don't exist)
+        if(!createPatchedExes()){
+            ui.printConsole(FAILED_TO_PATCH + DS_EXE);
+            return;
+        }
+        
+        try {
+            ui.printConsole(DS_VERSION_SWITCHING + DS_VERSIONS[newVersion]);
+            FileUtils.copyFile(backupExecutable, gameExecutable);
+        } catch (IOException ex) {
+            //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+            ui.printConsole(FAILED_TO_OVERWRITE + DS_EXE);
+        }
+        
+    }
+    
+    /**
+     * Checks for backups of DARKSOULS.exe, and creates them if they don't exist
+     * 
+     * @return true if successful; false if errors were encountered
+     */
+    public boolean createPatchedExes(){
+        
+        File latestBackup = new File(PATCHES_DIRECTORY + "\\" + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+        File betaBackup = new File(PATCHES_DIRECTORY + "\\" + EXE_BACKUP[DS_VER_ENUM_BETA]);
+        File debugBackup = new File(PATCHES_DIRECTORY + "\\" + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+        File gameExecutable = new File(ui.getDataFolder().getPath() + "\\" + DS_EXE);
+        
+        if(!latestBackup.exists() || !betaBackup.exists() || !debugBackup.exists()
+                || latestBackup.length() != DS_SIZES[DS_VER_ENUM_LATEST]
+                || betaBackup.length() != DS_SIZES[DS_VER_ENUM_BETA]
+                || debugBackup.length() != DS_SIZES[DS_VER_ENUM_DEBUG]){
+            
+            if(latestBackup.exists() && latestBackup.length() != DS_SIZES[DS_VER_ENUM_LATEST]){
+                ui.printConsole(DS_VERSION_REMOVING_INVALID_BACKUP + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                if(!latestBackup.delete()){
+                    // Failed to delete file
+                    ui.printConsole(FAILED_FILE_DELETE_ERR + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    return false;
+                }
+            }
+            
+            // Make sure latest game build backup exists
+            if(!latestBackup.exists() && (ui.getDataFolder() == null || ui.getDSVersion() >= DS_VER_ENUM_UNKNOWN)){
+                // Can't create backup of latest game build
+                return false;
+            }else if(!latestBackup.exists() && ui.getDSVersion() == DS_VER_ENUM_LATEST){
+                try {
+                    ui.printConsole(DS_VERSION_CREATING_BACKUP + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    FileUtils.copyFile(gameExecutable, latestBackup);
+                } catch (IOException ioEx) {
+                    // Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                    ui.printConsole(FAILED_FILE_COPY_ERR + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    return false;
+                }
+            }else if(!latestBackup.exists() && ui.getDSVersion() == DS_VER_ENUM_BETA){
+                if(betaBackup.exists() && betaBackup.length() != DS_SIZES[DS_VER_ENUM_BETA]){
+                    ui.printConsole(DS_VERSION_REMOVING_INVALID_BACKUP + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                    if(!betaBackup.delete()){
+                        // Failed to delete file
+                        ui.printConsole(FAILED_FILE_DELETE_ERR + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                        return false;
+                    }
+                }
+                if(!betaBackup.exists()){
+                    try {
+                        ui.printConsole(DS_VERSION_CREATING_BACKUP + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                        FileUtils.copyFile(gameExecutable, betaBackup);
+                    } catch (IOException ioEx) {
+                        // Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                        ui.printConsole(FAILED_FILE_COPY_ERR + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                        return false;
+                    }
+                }
+                try {
+                    ui.printConsole(DS_VERSION_PATCHING[0] + EXE_BACKUP[DS_VER_ENUM_LATEST] + DS_VERSION_PATCHING[1] + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                    patchFile(EXE_BACKUP[DS_VER_ENUM_BETA], EXE_BACKUP[DS_VER_ENUM_LATEST], PATCH_TO_LATEST[DS_VER_ENUM_BETA]);
+                } catch (IOException ex) {
+                    //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                    ui.printConsole(FAILED_FILE_PATCH_ERR + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    return false;
+                }
+            }else if(!latestBackup.exists() && ui.getDSVersion() == DS_VER_ENUM_DEBUG){
+                if(debugBackup.exists() && debugBackup.length() != DS_SIZES[DS_VER_ENUM_DEBUG]){
+                    ui.printConsole(DS_VERSION_REMOVING_INVALID_BACKUP + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                    if(!debugBackup.delete()){
+                        // Failed to delete file
+                        ui.printConsole(FAILED_FILE_DELETE_ERR + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                        return false;
+                    }
+                }
+                if(!debugBackup.exists()){
+                    try {
+                        ui.printConsole(DS_VERSION_CREATING_BACKUP + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                        FileUtils.copyFile(gameExecutable, debugBackup);
+                    } catch (IOException ioEx) {
+                        // Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                        ui.printConsole(FAILED_FILE_COPY_ERR + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                        return false;
+                    }
+                }
+                try {
+                    ui.printConsole(DS_VERSION_PATCHING[0] + EXE_BACKUP[DS_VER_ENUM_LATEST] + DS_VERSION_PATCHING[1] + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                    patchFile(EXE_BACKUP[DS_VER_ENUM_DEBUG], EXE_BACKUP[DS_VER_ENUM_LATEST], PATCH_TO_LATEST[DS_VER_ENUM_DEBUG]);
+                } catch (IOException ex) {
+                    //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                    ui.printConsole(FAILED_FILE_PATCH_ERR + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    return false;
+                }
+            }
+            
+            if(!latestBackup.exists() || latestBackup.length() != DS_SIZES[DS_VER_ENUM_LATEST]){
+                return false;
+            }
+            
+            if(betaBackup.exists() && betaBackup.length() != DS_SIZES[DS_VER_ENUM_BETA]){
+                ui.printConsole(DS_VERSION_REMOVING_INVALID_BACKUP + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                if(!betaBackup.delete()){
+                    // Failed to delete file
+                    ui.printConsole(FAILED_FILE_DELETE_ERR + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                    return false;
+                }
+            }
+            
+            if(!betaBackup.exists()){
+                try {
+                    ui.printConsole(DS_VERSION_PATCHING[0] + EXE_BACKUP[DS_VER_ENUM_BETA] + DS_VERSION_PATCHING[1] + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    patchFile(EXE_BACKUP[DS_VER_ENUM_LATEST], EXE_BACKUP[DS_VER_ENUM_BETA], PATCH_FROM_LATEST[DS_VER_ENUM_BETA]);
+                } catch (IOException ex) {
+                    //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                    ui.printConsole(FAILED_FILE_PATCH_ERR + EXE_BACKUP[DS_VER_ENUM_BETA]);
+                    return false;
+                }
+            }
+            
+            if(!betaBackup.exists() || betaBackup.length() != DS_SIZES[DS_VER_ENUM_BETA]){
+                return false;
+            }
+            
+            
+            if(debugBackup.exists() && debugBackup.length() != DS_SIZES[DS_VER_ENUM_DEBUG]){
+                ui.printConsole(DS_VERSION_REMOVING_INVALID_BACKUP + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                if(!debugBackup.delete()){
+                    // Failed to delete file
+                    ui.printConsole(FAILED_FILE_DELETE_ERR + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                    return false;
+                }
+            }
+            
+            if(!debugBackup.exists()){
+                try {
+                    ui.printConsole(DS_VERSION_PATCHING[0] + EXE_BACKUP[DS_VER_ENUM_DEBUG] + DS_VERSION_PATCHING[1] + EXE_BACKUP[DS_VER_ENUM_LATEST]);
+                    patchFile(EXE_BACKUP[DS_VER_ENUM_LATEST], EXE_BACKUP[DS_VER_ENUM_DEBUG], PATCH_FROM_LATEST[DS_VER_ENUM_DEBUG]);
+                } catch (IOException ex) {
+                    //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+                    ui.printConsole(FAILED_FILE_PATCH_ERR + EXE_BACKUP[DS_VER_ENUM_DEBUG]);
+                    return false;
+                }
+            }
+            
+            if(!debugBackup.exists() || debugBackup.length() != DS_SIZES[DS_VER_ENUM_DEBUG]){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public void patchFile(String in, String out, String patch) throws IOException{
+        String command = "cmd /c " + BSPATCH + " \"" + in + "\" \"" + out + "\" \"" + patch + "\"";
+        Process patcher = Runtime.getRuntime().exec(command, null, new File(PATCHES_DIRECTORY));
+        try {
+            patcher.waitFor(5L, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            //Logger.getLogger(DSFixFileController.class.getName()).log(Level.SEVERE, null, ex);
+            ui.printConsole(SLEEP_INTERRUPTED);
+        }
     }
 }
