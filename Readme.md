@@ -53,6 +53,7 @@ This project wouldn't exist if it weren't for these guys:
   
 ## Other Contributors  
 
+* **Colin Percival** ([Website](http://www.daemonology.net/), [Twitter](https://twitter.com/cperciva)) for creating [bsdiff and bspatch](http://www.daemonology.net/bsdiff/), which are used Dark Souls Config Utility to switch between different builds of the game.  
 * **David Stellini** from [StackOverflow](http://stackoverflow.com/users/656963/david), for finding some Windows registry-related Java code that I used. He's not the original author of the code (I'm not sure who is), but he posted it in [this thread](http://stackoverflow.com/questions/62289/read-write-to-windows-registry-using-java), which is where I came across it.  
 
 Last but not least, the creators of the texture mods included with this program:  
