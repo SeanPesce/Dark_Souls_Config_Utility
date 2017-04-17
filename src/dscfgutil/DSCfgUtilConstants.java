@@ -348,7 +348,7 @@ public class DSCfgUtilConstants {
         public static String ON_OFF[] = {"On", "Off"};
         public static String CAPTURECURSOR[] = {"Don't capture", "Capture"};
         public static String SKIPINTRO[] = {"Don't skip", "Skip"};
-        public static String LANGUAGES[] = {"No override", "English", "French/Française",
+        public static String LANGUAGES[] = {"No override", "English", "French/Français",
                         "Italian/Italiano", "German/Deutsche", "Spanish/Español",
                         "Korean/Hangug-eo/한국어", "Chinese/Zhōngwén/中文",
                         "Polish/Polski", "Russian/Rosyjski/русский"};
