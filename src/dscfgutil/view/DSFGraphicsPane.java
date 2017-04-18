@@ -649,17 +649,17 @@ public class DSFGraphicsPane extends ScrollPane {
                         renderWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                         renderWidthField.setTooltip(new Tooltip(POSITIVE_INTEGER));
                     }else if(Integer.parseInt(newText) >= 1280){
-                        if(NumberUtils.isParsable(presentWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentWidthField.getText()))){
+                        /*if(NumberUtils.isParsable(presentWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentWidthField.getText()))){
                             renderWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                             renderWidthField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                        }else{
+                        }else{*/
                             renderWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
                             renderWidthField.setTooltip(new Tooltip(""));
                             config.setRenderWidth(Integer.parseInt(newText));
                             if(config.disableDOF){
                                 config.setPresentWidth(Integer.parseInt(newText));
                             }
-                        }
+                        //}
                     //If input is a positive integer that is less than 1280, present width comes into play
                     }else if(NumberUtils.isParsable(presentWidthField.getText()) && Integer.parseInt(presentWidthField.getText()) >= 1280){
                             renderWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
@@ -690,10 +690,10 @@ public class DSFGraphicsPane extends ScrollPane {
                         renderHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                         renderHeightField.setTooltip(new Tooltip(POSITIVE_INTEGER));
                     }else if(Integer.parseInt(newText) >= 720){
-                        if(NumberUtils.isParsable(presentHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentHeightField.getText()))){
+                        /*if(NumberUtils.isParsable(presentHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentHeightField.getText()))){
                             renderHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                             renderHeightField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                        }else{
+                        }else{*/
                             renderHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
                             renderHeightField.setTooltip(new Tooltip(""));
                             config.setRenderHeight(Integer.parseInt(newText));
@@ -701,7 +701,7 @@ public class DSFGraphicsPane extends ScrollPane {
                                 config.setPresentHeight(Integer.parseInt(newText));
                                 config.setDOFOverride(Integer.parseInt(newText));
                             }
-                        }
+                        //}
                     //If input is a positive integer that is less than 720, present height comes into play
                     }else if(NumberUtils.isParsable(presentHeightField.getText()) && Integer.parseInt(presentHeightField.getText()) >= 720){
                             renderHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
@@ -741,14 +741,14 @@ public class DSFGraphicsPane extends ScrollPane {
                         presentWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                         presentWidthField.setTooltip(new Tooltip(INPUT_GREATER_THAN + 1280));
                     }else if(Integer.parseInt(newText) >= 1280){
-                        if(NumberUtils.isParsable(renderWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderWidthField.getText()))){
+                        /*if(NumberUtils.isParsable(renderWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderWidthField.getText()))){
                             presentWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                             presentWidthField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                        }else{
+                        }else{*/
                             presentWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
                             presentWidthField.setTooltip(null);
                             config.setPresentWidth(Integer.parseInt(newText));
-                        }
+                        //}
                     }
                     recheckTextInput(renderWidthField);
                 }catch(NumberFormatException nFE){
@@ -773,14 +773,14 @@ public class DSFGraphicsPane extends ScrollPane {
                         presentHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                         presentHeightField.setTooltip(new Tooltip(INPUT_GREATER_THAN + 720));
                     }else if(Integer.parseInt(newText) >= 720){
-                        if(NumberUtils.isParsable(renderHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderHeightField.getText()))){
+                        /*if(NumberUtils.isParsable(renderHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderHeightField.getText()))){
                             presentHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                             presentHeightField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                        }else{
+                        }else{*/
                             presentHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
                             presentHeightField.setTooltip(null);
                             config.setPresentHeight(Integer.parseInt(newText));
-                        }
+                        //}
                     }
                     recheckTextInput(renderHeightField);
                 }catch(NumberFormatException nFE){
@@ -1038,17 +1038,17 @@ public class DSFGraphicsPane extends ScrollPane {
                 renderWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                 renderWidthField.setTooltip(new Tooltip(POSITIVE_INTEGER));
             }else if(Integer.parseInt(newText) >= 1280){
-                if(NumberUtils.isParsable(presentWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentWidthField.getText()))){
+                /*if(NumberUtils.isParsable(presentWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentWidthField.getText()))){
                     renderWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                     renderWidthField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                }else{
+                }else{*/
                     renderWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
                     renderWidthField.setTooltip(new Tooltip(""));
                     config.setRenderWidth(Integer.parseInt(newText));
                     if(config.disableDOF){
                         config.setPresentWidth(Integer.parseInt(newText));
                     }
-                }
+                //}
             //If input is a positive integer that is less than 1280, present width comes into play
             }else if(NumberUtils.isParsable(presentWidthField.getText()) && Integer.parseInt(presentWidthField.getText()) >= 1280){
                 renderWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
@@ -1064,10 +1064,10 @@ public class DSFGraphicsPane extends ScrollPane {
                 renderHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                 renderHeightField.setTooltip(new Tooltip(POSITIVE_INTEGER));
              }else if(Integer.parseInt(newText) >= 720){
-                if(NumberUtils.isParsable(presentHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentHeightField.getText()))){
+                /*if(NumberUtils.isParsable(presentHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(presentHeightField.getText()))){
                     renderHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                     renderHeightField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                }else{
+                }else{*/
                     renderHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
                     renderHeightField.setTooltip(new Tooltip(""));
                     config.setRenderHeight(Integer.parseInt(newText));
@@ -1075,7 +1075,7 @@ public class DSFGraphicsPane extends ScrollPane {
                         config.setPresentHeight(Integer.parseInt(newText));
                         config.setDOFOverride(Integer.parseInt(newText));
                     }
-                }
+                //}
             //If input is a positive integer that is less than 720, present height comes into play
             }else if(NumberUtils.isParsable(presentHeightField.getText()) && Integer.parseInt(presentHeightField.getText()) >= 720){
                 renderHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
@@ -1094,14 +1094,14 @@ public class DSFGraphicsPane extends ScrollPane {
                 presentWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                 presentWidthField.setTooltip(new Tooltip(INPUT_GREATER_THAN + 1280));
             }else if(Integer.parseInt(newText) >= 1280){
-                if(NumberUtils.isParsable(renderWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderWidthField.getText()))){
+                /*if(NumberUtils.isParsable(renderWidthField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderWidthField.getText()))){
                     presentWidthField.pseudoClassStateChanged(INVALID_INPUT, true);
                     presentWidthField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                }else{
+                }else{*/
                     presentWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
                     presentWidthField.setTooltip(null);
                     config.setPresentWidth(Integer.parseInt(newText));
-                }
+                //}
             }
         }else if(field.equals(presentWidthField) && presentWidthField.isDisabled()){
             presentWidthField.pseudoClassStateChanged(INVALID_INPUT, false);
@@ -1115,14 +1115,14 @@ public class DSFGraphicsPane extends ScrollPane {
                 presentHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                 presentHeightField.setTooltip(new Tooltip(INPUT_GREATER_THAN + 720));
             }else if(Integer.parseInt(newText) >= 720){
-                if(NumberUtils.isParsable(renderHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderHeightField.getText()))){
+                /*if(NumberUtils.isParsable(renderHeightField.getText()) && (Integer.parseInt(newText) == Integer.parseInt(renderHeightField.getText()))){
                     presentHeightField.pseudoClassStateChanged(INVALID_INPUT, true);
                     presentHeightField.setTooltip(new Tooltip(SAME_RESOLUTIONS));
-                }else{
+                }else{*/
                     presentHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
                     presentHeightField.setTooltip(null);
                     config.setPresentHeight(Integer.parseInt(newText));
-                }
+                //}
             }
         }else if(field.equals(presentHeightField) && presentHeightField.isDisabled()){
             presentHeightField.pseudoClassStateChanged(INVALID_INPUT, false);
