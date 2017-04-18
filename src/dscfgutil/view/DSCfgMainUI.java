@@ -895,16 +895,8 @@ public class DSCfgMainUI {
         });
         //
         configureDSM.setOnAction(e -> {
-            boolean renamedDSPW = false;
-            File checkDspwDLL = new File(this.getDataFolder().getPath() + "\\" + DSPW_FILES[1]);
-            File renamedDspwDLL = new File(this.getDataFolder().getPath() + "\\_" + DSPW_FILES[1]);
             try {
                 printConsole(LAUNCHING_DSM);
-                if(checkDspwDLL.exists()){
-                    // This fixes an issue with the MouseFix GUI when PvP Watchdog is installed
-                    FileUtils.moveFile(checkDspwDLL, renamedDspwDLL);
-                    renamedDSPW = true;
-                }
                 String cfgDSM = dataFolder.toPath() + "\\" + DSM_FILES[2];
                 File cfgDSMFile = new File(cfgDSM);
                 Process dsmFix = Runtime.getRuntime().exec(cfgDSMFile.getPath(), null, dataFolder);
@@ -940,19 +932,9 @@ public class DSCfgMainUI {
 
                 }
                 enableElementsForSleeping();
-                if(renamedDSPW){
-                    FileUtils.moveFile(renamedDspwDLL, checkDspwDLL);
-                }
             } catch (IOException ex) {
                 printConsole(CONFIGURE_DSM_FAILED + ": " + ex.toString());
-                if(renamedDSPW){
-                    try {
-                        FileUtils.moveFile(renamedDspwDLL, checkDspwDLL);
-                    } catch (IOException ioEx) {
-                        //Logger.getLogger(DSCfgMainUI.class.getName()).log(Level.SEVERE, null, ex1);
-                        printConsole(WARNING_DSPW_CORRUPT);
-                    }
-                }
+				enableElementsForSleeping();
             }
         });
         //

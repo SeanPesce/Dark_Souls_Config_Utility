@@ -104,9 +104,9 @@ public class DSCfgUtilConstants {
                                         "dsmfixgui.exe", "README.txt"};
     //
         //Dark Souls Mouse Fix Files/Directories (Newer, separate mouse fix mod)
-    public static String DSM_FOLDER = "\\DarkSoulsMouseFix_v1.3";
+    public static String DSM_FOLDER = "\\DarkSoulsMouseFix_v1.3_Patched";
     public static String DSM_FILES[] = {"DarkSoulsMouseFix.dll", "DarkSoulsMouseFix.ini",
-                                            "DarkSoulsMouseFixGUI.exe",
+                                            "DarkSoulsMouseFixGUI.exe", "k32dsmfx.dll",
                                             "DarkSoulsMouseFixReadme.md",
                                             "DarkSoulsMouseFixReadme.pdf"};
     public static String DSM_HELP_URL = "https://www.reddit.com/r/pcgaming/comments/5x6ec9/darksoulsmousefix_v10_beta_released_raw_mouse/";
