@@ -44,7 +44,7 @@ public class DSCfgUtilConstants {
     public static String DSM_LEGACY_VERSION = "09-Steamworks";
     public static String DSM_AUTHOR = "Methanhydrat";
     public static String DSM_AUTHOR_WEBSITE = "http://community.pcgamingwiki.com/index.php?app=core&module=search&do=user_activity&search_app=downloads&mid=3019";
-    public static String DSM_VERSION = "1.3";
+    public static String DSM_VERSION = "1.4 Beta";
     public static String DSPW = "Dark Souls PvP Watchdog";
     public static String DSPW_SHORT = "PvP Watchdog";
     public static String DSPW_ABBREV = "DSPW";
@@ -104,12 +104,13 @@ public class DSCfgUtilConstants {
                                         "dsmfixgui.exe", "README.txt"};
     //
         //Dark Souls Mouse Fix Files/Directories (Newer, separate mouse fix mod)
-    public static String DSM_FOLDER = "\\DarkSoulsMouseFix_v1.3_Patched";
+    public static String DSM_FOLDER = "\\DarkSoulsMouseFix-v1.4-Beta-1241-1-4";
     public static String DSM_FILES[] = {"DarkSoulsMouseFix.dll", "DarkSoulsMouseFix.ini",
-                                            "DarkSoulsMouseFixGUI.exe", "k32dsmfx.dll",
+                                            "DarkSoulsMouseFixGUI.exe" /*,
+											// Unnecessary files:
                                             "DarkSoulsMouseFixReadme.md",
-                                            "DarkSoulsMouseFixReadme.pdf"};
-    public static String DSM_HELP_URL = "https://www.reddit.com/r/pcgaming/comments/5x6ec9/darksoulsmousefix_v10_beta_released_raw_mouse/";
+                                            "DarkSoulsMouseFixReadme.pdf"*/};
+    public static String DSM_HELP_URL = "https://www.reddit.com/r/pcgaming/comments/69t878/darksoulsmousefix_v14_beta_released_new_binding/";
     //
         //DS PvP Watchdog Files/Directories
     public static String DSPW_FOLDER = "\\DSPW Steam 1.17.2";
