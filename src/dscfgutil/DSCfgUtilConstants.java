@@ -43,7 +43,7 @@ public class DSCfgUtilConstants {
     public static String DSM_LEGACY_AUTHOR_WEBSITE = "http://pages.cs.wisc.edu/~petska/";
     public static String DSM_LEGACY_VERSION = "09-Steamworks";
     public static String DSM_AUTHOR = "Methanhydrat";
-    public static String DSM_AUTHOR_WEBSITE = "http://community.pcgamingwiki.com/index.php?app=core&module=search&do=user_activity&search_app=downloads&mid=3019";
+    public static String DSM_AUTHOR_WEBSITE = "https://methanhydrat.wordpress.com/";
     public static String DSM_VERSION = "1.4 Beta";
     public static String DSPW = "Dark Souls PvP Watchdog";
     public static String DSPW_SHORT = "PvP Watchdog";
@@ -110,7 +110,7 @@ public class DSCfgUtilConstants {
 											// Unnecessary files:
                                             "DarkSoulsMouseFixReadme.md",
                                             "DarkSoulsMouseFixReadme.pdf"*/};
-    public static String DSM_HELP_URL = "https://www.reddit.com/r/pcgaming/comments/69t878/darksoulsmousefix_v14_beta_released_new_binding/";
+    public static String DSM_HELP_URL = "https://methanhydrat.wordpress.com/2017/03/02/dark-souls-mouse-fix/";
     //
         //DS PvP Watchdog Files/Directories
     public static String DSPW_FOLDER = "\\DSPW Steam 1.17.2";
