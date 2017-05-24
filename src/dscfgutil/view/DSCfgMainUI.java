@@ -1504,14 +1504,15 @@ public class DSCfgMainUI {
         
         printConsole(CHECKING_FOR_DSM);
         
-        for(int i = 0; i < DSM_FILES.length - 1; i++){
+        for(int i = 0; i < DSM_FILES.length; i++){
             File dsmCheck = new File(dataFolder + "\\" + DSM_FILES[i]);
+            printConsole("Checking for file " + DSM_FILES[i]);
             if(!dsmCheck.exists()){
                 setDSMStatus(1);
                 printConsole(DSM_FILES[i] + DSCUTIL_FILE_NOT_FOUND);
                 printConsole(DSM_NOT_FOUND);
                 break;
-            }else if(i == 2){
+            }else if(i == DSM_FILES.length-1){
                 setDSMStatus(0);
                 printConsole(DSM_FOUND);
             }
