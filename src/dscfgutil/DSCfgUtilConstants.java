@@ -449,7 +449,8 @@ public class DSCfgUtilConstants {
         public static String TRUE_FALSE[] = {"true", "false"};
         public static String BLOCK_FREEZE_CHOICES[] = {"Block", "Don't block"};
         //
-        //FPSFix key strings
+        //FPSFix key strings/data
+        public static final int FPS_FIX_DEFAULT_KEY = 100;
         public static String FPS_FIX_KEYS[] = {"VK_NUMPAD0", "VK_NUMPAD1",
             "VK_NUMPAD2", "VK_NUMPAD3", "VK_NUMPAD4", "VK_NUMPAD5", "VK_NUMPAD6",
             "VK_NUMPAD7", "VK_NUMPAD8", "VK_NUMPAD9", "VK_MULTIPLY", "VK_ADD",
@@ -469,6 +470,7 @@ public class DSCfgUtilConstants {
         public static String APPLY_SETTINGS = "Apply settings";
         public static String APPLY_KEYBINDS = "Apply keybinds";
         public static String RESTORE_DEFAULTS = "Restore defaults";
+        public static String SET_KEYBIND = "Change keybind";
         //
         //Graphics pane
         public static String RES_CAT_LABEL = "Resolution";
@@ -959,6 +961,8 @@ public class DSCfgUtilConstants {
                                             "attempting to uninstall. Would you " +
                                             "like to open the folder to manually " +
                                             "delete files?";
+    public static String DIALOG_TITLE_SET_KEYBIND = "New keybind";
+    public static String DIALOG_MSG_SET_KEYBIND = "Press any key to assign the new keybind.";
     
     //Error Messages:
     public static String UNKNOWN_VERSION = "Unable to determine program version number.";
