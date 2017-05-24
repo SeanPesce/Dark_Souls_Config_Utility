@@ -11,43 +11,33 @@ import static dscfgutil.DSCfgUtilConstants.BAN_LABEL;
 import static dscfgutil.DSCfgUtilConstants.BLOCK_ARENA_FREEZE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.BLOCK_ARENA_FREEZE_TT;
 import static dscfgutil.DSCfgUtilConstants.BLOCK_FREEZE_CHOICES;
-import static dscfgutil.DSCfgUtilConstants.BORDERLESS_FS_LABEL;
-import static dscfgutil.DSCfgUtilConstants.BORDERLESS_FS_TT;
 import static dscfgutil.DSCfgUtilConstants.CANT_CHAIN_DLL_WITH_DEFAULT;
 import static dscfgutil.DSCfgUtilConstants.CANT_CHAIN_DLL_WITH_DSF;
 import static dscfgutil.DSCfgUtilConstants.CANT_CHAIN_DLL_WITH_DSM;
-import static dscfgutil.DSCfgUtilConstants.CANT_CHAIN_DLL_WITH_SELF;
 import static dscfgutil.DSCfgUtilConstants.CANT_CHAIN_DSPW_WITH_DSPW;
-import static dscfgutil.DSCfgUtilConstants.CAPTURECURSOR;
-import static dscfgutil.DSCfgUtilConstants.CAPTURE_CURSOR_LABEL;
-import static dscfgutil.DSCfgUtilConstants.CAPTURE_CURSOR_TT;
 import static dscfgutil.DSCfgUtilConstants.CHEATER_NOTIF_LABEL;
 import static dscfgutil.DSCfgUtilConstants.CHEATER_NOTIF_TT;
 import static dscfgutil.DSCfgUtilConstants.DATE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DATE_TT;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_RESTORE_SETTINGS;
+import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_SET_KEYBIND;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_DLL;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_RESET;
+import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_SET_KEYBIND;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_WRONG_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DISABLE_CURSOR_LABEL;
-import static dscfgutil.DSCfgUtilConstants.DISABLE_CURSOR_TT;
-import static dscfgutil.DSCfgUtilConstants.DISABLE_ENABLE;
 import static dscfgutil.DSCfgUtilConstants.DLL_CHAIN_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DLL_CHAIN_TOOLTIP;
 import static dscfgutil.DSCfgUtilConstants.DLL_EXT_FILTER;
 import static dscfgutil.DSCfgUtilConstants.DLL_MUST_BE_IN_DATA;
 import static dscfgutil.DSCfgUtilConstants.DSF_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSM_CHAIN_BT;
 import static dscfgutil.DSCfgUtilConstants.DSM_FILES;
+import static dscfgutil.DSCfgUtilConstants.DSPW_DEFAULT_KEYBINDS;
 import static dscfgutil.DSCfgUtilConstants.DSPW_DLL_CHAIN_TT;
 import static dscfgutil.DSCfgUtilConstants.DSPW_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSPW_KEYBIND_HEX;
-import static dscfgutil.DSCfgUtilConstants.DSPW_KEYBIND_NAMES;
 import static dscfgutil.DSCfgUtilConstants.DSPW_SHORT;
 import static dscfgutil.DSCfgUtilConstants.DSPW_TEXT_ALIGNMENT_OPTIONS;
 import static dscfgutil.DSCfgUtilConstants.DS_DEFAULT_DLLS;
-import static dscfgutil.DSCfgUtilConstants.ENABLE_DISABLE;
 import static dscfgutil.DSCfgUtilConstants.FONT_SIZE_FIELD_TT;
 import static dscfgutil.DSCfgUtilConstants.FONT_SIZE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.FONT_SIZE_TT;
@@ -68,6 +58,7 @@ import static dscfgutil.DSCfgUtilConstants.ON_OFF;
 import static dscfgutil.DSCfgUtilConstants.OVERLAY_LABEL;
 import static dscfgutil.DSCfgUtilConstants.OVERLAY_TT;
 import static dscfgutil.DSCfgUtilConstants.RESTORE_DEFAULTS;
+import static dscfgutil.DSCfgUtilConstants.SET_KEYBIND;
 import static dscfgutil.DSCfgUtilConstants.SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.TEXT_ALIGNMENT_LABEL;
 import static dscfgutil.DSCfgUtilConstants.TEXT_ALIGNMENT_TT;
@@ -79,20 +70,17 @@ import static dscfgutil.DSCfgUtilConstants.UPDATE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.UPDATE_TT;
 import static dscfgutil.DSCfgUtilConstants.VERSION_LABEL;
 import static dscfgutil.DSCfgUtilConstants.VERSION_TT;
-import static dscfgutil.DSCfgUtilConstants.WINDOW_MOUSE;
-import dscfgutil.configs.DSFConfiguration;
 import dscfgutil.configs.DSPWConfiguration;
 import dscfgutil.dialog.AlertDialog;
 import dscfgutil.dialog.ContinueDialog;
+import dscfgutil.dialog.KeyboardInputDialog;
+
 import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
@@ -213,26 +201,28 @@ public class DSPWPane extends ScrollPane{
     //
     FlowPane banPane;
     Label banLabel;
-    ComboBox<String> banPicker;
+    TextField banKeyField;
+    Button banKeyButton;
     //
     FlowPane ignorePane;
     Label ignoreLabel;
-    ComboBox<String> ignorePicker;
+    TextField ignoreKeyField;
+    Button ignoreKeyButton;
     //
     FlowPane toggleOverlayPane;
     Label toggleOverlayLabel;
-    ComboBox<String> toggleOverlayPicker;
+    TextField toggleOverlayKeyField;
+    Button toggleOverlayKeyButton;
     //
     FlowPane aboutPane;
     Label aboutLabel;
-    ComboBox<String> aboutPicker;
+    TextField aboutKeyField;
+    Button aboutKeyButton;
     //
     
     //Instance Variables
     DSCfgMainUI ui;
     DSPWConfiguration config;
-    ObservableList<String> keybindsHex = FXCollections.observableArrayList(DSPW_KEYBIND_HEX);
-    ObservableList<String> keybinds = FXCollections.observableArrayList(DSPW_KEYBIND_NAMES);
     
     public DSPWPane(DSCfgMainUI initUI){
         ui = initUI;
@@ -540,58 +530,70 @@ public class DSPWPane extends ScrollPane{
         //Ban Phantom
         banPane = new FlowPane();
         banPane.getStyleClass().add("settings_pane");
-        banLabel = new Label(BAN_LABEL + "  ");
+        banLabel = new Label(BAN_LABEL + "\t");
         banLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        banPicker = new ComboBox(keybinds);
+        banKeyField = new TextField();
+        banKeyField.setEditable(false);
+        banKeyField.getStyleClass().add("keybind_text_field");
         try{
-            banPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_BanPhantom.toString())));
-        }catch(IndexOutOfBoundsException iobEx){
-            // ui.printConsole("Unknown \"Ban Phantom\" keybind value detected.");
-            banPicker.setValue(keybinds.get(0));
+        	banKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(Integer.parseInt(config.key_BanPhantom.toString().substring(2), 16)));
+        }catch(NumberFormatException | StringIndexOutOfBoundsException ex){
+        	banKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[0]));
+        	ui.printConsole("WARNING: Unable to parse DSPW \"Ban Phantom\" keybind; assuming default key (" + dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[0]) + ")");
         }
-        banPane.getChildren().addAll(banLabel, banPicker);
+        banKeyButton = new Button(SET_KEYBIND);
+        banPane.getChildren().addAll(banLabel, banKeyField, banKeyButton);
         //
         //Ignore Phantom
         ignorePane = new FlowPane();
         ignorePane.getStyleClass().add("settings_pane");
-        ignoreLabel = new Label(IGNORE_LABEL + "  ");
+        ignoreLabel = new Label(IGNORE_LABEL + "\t");
         ignoreLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        ignorePicker = new ComboBox(keybinds);
+        ignoreKeyField = new TextField();
+        ignoreKeyField.setEditable(false);
+        ignoreKeyField.getStyleClass().add("keybind_text_field");
         try{
-            ignorePicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_IgnorePhantom.toString())));
-        }catch(IndexOutOfBoundsException iobEx){
-            // ui.printConsole("Unknown \"Ignore Phantom\" keybind value detected.");
-            ignorePicker.setValue(keybinds.get(1));
+        	ignoreKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(Integer.parseInt(config.key_IgnorePhantom.toString().substring(2), 16)));
+        }catch(NumberFormatException | StringIndexOutOfBoundsException ex){
+        	ignoreKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[1]));
+        	ui.printConsole("WARNING: Unable to parse DSPW \"Ignore Phantom\" keybind; assuming default key (" + dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[1]) + ")");
         }
-        ignorePane.getChildren().addAll(ignoreLabel, ignorePicker);
+        ignoreKeyButton = new Button(SET_KEYBIND);
+        ignorePane.getChildren().addAll(ignoreLabel, ignoreKeyField, ignoreKeyButton);
         //
         //Toggle Overlay
         toggleOverlayPane = new FlowPane();
         toggleOverlayPane.getStyleClass().add("settings_pane");
-        toggleOverlayLabel = new Label(TOGGLE_OVERLAY_LABEL + "  ");
+        toggleOverlayLabel = new Label(TOGGLE_OVERLAY_LABEL + "\t");
         toggleOverlayLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        toggleOverlayPicker = new ComboBox(keybinds);
+        toggleOverlayKeyField = new TextField();
+        toggleOverlayKeyField.setEditable(false);
+        toggleOverlayKeyField.getStyleClass().add("keybind_text_field");
         try{
-            toggleOverlayPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_HideOverlay.toString())));
-        }catch(IndexOutOfBoundsException iobEx){
-            // ui.printConsole("Unknown \"Toggle Overlay\" keybind value detected.");
-            toggleOverlayPicker.setValue(keybinds.get(2));
+        	toggleOverlayKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(Integer.parseInt(config.key_HideOverlay.toString().substring(2), 16)));
+        }catch(NumberFormatException | StringIndexOutOfBoundsException ex){
+        	toggleOverlayKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[2]));
+        	ui.printConsole("WARNING: Unable to parse DSPW \"Toggle Overlay\" keybind; assuming default key (" + dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[2]) + ")");
         }
-        toggleOverlayPane.getChildren().addAll(toggleOverlayLabel, toggleOverlayPicker);
+        toggleOverlayKeyButton = new Button(SET_KEYBIND);
+        toggleOverlayPane.getChildren().addAll(toggleOverlayLabel, toggleOverlayKeyField, toggleOverlayKeyButton);
         //
         //About Dark Souls PvP Watchdog
         aboutPane = new FlowPane();
         aboutPane.getStyleClass().add("settings_pane");
-        aboutLabel = new Label(ABOUT_DSPW_LABEL + "  ");
+        aboutLabel = new Label(ABOUT_DSPW_LABEL + "\t");
         aboutLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        aboutPicker = new ComboBox(keybinds);
+        aboutKeyField = new TextField();
+        aboutKeyField.setEditable(false);
+        aboutKeyField.getStyleClass().add("keybind_text_field");
         try{
-            aboutPicker.setValue(keybinds.get(keybindsHex.indexOf(config.key_AboutDSPW.toString())));
-        }catch(IndexOutOfBoundsException iobEx){
-            // ui.printConsole("Unknown \"About DSPW\" keybind value detected.");
-            aboutPicker.setValue(keybinds.get(3));
+        	aboutKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(Integer.parseInt(config.key_AboutDSPW.toString().substring(2), 16)));
+        }catch(NumberFormatException | StringIndexOutOfBoundsException ex){
+        	aboutKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[3]));
+        	ui.printConsole("WARNING: Unable to parse DSPW \"About\" keybind; assuming default key (" + dscfgutil.dialog.KeyCode.getKeyName(DSPW_DEFAULT_KEYBINDS[3]) + ")");
         }
-        aboutPane.getChildren().addAll(aboutLabel, aboutPicker);
+        aboutKeyButton = new Button(SET_KEYBIND);
+        aboutPane.getChildren().addAll(aboutLabel, aboutKeyField, aboutKeyButton);
         
         primaryVBox.getChildren().addAll(titleBar, restoreDefaultsBar, spacerHBox,
                                         versionBannerPane, overlayPane, textAlignmentPane,
@@ -842,24 +844,128 @@ public class DSPWPane extends ScrollPane{
             config.d3d9dllWrapper.replace(0, config.d3d9dllWrapper.length(), NONE);
         });
         
-        banPicker.setOnAction(e -> {
-            config.key_BanPhantom.replace(0, config.key_BanPhantom.length(),
-                    keybindsHex.get(keybinds.indexOf(banPicker.getValue())));
+        banKeyButton.setOnAction(e -> {
+        	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+        	int newKeybind = kID.show();
+			if(newKeybind <= 0){
+			    ui.printConsole("Keybind was not changed.");
+			}else{
+				banKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+				config.key_BanPhantom.replace(0, config.key_BanPhantom.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+			}
         });
         
-        ignorePicker.setOnAction(e -> {
-            config.key_IgnorePhantom.replace(0, config.key_IgnorePhantom.length(),
-                    keybindsHex.get(keybinds.indexOf(ignorePicker.getValue())));
+        banKeyField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                    	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+                    	int newKeybind = kID.show();
+            			if(newKeybind <= 0){
+            			    ui.printConsole("Keybind was not changed.");
+            			}else{
+            				banKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            				config.key_BanPhantom.replace(0, config.key_BanPhantom.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+            				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            			}
+                    }
+                }
+            }
         });
         
-        toggleOverlayPicker.setOnAction(e -> {
-            config.key_HideOverlay.replace(0, config.key_HideOverlay.length(),
-                    keybindsHex.get(keybinds.indexOf(toggleOverlayPicker.getValue())));
+        ignoreKeyButton.setOnAction(e -> {
+        	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+        	int newKeybind = kID.show();
+			if(newKeybind <= 0){
+			    ui.printConsole("Keybind was not changed.");
+			}else{
+				ignoreKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+				config.key_IgnorePhantom.replace(0, config.key_IgnorePhantom.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+			}
         });
         
-        aboutPicker.setOnAction(e -> {
-            config.key_AboutDSPW.replace(0, config.key_AboutDSPW.length(),
-                    keybindsHex.get(keybinds.indexOf(aboutPicker.getValue())));
+        ignoreKeyField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                    	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+                    	int newKeybind = kID.show();
+            			if(newKeybind <= 0){
+            			    ui.printConsole("Keybind was not changed.");
+            			}else{
+            				ignoreKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            				config.key_IgnorePhantom.replace(0, config.key_IgnorePhantom.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+            				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            			}
+                    }
+                }
+            }
+        });
+        
+        toggleOverlayKeyButton.setOnAction(e -> {
+        	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+        	int newKeybind = kID.show();
+			if(newKeybind <= 0){
+			    ui.printConsole("Keybind was not changed.");
+			}else{
+				toggleOverlayKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+				config.key_HideOverlay.replace(0, config.key_HideOverlay.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+			}
+        });
+        
+        toggleOverlayKeyField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                    	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+                    	int newKeybind = kID.show();
+            			if(newKeybind <= 0){
+            			    ui.printConsole("Keybind was not changed.");
+            			}else{
+            				toggleOverlayKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            				config.key_HideOverlay.replace(0, config.key_HideOverlay.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+            				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            			}
+                    }
+                }
+            }
+        });
+        
+        aboutKeyButton.setOnAction(e -> {
+        	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+        	int newKeybind = kID.show();
+			if(newKeybind <= 0){
+			    ui.printConsole("Keybind was not changed.");
+			}else{
+				aboutKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+				config.key_AboutDSPW.replace(0, config.key_AboutDSPW.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+			}
+        });
+        
+        aboutKeyField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                    	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
+                    	int newKeybind = kID.show();
+            			if(newKeybind <= 0){
+            			    ui.printConsole("Keybind was not changed.");
+            			}else{
+            				aboutKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            				config.key_AboutDSPW.replace(0, config.key_AboutDSPW.length(), "0x" + Integer.toHexString(newKeybind).toUpperCase());
+            				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
+            			}
+                    }
+                }
+            }
         });
         
     }

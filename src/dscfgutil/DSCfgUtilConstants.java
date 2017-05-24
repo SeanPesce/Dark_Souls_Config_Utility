@@ -406,47 +406,6 @@ public class DSCfgUtilConstants {
         public static int NUMBER_OF_DSPW_SETTINGS = DSPW_SETTING_NAMES.length;
         public static String DSPW_TEXT_ALIGNMENT_OPTIONS[] = {"left", "center", "right"};
         public static final int DSPW_DEFAULT_KEYBINDS[] = { 112, 116, 120, 121 };
-        public static String DSPW_KEYBIND_NAMES[] = {"VK_LBUTTON", "VK_RBUTTON",
-            "VK_CANCEL", "VK_MBUTTON", "VK_XBUTTON1", "VK_XBUTTON2", "VK_BACK",
-            "VK_TAB", "VK_CLEAR", "VK_RETURN", "VK_SHIFT", "VK_CONTROL",
-            "VK_MENU", "VK_PAUSE", "VK_CAPITAL", "VK_KANA", "VK_HANGUEL", "VK_HANGUL",
-            "VK_JUNJA", "VK_FINAL", "VK_HANJA", "VK_KANJI", "VK_ESCAPE",
-            "VK_CONVERT", "VK_NONCONVERT", "VK_ACCEPT", "VK_MODECHANGE", "VK_SPACE",
-            "VK_PRIOR", "VK_NEXT", "VK_END", "VK_HOME", "VK_LEFT", "VK_UP", "VK_RIGHT",
-            "VK_DOWN", "VK_SELECT", "VK_PRINT", "VK_EXECUTE", "VK_SNAPSHOT", "VK_INSERT",
-            "VK_DELETE", "VK_HELP", "VK_LWIN", "VK_RWIN", "VK_APPS", "VK_SLEEP", "VK_NUMPAD0",
-            "VK_NUMPAD1", "VK_NUMPAD2", "VK_NUMPAD3", "VK_NUMPAD4", "VK_NUMPAD5", "VK_NUMPAD6",
-            "VK_NUMPAD7", "VK_NUMPAD8", "VK_NUMPAD9", "VK_MULTIPLY", "VK_ADD", "VK_SEPARATOR",
-            "VK_SUBTRACT", "VK_DECIMAL", "VK_DIVIDE", "VK_F1", "VK_F2", "VK_F3", "VK_F4",
-            "VK_F5", "VK_F6", "VK_F7", "VK_F8", "VK_F9", "VK_F10", "VK_F11", "VK_F12",
-            "VK_F13", "VK_F14", "VK_F15", "VK_F16", "VK_F17", "VK_F18", "VK_F19", "VK_F20",
-            "VK_F21", "VK_F22", "VK_F23", "VK_F24", "VK_NUMLOCK", "VK_SCROLL", 
-            "VK_LSHIFT", "VK_RSHIFT", "VK_LCONTROL", "VK_RCONTROL", "VK_LMENU", "VK_RMENU",
-            "VK_BROWSER_BACK", "VK_BROWSER_FORWARD", "VK_BROWSER_REFRESH", "VK_BROWSER_STOP",
-            "VK_BROWSER_SEARCH", "VK_BROWSER_FAVORITES", "VK_BROWSER_HOME", "VK_VOLUME_MUTE",
-            "VK_VOLUME_DOWN", "VK_VOLUME_UP", "VK_MEDIA_NEXT_TRACK", "VK_MEDIA_PREV_TRACK",
-            "VK_MEDIA_STOP", "VK_MEDIA_PLAY_PAUSE", "VK_LAUNCH_MAIL", "VK_LAUNCH_MEDIA_SELECT",
-            "VK_LAUNCH_APP1", "VK_LAUNCH_APP2", "VK_OEM_1", "VK_OEM_PLUS", "VK_OEM_COMMA",
-            "VK_OEM_MINUS", "VK_OEM_PERIOD", "VK_OEM_2", "VK_OEM_3", "VK_OEM_4",
-            "VK_OEM_5", "VK_OEM_6", "VK_OEM_7", "VK_OEM_8", "VK_OEM_102",
-            "VK_PROCESSKEY", "VK_PACKET", "VK_ATTN", "VK_CRSEL", "VK_EXSEL",
-            "VK_EREOF", "VK_PLAY", "VK_ZOOM", "VK_NONAME", "VK_PA1", "VK_OEM_CLEAR"};
-        public static String DSPW_KEYBIND_HEX[] = {"0x01", "0x02", "0x03", "0x04",
-            "0x05", "0x06", "0x08", "0x09", "0x0C", "0x0D", "0x10", "0x11", "0x12",
-            "0x13", "0x14", "0x15", "0x15", "0x15", "0x17", "0x18", "0x19", "0x19",
-            "0x1B", "0x1C", "0x1D", "0x1E", "0x1F", "0x20", "0x21", "0x22", "0x23",
-            "0x24", "0x25", "0x26", "0x27", "0x28", "0x29", "0x2A", "0x2B", "0x2C",
-            "0x2D", "0x2E", "0x2F", "0x5B", "0x5C", "0x5D", "0x5F", "0x60", "0x61",
-            "0x62", "0x63", "0x64", "0x65", "0x66", "0x67", "0x68", "0x69", "0x6A",
-            "0x6B", "0x6C", "0x6D", "0x6E", "0x6F", "0x70", "0x71", "0x72", "0x73",
-            "0x74", "0x75", "0x76", "0x77", "0x78", "0x79", "0x7A", "0x7B", "0x7C",
-            "0x7D", "0x7E", "0x7F", "0x80", "0x81", "0x82", "0x83", "0x84", "0x85",
-            "0x86", "0x87", "0x90", "0x91", "0xA0", "0xA1", "0xA2", "0xA3", "0xA4",
-            "0xA5", "0xA6", "0xA7", "0xA8", "0xA9", "0xAA", "0xAB", "0xAC", "0xAD",
-            "0xAE", "0xAF", "0xB0", "0xB1", "0xB2", "0xB3", "0xB4", "0xB5", "0xB6",
-            "0xB7", "0xBA", "0xBB", "0xBC", "0xBD", "0xBE", "0xBF", "0xC0", "0xDB",
-            "0xDC", "0xDD", "0xDE", "0xDF", "0xE2", "0xE5", "0xE7", "0xF6", "0xF7",
-            "0xF8", "0xF9", "0xFA", "0xFB", "0xFC", "0xFD", "0xFE"};
         public static String TRUE_FALSE[] = {"true", "false"};
         public static String BLOCK_FREEZE_CHOICES[] = {"Block", "Don't block"};
         //
@@ -948,7 +907,7 @@ public class DSCfgUtilConstants {
                                             "like to open the folder to manually " +
                                             "delete files?";
     public static String DIALOG_TITLE_SET_KEYBIND = "New keybind";
-    public static String DIALOG_MSG_SET_KEYBIND = "Press any key to assign the new keybind.";
+    public static String DIALOG_MSG_SET_KEYBIND = "Press any key to assign a new keybind.";
     
     //Error Messages:
     public static String UNKNOWN_VERSION = "Unable to determine program version number.";
