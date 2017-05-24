@@ -121,7 +121,7 @@ public class DSFKeybindsConfiguration {
                         verifiedIniFile = true;
                     }
                     
-                    if(line.length() > 1 && line.charAt(0) != '\n' && line.charAt(0) != '#'){
+                    if(line.length() > 1 && line.charAt(0) != '\n' && line.charAt(0) != '#' && line.indexOf(' ') > 0){
                         //Change StringBuilder value
                         String action = line.substring(0, line.indexOf(' '));
                         String key = line.substring(line.indexOf(' ') + 1);
@@ -133,8 +133,11 @@ public class DSFKeybindsConfiguration {
                             }
                         }
                         
-                        StringBuilder stringVal = (StringBuilder)binds.get(actionIndex);
-                        stringVal.replace(0, stringVal.length(), key);
+                        if(actionIndex < DSF_KEY_ACTIONS.length && actionIndex >= 0){
+                        	StringBuilder stringVal = (StringBuilder)binds.get(actionIndex);
+                            stringVal.replace(0, stringVal.length(), key);
+                        }
+                        
                     }
                 }
                 ui.printConsole(KEYBINDS_LOADED);
