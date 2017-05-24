@@ -104,7 +104,7 @@ public class DSCfgUtilConstants {
                                         "dsmfixgui.exe", "README.txt"};
     //
         //Dark Souls Mouse Fix Files/Directories (Newer, separate mouse fix mod)
-    public static String DSM_FOLDER = "\\DarkSoulsMouseFix-v1.4-Beta-1241-1-4";
+    public static String DSM_FOLDER = "\\DarkSoulsMouseFix-v1.4.1-Beta";
     public static String DSM_FILES[] = {"DarkSoulsMouseFix.dll", "DarkSoulsMouseFix.ini",
                                             "DarkSoulsMouseFixGUI.exe" /*,
 											// Unnecessary files:
