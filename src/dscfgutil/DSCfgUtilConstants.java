@@ -405,6 +405,7 @@ public class DSCfgUtilConstants {
             "key_BanPhantom", "key_IgnorePhantom", "key_HideOverlay", "key_AboutDSPW"};
         public static int NUMBER_OF_DSPW_SETTINGS = DSPW_SETTING_NAMES.length;
         public static String DSPW_TEXT_ALIGNMENT_OPTIONS[] = {"left", "center", "right"};
+        public static final int DSPW_DEFAULT_KEYBINDS[] = { 112, 116, 120, 121 };
         public static String DSPW_KEYBIND_NAMES[] = {"VK_LBUTTON", "VK_RBUTTON",
             "VK_CANCEL", "VK_MBUTTON", "VK_XBUTTON1", "VK_XBUTTON2", "VK_BACK",
             "VK_TAB", "VK_CLEAR", "VK_RETURN", "VK_SHIFT", "VK_CONTROL",
@@ -451,21 +452,6 @@ public class DSCfgUtilConstants {
         //
         //FPSFix key strings/data
         public static final int FPS_FIX_DEFAULT_KEY = 100;
-        public static String FPS_FIX_KEYS[] = {"VK_NUMPAD0", "VK_NUMPAD1",
-            "VK_NUMPAD2", "VK_NUMPAD3", "VK_NUMPAD4", "VK_NUMPAD5", "VK_NUMPAD6",
-            "VK_NUMPAD7", "VK_NUMPAD8", "VK_NUMPAD9", "VK_MULTIPLY", "VK_ADD",
-            "VK_SEPARATOR", "VK_SUBTRACT", "VK_DECIMAL", "VK_DIVIDE", "VK_F1", "VK_F2",
-            "VK_F3", "VK_F4", "VK_F5", "VK_F6", "VK_F7", "VK_F8", "VK_F9", "VK_F10",
-            "VK_F11", "VK_F12", "VK_F13", "VK_F14", "VK_F15", "VK_F16", "VK_F17",
-            "VK_F18", "VK_F19", "VK_F20", "VK_F21", "VK_F22", "VK_F23", "VK_F24"};
-        public static String FPS_FIX_KEYS_HEX[] = {"0x60", "0x61", "0x62", "0x63",
-            "0x64", "0x65", "0x66", "0x67", "0x68", "0x69", "0x6A", "0x6B", "0x6C",
-            "0x6D", "0x6E", "0x6F", "0x70", "0x71", "0x72", "0x73", "0x74", "0x75",
-            "0x76", "0x77", "0x78", "0x79", "0x7A", "0x7B", "0x7C", "0x7D", "0x7E",
-            "0x7F", "0x80", "0x81", "0x82", "0x83", "0x84", "0x85", "0x86", "0x87"};
-        public static ObservableList<String> FPS_FIX_KEYS_ARRAY_LIST = FXCollections.observableArrayList(FPS_FIX_KEYS);
-        public static ObservableList<String> FPS_FIX_KEYS_HEX_ARRAY_LIST = FXCollections.observableArrayList(FPS_FIX_KEYS_HEX);
-        //
         //General Settings panes strings
         public static String APPLY_SETTINGS = "Apply settings";
         public static String APPLY_KEYBINDS = "Apply keybinds";

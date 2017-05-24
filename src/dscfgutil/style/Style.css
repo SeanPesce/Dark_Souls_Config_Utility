@@ -134,6 +134,19 @@
     -fx-display-caret: true;
 }
 
+.keybind_text_field{
+    -fx-max-width: 100px;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: gray;
+    -fx-highlight-fill: dodgerblue;
+    -fx-highlight-text-fill: white;
+    -fx-display-caret: false;
+    -fx-alignment: center;
+    -fx-text-box-border: rgb(221, 221, 221);
+	-fx-focus-color: gray;
+	-fx-faint-focus-color: transparent;
+}
+
 .settings_small_text_field:invalid_input{
     -fx-text-box-border: red;
     -fx-focus-color: red;
