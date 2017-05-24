@@ -6,7 +6,6 @@
 package dscfgutil.view;
 
 import static dscfgutil.DSCfgUtilConstants.APPLY_KEYBINDS;
-import static dscfgutil.DSCfgUtilConstants.APPLY_SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_RESTORE_SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_RESET;

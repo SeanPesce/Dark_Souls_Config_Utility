@@ -14,7 +14,6 @@ import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_RESTORE_SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_RESET;
 import static dscfgutil.DSCfgUtilConstants.DISABLE_ENABLE;
-import static dscfgutil.DSCfgUtilConstants.ENABLE_DISABLE;
 import static dscfgutil.DSCfgUtilConstants.HUD;
 import static dscfgutil.DSCfgUtilConstants.HUD_MODS_LABEL;
 import static dscfgutil.DSCfgUtilConstants.HUD_MODS_TT;

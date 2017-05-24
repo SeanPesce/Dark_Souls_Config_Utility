@@ -10,7 +10,6 @@ import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_RESTORE_SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_RESET;
 import static dscfgutil.DSCfgUtilConstants.DISABLE_ENABLE;
-import static dscfgutil.DSCfgUtilConstants.INPUT_GREATER_THAN;
 import static dscfgutil.DSCfgUtilConstants.INPUT_GREATER_THAN_EQ;
 import static dscfgutil.DSCfgUtilConstants.INPUT_TOO_LARGE;
 import static dscfgutil.DSCfgUtilConstants.INVALID_INPUT;

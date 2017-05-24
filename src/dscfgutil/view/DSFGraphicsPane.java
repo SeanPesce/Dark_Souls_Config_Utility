@@ -30,7 +30,6 @@ import static dscfgutil.DSCfgUtilConstants.DOF_SCALING_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DOF_SCALING_OR_TT;
 import static dscfgutil.DSCfgUtilConstants.DONT_USE_PRES_RES;
 import static dscfgutil.DSCfgUtilConstants.ENABLE_DISABLE;
-import static dscfgutil.DSCfgUtilConstants.FAILED_OPEN_FOLDER_ERR;
 import static dscfgutil.DSCfgUtilConstants.FILES_EDITED_ERR;
 import static dscfgutil.DSCfgUtilConstants.FILTERINGOVERRIDES;
 import static dscfgutil.DSCfgUtilConstants.FILTERING_OVERRIDE_OPTIONS;
@@ -79,7 +78,6 @@ import static dscfgutil.FileIO.DSFixFileController.readTextFile;
 import dscfgutil.configs.DSFConfiguration;
 import dscfgutil.dialog.ContinueDialog;
 
-import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
