@@ -36,7 +36,7 @@ public class DSCfgUtilConstants {
     public static String DSF_AUTHOR_WEBSITE = "http://blog.metaclassofnil.com/";
     public static String DSF_VERSION = "2.4";
     public static String DSM = "DSMFix";
-    public static String DSMOUSE = "DSMouseFix";
+    public static String DSMOUSE = "MouseFix";
     public static String DSM_LEGACY_AUTHOR = "yrooref@tznvy.pbz";
     public static String DSM_LEGACY_AUTHOR_WEBSITE = "http://pages.cs.wisc.edu/~petska/";
     public static String DSM_LEGACY_VERSION = "09-Steamworks";
