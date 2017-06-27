@@ -690,12 +690,12 @@ public class DSCfgMainUI {
         dsfStatusLabel.setPrefWidth(80.0);
         //dsfStatusLabel.setAlignment(Pos.CENTER);
         dsmStatusLabeller.getStyleClass().add("translate_y_4");
-        dsmStatusLabeller.setPrefWidth(117.0);
+        dsmStatusLabeller.setPrefWidth(100.0);
         //dsmStatusLabeller.setAlignment(Pos.CENTER);
         dsmStatusLabel.setPrefWidth(80.0);
         //dsmStatusLabel.setAlignment(Pos.CENTER);
         dspwStatusLabeller.getStyleClass().add("translate_y_4");
-        dspwStatusLabeller.setPrefWidth(130.0);
+        dspwStatusLabeller.setPrefWidth(128.0);
         //dspwStatusLabeller.setAlignment(Pos.CENTER);
         dspwStatusLabel.setPrefWidth(80.0);
         //dspwStatusLabel.setAlignment(Pos.CENTER);
