@@ -8,6 +8,8 @@ package dscfgutil.configs;
 import static dscfgutil.DSCfgUtilConstants.CANT_WRITE_DIR;
 import static dscfgutil.DSCfgUtilConstants.CONFIG_NOT_LOADED;
 import static dscfgutil.DSCfgUtilConstants.CONFIG_PARTIALLY_LOADED;
+import static dscfgutil.DSCfgUtilConstants.CONFIG_SETTING_NOT_LOADED;
+import static dscfgutil.DSCfgUtilConstants.CONFIG_TOO_MANY_LOADED;
 import static dscfgutil.DSCfgUtilConstants.DEFAULT_INT_VALUES;
 import static dscfgutil.DSCfgUtilConstants.DEFAULT_STRING_VALUES;
 import static dscfgutil.DSCfgUtilConstants.DSCUTIL_FILE_NOT_FOUND;
@@ -40,9 +42,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * DSFix configuration object. Will be used to store default and custom config
@@ -333,57 +337,92 @@ public class DSFConfiguration {
         String iniExt = DSF_FILES[1].substring(DSF_FILES[1].lastIndexOf('.'));
         int settingsChanged = 0;
         
+        boolean[] changed = new boolean[TOTAL_SETTINGS];
+        Arrays.fill(changed, false);
+        
         //Check for .ini file type
         if(iniExt.equals(filePath.substring(filePath.lastIndexOf('.')))){
             try {
                 fileInput = new Scanner(in);
                 String line = " ";
-                boolean verifiedIniFile = false;
+                
                 while(settingsChanged < TOTAL_SETTINGS && fileInput.hasNextLine()){
                     line = fileInput.nextLine();
                     
-                    //Make sure it's a DSfix ini file and not just some random .ini
-                    if(settingsChanged == 0 && !verifiedIniFile &&
-                            !line.equals(DSF_VERIFICATION)){
-                        ui.printConsole(in.getName() + INVALID_DSF_INI);
-                        ui.printConsole(CONFIG_NOT_LOADED);
-                        return;
-                    }else if(settingsChanged == 0 && !verifiedIniFile &&
-                            line.equals(DSF_VERIFICATION)){
-                        verifiedIniFile = true;
+                    line = line.replace('\t', ' ');
+                    while(line.length() >= 2 && line.indexOf("  ") > -1){
+                    	line = line.replace("  ", " ");
                     }
                     
-                    if(line.length() > 1 && line.charAt(0) != '\n' && line.charAt(0) != '#'){
+                    String int_str = "";
+                    int first_space = line.indexOf(' ');
+                    
+                    if(line.length() > 7 && line.charAt(0) != '\n' && line.charAt(0) != '#' && first_space >= 6 && first_space != (line.length() - 1)){
+                    	
+                    	int current_setting = -1;
+                    	for(int i = 0; i < TOTAL_SETTINGS && current_setting == -1; i++){
+                    		if(!changed[i] && STRING_VALUE_NAMES[i] != null){
+                    			// String val
+                    			if(line.length() > STRING_VALUE_NAMES[i].length() && STRING_VALUE_NAMES[i].equals(line.substring(0, STRING_VALUE_NAMES[i].length())) ){
+                    				current_setting = i;
+                    			}
+                    		}else if(!changed[i] && INT_VALUE_NAMES[i] != null){
+                    			// int val
+                    			if(line.length() > INT_VALUE_NAMES[i].length() && INT_VALUE_NAMES[i].equals(line.substring(0, INT_VALUE_NAMES[i].length())) ){
+                    				current_setting = i;
+                    				int_str = line.substring(first_space + 1, line.length());
+                    				first_space = int_str.indexOf(' ');
+                    				
+                    				while(first_space > 0){
+                    					int_str = int_str.substring(first_space + 1, int_str.length());
+                    					first_space = int_str.indexOf(' ');
+                    				}
+                    				
+                    				try{
+                    					if(!NumberUtils.isParsable(int_str)){
+                    						current_setting = -1;
+                    					}
+                    				}catch(NumberFormatException nFE){
+                    					current_setting = -1;
+                    				}
+                    			}
+                    		}
+                    	}
+                    	
                         //Check for special settings that have special limitations
                         //This might actually be unecessary now (the mutator methods used to make changes based on certain limitations that I've since removed)
-                        if(settingsChanged == 2 || settingsChanged == 3 || settingsChanged == 9){
-                            switch(settingsChanged){
+                        if(current_setting == 2 || current_setting == 3 || current_setting == 9){
+                            switch(current_setting){
                                 case 2:
-                                    setPresentWidth(Integer.parseInt(line.substring(line.indexOf(' ') + 1, line.length())));
+                                    setPresentWidth(Integer.parseInt(int_str));
                                     break;
                                 case 3:
-                                    setPresentHeight(Integer.parseInt(line.substring(line.indexOf(' ') + 1, line.length())));
+                                    setPresentHeight(Integer.parseInt(int_str));
                                     break;
                                 case 9:
-                                    setDOFOverride(Integer.parseInt(line.substring(line.indexOf(' ') + 1, line.length())));
+                                    setDOFOverride(Integer.parseInt(int_str));
                                     break;
                                 default:
                                     break;
                             }
                         //Check for int valued setting
-                        }else if(INT_VALUE_NAMES[settingsChanged] != null){
+                        }else if(current_setting > -1 && INT_VALUE_NAMES[current_setting] != null){
                             //Change int value
-                            AtomicInteger intVal = (AtomicInteger)settings.get(settingsChanged);
-                            intVal.set(Integer.parseInt(line.substring(line.indexOf(' ') + 1, line.length())));
+                            AtomicInteger intVal = (AtomicInteger)settings.get(current_setting);
+                            intVal.set(Integer.parseInt(int_str));
                         //Check for StringBuilder valued setting
-                        }else{
+                        }else if(current_setting > -1){
                             //Change StringBuilder value
-                            StringBuilder stringVal = (StringBuilder)settings.get(settingsChanged);
+                            StringBuilder stringVal = (StringBuilder)settings.get(current_setting);
                             stringVal.replace(0, stringVal.length(), ("" + line.substring(line.indexOf(' ') + 1)));
-                            if(settingsChanged == 11){
-                            }
+                            //if(current_setting == 11){
+                            //}
                         }
-                        settingsChanged++;
+                        
+                        if(current_setting > -1){
+                        	settingsChanged++;
+                        	changed[current_setting] = true;
+                        }
                     }
                 }
                 
@@ -396,11 +435,46 @@ public class DSFConfiguration {
             ui.printConsole(CONFIG_NOT_LOADED);
         }
         
-        if(settingsChanged != TOTAL_SETTINGS){
+        
+        if(settingsChanged < TOTAL_SETTINGS){
+        	// Load default values of missing settings
+        	for(int i = 0; i < TOTAL_SETTINGS && settingsChanged < TOTAL_SETTINGS; i++){
+        		if(!changed[i] && STRING_VALUE_NAMES[i] != null){
+        			ui.printConsole("\"" + STRING_VALUE_NAMES[i] + "\"" + CONFIG_SETTING_NOT_LOADED);
+        			StringBuilder stringVal = (StringBuilder)settings.get(i);
+                    stringVal.replace(0, stringVal.length(), DEFAULT_STRING_VALUES[i]);
+                    settingsChanged++;
+        		}else if(!changed[i] && INT_VALUE_NAMES[i] != null){
+        			ui.printConsole("\"" + INT_VALUE_NAMES[i] + "\"" + CONFIG_SETTING_NOT_LOADED);
+        			switch(i){
+	        			case 2:
+	        				setPresentWidth(DEFAULT_INT_VALUES[i]);
+	        				break;
+	        			case 3:
+	        				setPresentHeight(DEFAULT_INT_VALUES[i]);
+	        				break;
+	        			case 9:
+	        				setDOFOverride(DEFAULT_INT_VALUES[i]);
+	        				break;
+	    				default:
+	    					AtomicInteger intVal = (AtomicInteger)settings.get(i);
+                            intVal.set(DEFAULT_INT_VALUES[i]);
+	    					break;
+        			}
+        			settingsChanged++;
+        		}
+        	}
+        }
+        
+        
+        if(settingsChanged < TOTAL_SETTINGS){
             ui.printConsole(CONFIG_PARTIALLY_LOADED);
             ui.resetDSFConfigDefaults();
-        }else{
+        }else if(settingsChanged == TOTAL_SETTINGS){
             ui.printConsole(SETTINGS_LOADED);
+        }else{
+        	// Too many settings loaded somehow?
+        	ui.printConsole(CONFIG_TOO_MANY_LOADED);
         }
         
         if(fileInput != null){
@@ -446,7 +520,7 @@ public class DSFConfiguration {
         
         String writeBuffer = ""; //Will store the text of the output file
         int settingsApplied = 0;
-        for(settingsApplied = 0; settingsApplied < 40 && fileInput.hasNext();){
+        for(settingsApplied = 0; settingsApplied < TOTAL_SETTINGS && fileInput.hasNext();){
             String line = fileInput.nextLine();
             if(line.length() >= 1 && line.charAt(0) == '$'){
                 //This is a line to edit/write to

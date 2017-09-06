@@ -23,6 +23,9 @@ import static dscfgutil.DSCfgUtilConstants.DOF_ADDITIONAL_BLUR;
 import static dscfgutil.DSCfgUtilConstants.DOF_ADDITIONAL_BLUR_OPTIONS;
 import static dscfgutil.DSCfgUtilConstants.DOF_ADD_BLUR_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DOF_ADD_BLUR_TT;
+import static dscfgutil.DSCfgUtilConstants.DOF_DISABLE_TT;
+import static dscfgutil.DSCfgUtilConstants.DOF_ENABLE_TT;
+import static dscfgutil.DSCfgUtilConstants.DOF_OVERRIDE_NONE;
 import static dscfgutil.DSCfgUtilConstants.DOF_OVERRIDE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DOF_OVERRIDE_OPTIONS;
 import static dscfgutil.DSCfgUtilConstants.DOF_OVERRIDE_TT;
@@ -44,6 +47,7 @@ import static dscfgutil.DSCfgUtilConstants.FPS_THRESHOLD_TT;
 import static dscfgutil.DSCfgUtilConstants.GRAPHICS;
 import static dscfgutil.DSCfgUtilConstants.INPUT_FPS_TOO_HIGH;
 import static dscfgutil.DSCfgUtilConstants.INPUT_GREATER_THAN;
+import static dscfgutil.DSCfgUtilConstants.INPUT_GREATER_THAN_EQ;
 import static dscfgutil.DSCfgUtilConstants.INPUT_TOO_LARGE;
 import static dscfgutil.DSCfgUtilConstants.INVALID_INPUT;
 import static dscfgutil.DSCfgUtilConstants.LOCK_UNLOCK;
@@ -92,6 +96,7 @@ import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -181,7 +186,9 @@ public class DSFGraphicsPane extends ScrollPane {
     //
     FlowPane dofOverridePane;
     Label dofOverrideLabel;
-    ComboBox<String> dofOverridePicker;
+    TextField dofOverrideField;
+    HBox dofOverrideSpacer;
+    CheckBox disableDofCheckBox;
     //
     FlowPane dofScalingPane;
     Label dofScalingLabel;
@@ -437,13 +444,26 @@ public class DSFGraphicsPane extends ScrollPane {
         dofOverrideLabel = new Label(DOF_OVERRIDE_LABEL + "  ");
         dofOverrideLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         dofOverrideLabel.setTooltip(new Tooltip(DOF_OVERRIDE_TT));
-        dofOverridePicker = new ComboBox(FXCollections.observableArrayList(DOFOVERRIDERESOLUTIONS));
-        for(int i = 0; i < DOF_OVERRIDE_OPTIONS.length; i++){
-            if(config.getDOFOverride() == DOF_OVERRIDE_OPTIONS[i]){
-                dofOverridePicker.setValue(DOFOVERRIDERESOLUTIONS[i]);
-            }
+        
+        dofOverrideField = new TextField("");
+        dofOverrideField.appendText(config.getDOFOverride() + "");
+        dofOverrideField.getStyleClass().add("settings_text_field");
+        dofOverrideSpacer = new HBox();
+        dofOverrideSpacer.setMinWidth(3);
+        disableDofCheckBox = new CheckBox(DOF_OVERRIDE_NONE + "   ");
+        if(config.disableDOF){
+        	disableDofCheckBox.setSelected(true);
+        	disableDofCheckBox.setTooltip(new Tooltip(DOF_ENABLE_TT));
+        	dofOverrideField.setDisable(true);
+        }else{
+        	disableDofCheckBox.setSelected(false);
+        	disableDofCheckBox.setTooltip(new Tooltip(DOF_DISABLE_TT));
+        	dofOverrideField.setDisable(false);
         }
-        dofOverridePane.getChildren().addAll(dofOverrideLabel, dofOverridePicker);
+        
+        
+        //dofOverridePane.getChildren().addAll(dofOverrideLabel, dofOverridePicker);
+        dofOverridePane.getChildren().addAll(dofOverrideLabel, dofOverrideField, dofOverrideSpacer, disableDofCheckBox);
         //
         //DOF Scaling
         dofScalingPane = new FlowPane();
@@ -481,7 +501,11 @@ public class DSFGraphicsPane extends ScrollPane {
             dofScalingEnabled.setDisable(true);
             dofScalingDisabled.setDisable(true);
             dofAddPicker.setDisable(true);
-            dofOverridePicker.setValue(DOFOVERRIDERESOLUTIONS[5]);
+            dofOverrideField.setDisable(true);
+            dofOverrideField.setText("" + config.getRenderHeight());
+            disableDofCheckBox.setDisable(false);
+            disableDofCheckBox.setSelected(true);
+            disableDofCheckBox.setTooltip(new Tooltip(DOF_ENABLE_TT));
             setWindowsPresentRes.setDisable(true);
             presentWidthField.setDisable(true);
             presentHeightField.setDisable(true);
@@ -865,7 +889,30 @@ public class DSFGraphicsPane extends ScrollPane {
         });
         
         //DOF Override picker is a special case with its own method
-        setDOFOverrideEventHandler();
+        //setDOFOverrideEventHandler();
+        
+        //Disable DOF checkbox is a special case with its own method
+        setDisableDofCheckBoxEventHandler();
+        
+        dofOverrideField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, 
+                                               String oldText, String newText) {
+                try{
+                	if(!NumberUtils.isParsable(newText) || Integer.parseInt(newText) < 0){
+                		dofOverrideField.pseudoClassStateChanged(INVALID_INPUT, true);
+                		dofOverrideField.setTooltip(new Tooltip(INPUT_GREATER_THAN_EQ + "0"));
+                	}else{
+                		dofOverrideField.pseudoClassStateChanged(INVALID_INPUT, false);
+                		dofOverrideField.setTooltip(new Tooltip(DOF_OVERRIDE_TT));
+                		config.setDOFOverride(Integer.parseInt(newText));
+                	}
+                }catch(NumberFormatException nFE){
+                    ui.printConsole(INPUT_TOO_LARGE);
+                    dofOverrideField.setText("");
+                }
+            }
+        });
         
         dofScalingEnabled.setOnAction(e -> {
             config.disableDofScaling.set(0);
@@ -968,56 +1015,38 @@ public class DSFGraphicsPane extends ScrollPane {
         });
     }
     
-    private void setDOFOverrideEventHandler(){
-        dofOverridePicker.setOnAction(e -> {
-            if(dofOverridePicker.getItems().indexOf(dofOverridePicker.getValue()) == (dofOverridePicker.getItems().size() - 1)){
-                //No DOF
-                /*ContinueDialog cD = new ContinueDialog(300.0, 80.0, DIALOG_TITLE_NOT_RECOMMENDED,
-                                                    DIALOG_MSG_TRY_ALTERNATE_NO_DOF,
-                                                    DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[3]);
-                
-                if(cD.show()){*/
-                    config.disableDOF();
-                    dofScalingEnabled.setDisable(true);
-                    dofScalingDisabled.setDisable(true);
-                    dofAddPicker.setDisable(true);
-                    presentWidthField.setDisable(true);
-                    presentHeightField.setDisable(true);
-                    setWindowsPresentRes.setDisable(true);
-                    usePresentRes.setDisable(true);
-                    dontUsePresentRes.setDisable(true);
-                    dofScalingDisabled.setSelected(true);
-                    dofAddPicker.setValue(dofAddPicker.getItems().get(0));
-                    if(usePresentRes.isSelected()){
-                        presentRes[0] = presentWidthField.getText();
-                        presentRes[1] = presentHeightField.getText();
-                    }
-                    presentWidthField.setText("0");
-                    presentHeightField.setText("0");
-                    recheckTextInput(presentWidthField);
-                    recheckTextInput(presentHeightField);
-                    recheckTextInput(renderWidthField);
-                    recheckTextInput(renderHeightField);
-                /*}else{
-                    
-                    Platform.runLater(new Runnable(){
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException ex) {
-                            
-                            }
-                            for(int i = 0; i < DOF_OVERRIDE_OPTIONS.length; i++){
-                                if(config.getDOFOverride() == DOF_OVERRIDE_OPTIONS[i]){
-                                    dofOverridePicker.setValue(DOFOVERRIDERESOLUTIONS[i]);
-                                }
-                            }
-                        }
-                    });
-                }*/
-            }else{
-                config.disableDOF = false;
+    private void setDisableDofCheckBoxEventHandler(){
+    	disableDofCheckBox.setOnAction(e -> {
+    		if(disableDofCheckBox.isSelected()){
+    			//Disable DOF
+    			config.disableDOF();
+    			disableDofCheckBox.setTooltip(new Tooltip(DOF_ENABLE_TT));
+    			dofOverrideField.setDisable(true);
+    			dofOverrideField.setText("" + config.getRenderHeight());
+                dofScalingEnabled.setDisable(true);
+                dofScalingDisabled.setDisable(true);
+                dofAddPicker.setDisable(true);
+                presentWidthField.setDisable(true);
+                presentHeightField.setDisable(true);
+                setWindowsPresentRes.setDisable(true);
+                usePresentRes.setDisable(true);
+                dontUsePresentRes.setDisable(true);
+                dofScalingDisabled.setSelected(true);
+                dofAddPicker.setValue(dofAddPicker.getItems().get(0));
+                if(usePresentRes.isSelected()){
+                    presentRes[0] = presentWidthField.getText();
+                    presentRes[1] = presentHeightField.getText();
+                }
+                presentWidthField.setText("0");
+                presentHeightField.setText("0");
+                recheckTextInput(presentWidthField);
+                recheckTextInput(presentHeightField);
+                recheckTextInput(renderWidthField);
+                recheckTextInput(renderHeightField);
+    		}else{
+    			// Re-enable DOF
+    			config.disableDOF = false;
+    			disableDofCheckBox.setTooltip(new Tooltip(DOF_DISABLE_TT));
                 dofScalingEnabled.setDisable(false);
                 dofScalingDisabled.setDisable(false);
                 dofAddPicker.setDisable(false);
@@ -1038,9 +1067,13 @@ public class DSFGraphicsPane extends ScrollPane {
                     recheckTextInput(renderWidthField);
                     recheckTextInput(renderHeightField);
                 }
-                config.setDOFOverride(DOF_OVERRIDE_OPTIONS[dofOverridePicker.getItems().indexOf(dofOverridePicker.getValue())]);
-            }
-        });
+                //config.setDOFOverride(config.getDOFOverride());
+                dofOverrideField.setText("" + config.getDOFOverride());
+                dofOverrideField.setDisable(false);
+    		}
+    		dofOverrideField.pseudoClassStateChanged(INVALID_INPUT, false);
+    		dofOverrideField.setTooltip(new Tooltip(DOF_OVERRIDE_TT));
+    	});
     }
     
     private void recheckTextInput(TextField field){
@@ -1167,6 +1200,7 @@ public class DSFGraphicsPane extends ScrollPane {
         fields.add(renderHeightField);
         fields.add(presentWidthField);
         fields.add(presentHeightField);
+        fields.add(dofOverrideField);
         
         for(TextField field : fields){
             if(field.getPseudoClassStates().toString().contains("invalid")){

@@ -429,6 +429,7 @@ public class DSCfgUtilConstants {
         public static String SSAO_SCALE_LABEL = "SSAO Scale: ";
         public static String SSAO_TYPE_LABEL = "SSAO Type: ";
         public static String DOF_OVERRIDE_LABEL = "DOF Override Res: ";
+        public static String DOF_OVERRIDE_NONE = "Disable DOF";
         public static String DOF_SCALING_LABEL = "DOF Scaling: ";
         public static String DOF_ADD_BLUR_LABEL = "DOF Additional Blur: ";
         public static String UNLOCK_FPS_LABEL = "Unlock framerate: ";
@@ -459,6 +460,8 @@ public class DSCfgUtilConstants {
                                 "SCAO combines both, with a higher performance impact\n" +
                             "VSSAO2 is generally more accurate, but also drains more performance";
         public static String DOF_OVERRIDE_TT = "Depth of Field Resolution Override";
+        public static String DOF_DISABLE_TT = "Disable Depth of Field completely\n(for sharpest possible image)";
+        public static String DOF_ENABLE_TT = "Unselect to enable Depth of Field";
         public static String DOF_SCALING_OR_TT = "Depth of Field Scaling Override\n" +
                                                 "(Disable for sharper image)";
         public static String DOF_ADD_BLUR_TT = "Depth of field additional blur\n" +
@@ -926,9 +929,11 @@ public class DSCfgUtilConstants {
     public static String INVALID_DSF_KEYBINDS_INI = " is not a valid " + DSF + "keybinds file";
     public static String IO_EX_FILE_ERR = "IOException while reading ";
     public static String CONFIG_NOT_LOADED = "Config was not loaded.";
+    public static String CONFIG_TOO_MANY_LOADED = "WARNING: Some settings may have been loaded more than once.";
     public static String CONFIG_PARTIALLY_LOADED = "Config only partially loaded. "
                                                 + "Settings may be corrupt. " +
                                                 "Restoring default settings...";
+    public static String CONFIG_SETTING_NOT_LOADED = " was not loaded correctly. Setting to default value...";
     public static String FAILED_OPEN_FOLDER_ERR = "Failed to open folder";
     public static String FAILED_FILE_COPY_ERR = "File failed to copy: ";
     public static String FAILED_FILE_DELETE_ERR = "Failed to delete file: ";
