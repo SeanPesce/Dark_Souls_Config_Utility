@@ -365,6 +365,24 @@ public class DSFConfiguration {
                     			// String val
                     			if(line.length() > STRING_VALUE_NAMES[i].length() && STRING_VALUE_NAMES[i].equals(line.substring(0, STRING_VALUE_NAMES[i].length())) ){
                     				current_setting = i;
+                    				if(i == 11){
+                    					// dofBlurAmount (additional blur) is a special setting
+                    					int_str = line.substring(first_space + 1, line.length());
+                    					first_space = int_str.indexOf(' ');
+                        				while(first_space > 0){
+                        					// Remove extra spaces
+                        					int_str = int_str.substring(first_space + 1, int_str.length());
+                        					first_space = int_str.indexOf(' ');
+                        				}
+                        				try{
+                        					if((!NumberUtils.isParsable(int_str) && !int_str.equals("o")) || (NumberUtils.isParsable(int_str) && Integer.parseInt(int_str) < 0)){
+                        						// dofBlurAmount (additional blur) must be "o" or a number greater than 0
+                        						current_setting = -1;
+                        					}
+                        				}catch(NumberFormatException nFE){
+                        					current_setting = -1;
+                        				}
+                    				}
                     			}
                     		}else if(!changed[i] && INT_VALUE_NAMES[i] != null){
                     			// int val
@@ -374,6 +392,7 @@ public class DSFConfiguration {
                     				first_space = int_str.indexOf(' ');
                     				
                     				while(first_space > 0){
+                    					// Remove extra spaces
                     					int_str = int_str.substring(first_space + 1, int_str.length());
                     					first_space = int_str.indexOf(' ');
                     				}
@@ -413,10 +432,8 @@ public class DSFConfiguration {
                         //Check for StringBuilder valued setting
                         }else if(current_setting > -1){
                             //Change StringBuilder value
-                            StringBuilder stringVal = (StringBuilder)settings.get(current_setting);
+                        	StringBuilder stringVal = (StringBuilder)settings.get(current_setting);
                             stringVal.replace(0, stringVal.length(), ("" + line.substring(line.indexOf(' ') + 1)));
-                            //if(current_setting == 11){
-                            //}
                         }
                         
                         if(current_setting > -1){

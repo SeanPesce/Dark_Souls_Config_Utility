@@ -429,9 +429,10 @@ public class DSCfgUtilConstants {
         public static String SSAO_SCALE_LABEL = "SSAO Scale: ";
         public static String SSAO_TYPE_LABEL = "SSAO Type: ";
         public static String DOF_OVERRIDE_LABEL = "DOF Override Res: ";
-        public static String DOF_OVERRIDE_NONE = "Disable DOF";
+        public static String DOF_OVERRIDE_DISABLE_DOF = "Disable DOF";
         public static String DOF_SCALING_LABEL = "DOF Scaling: ";
         public static String DOF_ADD_BLUR_LABEL = "DOF Additional Blur: ";
+        public static String DOF_NO_ADD_BLUR_LABEL = "Off (No additional blur)";
         public static String UNLOCK_FPS_LABEL = "Unlock framerate: ";
         public static String FPS_FIX_KEY_LABEL = "Bonfire FPS Fix Keybind: ";
         public static String FPS_LIMIT_LABEL = "FPS Limit: ";
