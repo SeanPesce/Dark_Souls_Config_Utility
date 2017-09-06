@@ -122,7 +122,7 @@ public class DSCfgUtilConstants {
     public static String DSCM_FILES[] = {"DSCM_README.txt", "DSCM.exe"};
     //
         //Bonfire FPS Fix Files/Directories
-    public static String FPS_FIX_FOLDER = "\\FPSFix.v1.2-beta";
+    public static String FPS_FIX_FOLDER = "\\FPSFix-Plus-d3d9_v2017-09-01";
     public static String FPS_FIX_FILES[] = {"FPSFix.dll", "FPSFix.ini"};
     //
         //Texture Mod Files/Directories

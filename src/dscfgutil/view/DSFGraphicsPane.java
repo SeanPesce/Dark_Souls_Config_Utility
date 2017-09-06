@@ -5,7 +5,6 @@
  */
 package dscfgutil.view;
 
-import dscfgutil.dialog.KeyboardInputDialog;
 import static dscfgutil.DSCfgUtilConstants.AAQUALITIES;
 import static dscfgutil.DSCfgUtilConstants.AATYPES;
 import static dscfgutil.DSCfgUtilConstants.AA_QUALITY_LABEL;
@@ -15,9 +14,7 @@ import static dscfgutil.DSCfgUtilConstants.AA_TYPE_TT;
 import static dscfgutil.DSCfgUtilConstants.APPLY_SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_RESTORE_SETTINGS;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_SET_KEYBIND;
 import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_RESET;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_SET_KEYBIND;
 import static dscfgutil.DSCfgUtilConstants.DOF_ADD_BLUR_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DOF_ADD_BLUR_TT;
 import static dscfgutil.DSCfgUtilConstants.DOF_DISABLE_TT;
@@ -30,13 +27,9 @@ import static dscfgutil.DSCfgUtilConstants.DOF_SCALING_LABEL;
 import static dscfgutil.DSCfgUtilConstants.DOF_SCALING_OR_TT;
 import static dscfgutil.DSCfgUtilConstants.DONT_USE_PRES_RES;
 import static dscfgutil.DSCfgUtilConstants.ENABLE_DISABLE;
-import static dscfgutil.DSCfgUtilConstants.FILES_EDITED_ERR;
 import static dscfgutil.DSCfgUtilConstants.FILTERINGOVERRIDES;
 import static dscfgutil.DSCfgUtilConstants.FILTERING_OVERRIDE_OPTIONS;
 import static dscfgutil.DSCfgUtilConstants.FPS_FIX_DEFAULT_KEY;
-import static dscfgutil.DSCfgUtilConstants.FPS_FIX_FILES;
-import static dscfgutil.DSCfgUtilConstants.FPS_FIX_KEY_LABEL;
-import static dscfgutil.DSCfgUtilConstants.FPS_FIX_TT;
 import static dscfgutil.DSCfgUtilConstants.FPS_LIMIT_LABEL;
 import static dscfgutil.DSCfgUtilConstants.FPS_LIMIT_TT;
 import static dscfgutil.DSCfgUtilConstants.FPS_THRESHOLD_LABEL;
@@ -66,7 +59,6 @@ import static dscfgutil.DSCfgUtilConstants.SSAO_STRENGTH_LABEL;
 import static dscfgutil.DSCfgUtilConstants.SSAO_STRENGTH_TT;
 import static dscfgutil.DSCfgUtilConstants.SSAO_TYPE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.SSAO_TYPE_TT;
-import static dscfgutil.DSCfgUtilConstants.SET_KEYBIND;
 import static dscfgutil.DSCfgUtilConstants.TEX_FILTERING_OVERRIDE_LABEL;
 import static dscfgutil.DSCfgUtilConstants.TEX_FILT_OR_TT;
 import static dscfgutil.DSCfgUtilConstants.UNLOCK_FPS_LABEL;
@@ -74,23 +66,14 @@ import static dscfgutil.DSCfgUtilConstants.UNLOCK_FPS_TT;
 import static dscfgutil.DSCfgUtilConstants.USE_PRESENT_RES;
 import static dscfgutil.DSCfgUtilConstants.USE_WINDOWS_RES;
 import static dscfgutil.DSCfgUtilConstants.WIDTH_HEIGHT;
-import static dscfgutil.DSCfgUtilConstants.WRITING_FILE;
-import static dscfgutil.FileIO.DSFixFileController.readTextFile;
 import dscfgutil.configs.DSFConfiguration;
 import dscfgutil.dialog.ContinueDialog;
 
 import java.awt.Toolkit;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -101,14 +84,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javax.imageio.IIOException;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
@@ -206,11 +186,6 @@ public class DSFGraphicsPane extends ScrollPane {
     ToggleGroup unlockFPSChoice;
     RadioButton fpsLocked;
     RadioButton fpsUnlocked;
-    //
-    FlowPane fpsFixKeyPane;
-    Label fpsFixKeyLabel;
-    TextField fpsFixKeyField;
-    Button fpsFixKeyButton;
     //
     FlowPane fpsLimitPane;
     Label fpsLimitLabel;
@@ -547,34 +522,6 @@ public class DSFGraphicsPane extends ScrollPane {
         unlockFPSPane.getChildren().addAll(unlockFPSLabel, fpsLocked,
                                             fpsUnlocked);
         //
-        //Bonfire FPSFix Keybind
-        fpsFixKeyPane = new FlowPane();
-        fpsFixKeyPane.getStyleClass().add("settings_pane");
-        fpsFixKeyLabel = new Label(FPS_FIX_KEY_LABEL + "  ");
-        fpsFixKeyLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        fpsFixKeyLabel.setTooltip(new Tooltip(FPS_FIX_TT));
-        fpsFixKeyButton = new Button(SET_KEYBIND);
-        fpsFixKeyField = new TextField();
-        fpsFixKeyField.setEditable(false);
-        fpsFixKeyField.getStyleClass().add("keybind_text_field");
-        fpsFixKeyPane.getChildren().addAll(fpsFixKeyLabel, fpsFixKeyField, fpsFixKeyButton);
-        //
-        fpsFixKeyString = getFPSFixKey();
-        if(fpsFixKeyString != null){
-            try{
-            	fpsFixKeyInt = Integer.parseInt(fpsFixKeyString, 16);
-            }catch(NumberFormatException nFE){
-            	ui.printConsole("WARNING: Unable to parse Bonfire FPSFix keybind; assuming default key (" + dscfgutil.dialog.KeyCode.getKeyName(FPS_FIX_DEFAULT_KEY) + ")");
-            	fpsFixKeyInt = FPS_FIX_DEFAULT_KEY;
-            }
-            fpsFixKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(fpsFixKeyInt));
-        }else{
-            fpsFixKeyInt = FPS_FIX_DEFAULT_KEY;
-            fpsFixKeyField.setText("");
-            fpsFixKeyField.setDisable(true);
-            fpsFixKeyButton.setDisable(true);
-        }
-        //
         //FPS Limit
         fpsLimitPane = new FlowPane();
         fpsLimitPane.getStyleClass().add("settings_pane");
@@ -623,7 +570,7 @@ public class DSFGraphicsPane extends ScrollPane {
                                 renderResPane, presentResPane, aaQualityPane,
                                 aaTypePane, ssaoStrengthPane, ssaoScalePane,
                                 ssaoTypePane, dofOverridePane, dofScalingPane,
-                                dofAddPane, fpsFixKeyPane, unlockFPSPane, fpsLimitPane,
+                                dofAddPane, unlockFPSPane, fpsLimitPane,
                                 fpsThresholdPane, texOverridePane,
                                 bottomSpacerHBox);
         
@@ -976,35 +923,6 @@ public class DSFGraphicsPane extends ScrollPane {
             recheckTextInput(fpsLimitField);
         });
         
-        fpsFixKeyButton.setOnAction(e -> {
-        	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
-        	int newKeybind = kID.show();
-			if(newKeybind <= 0){
-			    ui.printConsole("Keybind was not changed.");
-			}else{
-				setFPSFixKey(newKeybind);
-				ui.printConsole("Keybind was set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
-			}
-        });
-        
-        fpsFixKeyField.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-                    if(mouseEvent.getClickCount() == 2){
-                    	KeyboardInputDialog kID = new KeyboardInputDialog(DIALOG_TITLE_SET_KEYBIND, DIALOG_MSG_SET_KEYBIND);
-                    	int newKeybind = kID.show();
-            			if(newKeybind <= 0){
-            			    ui.printConsole("Keybind was not changed.");
-            			}else{
-            				setFPSFixKey(newKeybind);
-            				ui.printConsole("Keybind set to " + dscfgutil.dialog.KeyCode.getKeyName(newKeybind));
-            			}
-                    }
-                }
-            }
-        });
-        
         fpsLimitField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, 
@@ -1267,84 +1185,5 @@ public class DSFGraphicsPane extends ScrollPane {
         String text = field.getText();
         field.setText("");
         field.appendText(text);
-    }
-    
-    private String getFPSFixKey(){
-        
-        File fpsFixCfg = new File(ui.getDataFolder() + "\\" + FPS_FIX_FILES[1]);
-        
-        if(fpsFixCfg.exists()){
-            try {
-                Scanner fpsFixKeyScanner = new Scanner(fpsFixCfg);
-                
-                while(fpsFixKeyScanner.hasNextLine()){
-                    String line = fpsFixKeyScanner.nextLine();
-                    if(line.startsWith("Key=")){
-                        fpsFixKeyScanner.close();
-                        return line.substring(line.indexOf("Key=") + 4);
-                    }
-                }
-            } catch (FileNotFoundException ex) {
-                //Logger.getLogger(DSFGraphicsPane.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            }
-        }else{
-            return null;
-        }
-        
-        return null;
-    }
-    
-    public void setFPSFixKey(int newFPSFixKeyInt){
-    	fpsFixKeyInt = newFPSFixKeyInt;
-    	fpsFixKeyString = Integer.toHexString(fpsFixKeyInt).toUpperCase();
-    	fpsFixKeyField.setText(dscfgutil.dialog.KeyCode.getKeyName(newFPSFixKeyInt));
-    	
-        try {
-            String fpsFixCfg = readTextFile(ui.getDataFolder() + "\\" + FPS_FIX_FILES[1]);
-            
-            ui.printConsole(WRITING_FILE[0] + FPS_FIX_FILES[1] + "...");
-            //The file to be written
-            File writeFile = new File(ui.getDataFolder() + "\\" + FPS_FIX_FILES[1]);
-            if(writeFile.exists()){
-                //If file exists, try to delete it
-                if(!writeFile.delete()){
-                    //If file cannot be deleted, throw OIOException
-                    throw new IIOException("Could not delete pre-existing file: " +
-                        FPS_FIX_FILES[1]);
-                }
-            }
-
-            //Format each linebreak to be displayed correctly in a text file
-            String formattedText = fpsFixCfg.replaceAll("\n", String.format("%n"));
-            //Initialize BufferedWriter to write string to file
-            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(writeFile));
-            //Write the file
-            Scanner scanner = new Scanner(formattedText);
-            int i = 0;
-            while(scanner.hasNextLine()){
-                String line = scanner.nextLine();
-                if(line.startsWith("Key=")){
-                    fileWriter.write("Key=" + Integer.toHexString(newFPSFixKeyInt).toUpperCase());
-                    fileWriter.newLine();
-                    i++;
-                }else if(line.length() > 1){
-                    fileWriter.write(line);
-                    fileWriter.newLine();
-                    i++;
-                }else if(i == 2 || i == 4){
-                    fileWriter.newLine();
-                    i++;
-                }
-            }
-            fileWriter.close();
-            scanner.close();
-            
-            ui.printConsole(WRITING_FILE[1]);
-        } catch (IOException ex) {
-            ui.printConsole(FILES_EDITED_ERR[0] + FPS_FIX_FILES[1]);
-            fpsFixKeyField.setDisable(true);
-            fpsFixKeyButton.setDisable(true);
-        }
     }
 }
