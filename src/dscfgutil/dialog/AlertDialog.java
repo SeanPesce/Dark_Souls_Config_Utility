@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  */
 public class AlertDialog {
     
-    Alert alert;
+    public Alert alert;
     Stage stage;
     DialogPane dPane;
     ColumnConstraints layoutColumn;
@@ -38,19 +38,25 @@ public class AlertDialog {
     Label messageLabel;
     ColumnConstraints buttonsColumn;
     GridPane buttonsGrid;
-    HBox buttonsPane;
+    public HBox buttonsPane;
     ArrayList<Button> buttons;
     
     public AlertDialog(double newW, double newH, String newTitle, String newMessage,
-                          String btTxt){
+                          String btTxt, boolean show){
         initialize(newW, newH, newTitle, newMessage,
                     "file:" + IMAGE_DIRECTORY + "\\" + PROGRAM_ICON);
         
         initializeButtons(new String[]{btTxt});
         
         initializeCancelButton(buttons.get(0));
-        alert.showAndWait();
+        if(show)
+        	alert.showAndWait();
     }
+    
+    public AlertDialog(double newW, double newH, String newTitle, String newMessage,
+    					String btTxt){
+    	this(newW, newH, newTitle, newMessage, btTxt, true);
+	}
     
     
     private void initialize(double x, double y, String initDialogTitle,

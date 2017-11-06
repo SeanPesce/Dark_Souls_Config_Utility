@@ -19,13 +19,18 @@ import static dscfgutil.DSCfgUtilConstants.RESTORE_DEFAULTS;
 import static dscfgutil.DSCfgUtilConstants.SETTINGS;
 import dscfgutil.configs.DSFKeybindsConfiguration;
 import dscfgutil.dialog.ContinueDialog;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
@@ -42,6 +47,7 @@ class DSFKeybindsPane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -68,6 +74,7 @@ class DSFKeybindsPane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFKeybindsConfiguration config;
+    int tabIndex = 7;
     
     public DSFKeybindsPane(DSCfgMainUI initUI){
         ui = initUI;
@@ -143,7 +150,7 @@ class DSFKeybindsPane extends ScrollPane {
             keybindEnabled[i].setToggleGroup(keybindChoice[i]);
             keybindLabel[i] = new Label(DSF_KEY_ACTION_NAMES[i] + ":   ");
             keybindLabel[i].getStyleClass().add("bold_text");
-            keybindPicker[i] = new ComboBox(FXCollections.observableArrayList(DSF_KEYS));
+            keybindPicker[i] = new ComboBox<String>(FXCollections.observableArrayList(DSF_KEYS));
             keybindLeftPane[i].getChildren().addAll(keybindDisabled[i], keybindEnabled[i]);
             keybindRightPane[i].getChildren().addAll(keybindLabel[i], keybindPicker[i]);
             keybindPane.add(keybindLeftPane[i], 1, i);
@@ -161,6 +168,9 @@ class DSFKeybindsPane extends ScrollPane {
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -201,5 +211,43 @@ class DSFKeybindsPane extends ScrollPane {
                 config.getBinds().get(ii).replace(0, config.getBinds().get(ii).length(), keybindPicker[ii].getValue());
             });
         }
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
+    }
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
 }

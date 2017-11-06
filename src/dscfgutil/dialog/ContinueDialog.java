@@ -31,17 +31,17 @@ import javafx.stage.Stage;
 public class ContinueDialog {
     
     Alert alert;
-    Stage stage;
-    DialogPane dPane;
+    public Stage stage;
+    public DialogPane dPane;
     ColumnConstraints layoutColumn;
     GridPane layoutGridPane;
-    VBox layoutVBox;
+    public VBox layoutVBox;
     HBox labelHBox;
-    Label messageLabel;
+    public Label messageLabel;
     ColumnConstraints buttonsColumn;
     GridPane buttonsGrid;
-    HBox buttonsPane;
-    ArrayList<Button> buttons;
+    public HBox buttonsPane;
+    public ArrayList<Button> buttons;
     
     boolean proceed;
     
@@ -113,6 +113,7 @@ public class ContinueDialog {
         buttonsGrid = new GridPane();
         buttonsGrid.getColumnConstraints().add(buttonsColumn);
         buttonsPane.getStyleClass().add("dialog_buttons_pane");
+        buttonsPane.setSpacing(5.0);
         
         for(int i = 0; i < btTexts.length; i++){
             buttons.add(new Button());
@@ -138,7 +139,7 @@ public class ContinueDialog {
         });
     }
     
-    private void close(){
+    public void close(){
         stage.close();
         alert.close();
     }

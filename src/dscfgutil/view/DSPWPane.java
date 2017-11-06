@@ -78,11 +78,15 @@ import dscfgutil.dialog.KeyboardInputDialog;
 import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -106,6 +110,7 @@ public class DSPWPane extends ScrollPane{
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -223,6 +228,7 @@ public class DSPWPane extends ScrollPane{
     //Instance Variables
     DSCfgMainUI ui;
     DSPWConfiguration config;
+    int tabIndex = 8;
     
     public DSPWPane(DSCfgMainUI initUI){
         ui = initUI;
@@ -608,6 +614,9 @@ public class DSPWPane extends ScrollPane{
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -752,27 +761,27 @@ public class DSPWPane extends ScrollPane{
             if(dll != null && ui.getDataFolder() != null){
                 File checkDLL = new File(ui.getDataFolder() + "\\" + dll.getName());
                 if(!checkDLL.exists()){
-                    AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_WRONG_FOLDER,
+                    new AlertDialog(300.0, 80.0, DIALOG_TITLE_WRONG_FOLDER,
                                                     DLL_MUST_BE_IN_DATA, DIALOG_BUTTON_TEXTS[0]);
                 }else{
                     if(dll.getName().equals(DSM_FILES[0])){
-                        AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                        new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                     CANT_CHAIN_DLL_WITH_DSM,
                                                         DIALOG_BUTTON_TEXTS[0]);
                     }else if(dll.getName().equals(DSF_FILES[0])){
-                        AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                        new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                     CANT_CHAIN_DLL_WITH_DSF,
                                                         DIALOG_BUTTON_TEXTS[0]);
                     }else if(dll.getName().equals(DS_DEFAULT_DLLS[0]) ||
                             dll.getName().equals(DS_DEFAULT_DLLS[1]) ||
                             dll.getName().equals(DS_DEFAULT_DLLS[2])){
-                        AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                        new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                     CANT_CHAIN_DLL_WITH_DEFAULT,
                                                         DIALOG_BUTTON_TEXTS[0]);
                     }else if(dll.getName().equals(DSPW_FILES[1]) ||
                             dll.getName().equals(DSPW_FILES[4]) ||
                             dll.getName().equals(DSPW_FILES[5])){
-                        AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                        new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                     CANT_CHAIN_DSPW_WITH_DSPW,
                                                         DIALOG_BUTTON_TEXTS[0]);
                     }else{
@@ -802,27 +811,27 @@ public class DSPWPane extends ScrollPane{
                     if(dll != null && ui.getDataFolder() != null){
                         File checkDLL = new File(ui.getDataFolder() + "\\" + dll.getName());
                         if(!checkDLL.exists()){
-                            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_WRONG_FOLDER,
+                            new AlertDialog(300.0, 80.0, DIALOG_TITLE_WRONG_FOLDER,
                                                             DLL_MUST_BE_IN_DATA, DIALOG_BUTTON_TEXTS[0]);
                         }else{
                             if(dll.getName().equals(DSM_FILES[0])){
-                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                             CANT_CHAIN_DLL_WITH_DSM,
                                                                 DIALOG_BUTTON_TEXTS[0]);
                             }else if(dll.getName().equals(DSF_FILES[0])){
-                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                             CANT_CHAIN_DLL_WITH_DSF,
                                                                 DIALOG_BUTTON_TEXTS[0]);
                             }else if(dll.getName().equals(DS_DEFAULT_DLLS[0]) ||
                                     dll.getName().equals(DS_DEFAULT_DLLS[1]) ||
                                     dll.getName().equals(DS_DEFAULT_DLLS[2])){
-                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                             CANT_CHAIN_DLL_WITH_DEFAULT,
                                                                 DIALOG_BUTTON_TEXTS[0]);
                             }else if(dll.getName().equals(DSPW_FILES[1]) ||
                                     dll.getName().equals(DSPW_FILES[4]) ||
                                     dll.getName().equals(DSPW_FILES[5])){
-                                AlertDialog aD = new AlertDialog(300.0, 80.0, INVALID_DLL,
+                                new AlertDialog(300.0, 80.0, INVALID_DLL,
                                                             CANT_CHAIN_DSPW_WITH_DSPW,
                                                                 DIALOG_BUTTON_TEXTS[0]);
                             }else{
@@ -968,6 +977,37 @@ public class DSPWPane extends ScrollPane{
             }
         });
         
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
+        
     }
     
     public boolean hasInvalidInputs(){
@@ -977,5 +1017,12 @@ public class DSPWPane extends ScrollPane{
         }
         
         return false;
+    }
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
 }

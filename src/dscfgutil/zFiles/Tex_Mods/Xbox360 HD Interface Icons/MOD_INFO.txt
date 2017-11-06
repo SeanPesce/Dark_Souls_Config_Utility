@@ -1,0 +1,5 @@
+Title=Xbox 360 Button Icons (HD)
+Readme=install.txt
+Author=Pedro iwa360
+Category=Button Icons
+NexusID=171

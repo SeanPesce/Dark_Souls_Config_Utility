@@ -1,0 +1,4 @@
+Title=DualShock 3 (PS3) Button Icons
+Author=hatyn
+Category=Button Icons
+NexusID=135

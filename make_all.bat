@@ -12,7 +12,7 @@ call make_w_extra_tex_mods.bat -c
 call make_lite.bat -c
 call make_lite_w_extra_tex_mods.bat -c
 echo Creating Extra Texture Mods Pack...
-robocopy "%~dp0src\dscfgutil\zFiles\Tex_Mods\add" "%~dp0Release\Extra_TexMod_Pack\app\src\dscfgutil\zFiles\Tex_Mods\add" /s /e > nul
+for /F "tokens=*" %%A in (%~dp0ExtraTexModList.txt) do ( robocopy "%~dp0src\dscfgutil\zFiles\Tex_Mods\%%A" "%~dp0Release\Extra_TexMod_Pack\%%A" )
 call make_portable_bundles.bat -c
 echo:
 echo Task complete.

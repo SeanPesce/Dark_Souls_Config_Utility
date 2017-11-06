@@ -1,0 +1,3 @@
+Title=Thief Mask Texture Fix
+Author=MinamikazeRU
+NexusID=355

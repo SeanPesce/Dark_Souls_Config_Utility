@@ -5,6 +5,10 @@
  */
 package dscfgutil;
 
+import static dscfgutil.configs.DsTextureMod.DSFIX_TEXTURES_FOLDER;
+
+import dscfgutil.configs.DsTextureMod;
+import dscfgutil.view.DSCfgMainUI;
 import javafx.css.PseudoClass;
 
 /**
@@ -13,11 +17,14 @@ import javafx.css.PseudoClass;
  */
 public class DSCfgUtilConstants {
     
+	public static DSCfgMainUI MAIN_UI;
+	
     //Titles, Authors, and Versions
-    public static String AUTHOR = "Sean Pesce";
+    public static String PROGRAM_AUTHOR = "Sean Pesce";
     public static String PROGRAM_SHORT = "DSCfgUtil";
     public static String PROGRAM = "DSConfigUtil";
     public static String PROGRAM_LONG = "Dark Souls Configuration Utility";
+    public static String PROGRAM_SHORTEST = "DSCU";
     public static String PROGRAM_VERSION = "x.xx";
     public static String DS = "Dark Souls";
     public static String DS_PTD = "Dark Souls: Prepare to Die Edition";
@@ -31,6 +38,24 @@ public class DSCfgUtilConstants {
     public static final int DS_VER_ENUM_UNKNOWN = 3;
     public static String[] DS_VERSIONS = { "Latest", "Beta", "Debug", "Unknown" };
     public static final long[] DS_SIZES = { 17616896, 17607240, 17630720, 0 }; // File sizes of the different versions of the Dark Souls executable
+    public static final int MOD_ENUM_INSTALLED = 0; // @TODO: Implement a real enumerator
+    public static final int MOD_ENUM_NOT_INSTALLED = 1;
+    public static final int MOD_ENUM_PART_INSTALLED = 2;
+    public static final String MOD_INFO_FILE = "\\MOD_INFO.txt";
+    public static final String MOD_TITLE_KEY = "Title=";
+    public static final String MOD_VERSION_KEY = "Version=";
+    public static final String MOD_AUTHOR_KEY = "Author=";
+    public static final String MOD_SUMMARY_KEY = "Summary=";
+    public static final String MOD_DESCRIPTION_KEY = "Description=";
+    public static final String MOD_WEBSITE_KEY = "Website=";
+    public static final String MOD_README_KEY = "Readme=";
+    public static final String MOD_CATEGORY_KEY = "Category=";
+    public static final String MOD_INSTALL_SUBDIR_KEY = "InstallFolder=";
+    public static final String MOD_EXCLUDE_FILE_KEY = "ExcludeFile=";
+    public static final String MOD_NEXUS_ID_KEY = "NexusID=";
+    public static final String UNKNOWN_MOD_TITLE = "Unknown Mod";
+    public static String[] MOD_STATUS = {"Installed", "Not installed",
+    														"Partially installed"};
     public static String DSF = "DSFix";
     public static String DSF_AUTHOR = "Durante";
     public static String DSF_AUTHOR_WEBSITE = "http://blog.metaclassofnil.com/";
@@ -55,9 +80,12 @@ public class DSCfgUtilConstants {
     public static String DSCM_VERSION = "2016-05-31-21";
     public static String DSCM_AUTHOR = "Wulf2k";
     public static String DSCM_AUTHOR_WEBSITE = "http://wulf2k.ca/";
-    public static String FPS_FIX = "FPS Fix";
-    public static String FPS_FIX_LONG = "Bonfire FPS Fix";
-    public static String FPS_FIX_AUTHOR = "NullBy7e";
+    //public static String FPS_FIX = "FPS Fix";
+    //public static String FPS_FIX_LONG = "Bonfire FPS Fix";
+    //public static String FPS_FIX_AUTHOR = "NullBy7e";
+    public static String FPS_FIX = "FPS Fix+";
+    public static String FPS_FIX_LONG = "Bonfire FPS Fix+";
+    public static String FPS_FIX_AUTHOR = "Sean Pesce";
     
     //FILES AND DIRECTORIES
     //
@@ -91,7 +119,7 @@ public class DSCfgUtilConstants {
         "README.txt", "VERSIONS.txt", "dsfix\\FXAA.fx", "dsfix\\FXAA.h",
         "dsfix\\GAUSS.fx", "dsfix\\HBAO.fx", "dsfix\\HUD.fx", "dsfix\\SCAO.fx",
         "dsfix\\SMAA.fx", "dsfix\\SMAA.h", "dsfix\\VSSAO.fx", "dsfix\\VSSAO2.fx",
-        "dsfix\\tex_dump\\", "dsfix\\tex_override\\3f28b833.png"};
+        "dsfix\\tex_dump\\", DSFIX_TEXTURES_FOLDER + "\\3f28b833.png"};
     public static String DSF_VERIFICATION = "# You can configure DSfix by editing this file"; //The first line of DSfix.ini, for verifying that an .ini file is a real DSFix ini file and not just some random .ini
     public static String DSF_KEYBINDS_VERIFICATION = "## DSfix Keybindings";
     public static String DSF_HELP_URL = "http://blog.metaclassofnil.com/?p=684";
@@ -128,59 +156,13 @@ public class DSCfgUtilConstants {
         //Texture Mod Files/Directories
     public static String DSF_TEX_OVERRIDE_FOLDER = "\\dsfix\\tex_override";
     public static String TEXTURE_MODS_FOLDER = "\\Tex_Mods";
-    public static String ADDITIONAL_TEX_MODS_FOLDER = "\\add";
-    public static String HIRES_FONTS_MOD_FOLDER[] = {"\\HiRes Font Mod v2 PNG\\1024x - Sharp",
-                                                    "\\HiRes Font Mod v2 PNG\\2048x - Sharper"};
-    public static String XB360_BUTTONS_MOD_FOLDER = "\\Xbox360 HD Interface Icons";
-    public static String XB1_BUTTONS_MOD_FOLDER = "\\XboxOne Interface Icons";
-    public static String PS3_BUTTONS_MOD_FOLDER = "\\PS3 Interface Icons";
-    public static String PS4_BUTTONS_MOD_FOLDER = "\\PS4 Interface Icons";
-    public static String KBM_BUTTONS_MOD_FOLDER = "\\KBM Interface Icons";
-    public static String VISIBLE_HEALTH_BAR_MOD_FOLDER[] = {"\\Highly Visible Health Bars-40--3",
-                                                        "\\Highly Visible Health Bars (colorblind version)-40-"};
-    public static String REVAMPED_XHAIR_MOD_FOLDER[] = {"\\BetterAimSight-643-",
-                        "\\BetterAimSight(HiVisHP)", "\\BetterAimSight(ColorBlindHP)"};
-    public static String REVAMPED_STAT_ICON_MOD_FOLDER = "\\add\\Revamped Stat Buff Icons-8-1-0";
-    public static String THIEF_MASK_FIX_MOD_FOLDER = "\\ThiefMaskFix(No Triangles)-355-1";
-    public static String TREE_LOD_MOD_FOLDER = "\\Tree LOD Texture Fix";
-    public static String HD_MESSAGES_MOD_FOLDER = "\\HD Player Messages-389-1-1";
-    public static String HD_SIGNS_MOD_FOLDER = "\\HD Summon Signs-394-1-1";
-    public static String FACE_REVAMP_MOD_FOLDER = "\\add\\AndresHeadpack4_0-23-4-0";
-    public static String ANOR_LONDO_HD_DISTANCE_TEX_MOD_FOLDER = "\\add\\AnorLondoHQDistanceTextures-132-1-0";
-    public static String HD_PAINTING_MOD_FOLDER[] = {"\\add\\HQ Painting-148-1-0\\2048x2048",
-                                                     "\\add\\HQ Painting-148-1-0\\4096x4096"};
-    public static String REVAMPED_ARROWS_MOD_FOLDER = "\\add\\RevampedArrows-197-1-0";
-    public static String REVAMPED_QUIVER_MOD_FOLDER = "\\add\\RevampedQuiver-197-";
-    public static String BLACK_SPLASH_MOD_FOLDER = "\\add\\BlackBamcoScreen-175-1-1";
-    public static String NO_AURAS_MOD_FOLDER = "\\add\\NoAuras";
-    public static String FONTS_MOD_FILES[] = {"db8a58fa.png", "f9d8db89.png"};
-    public static String BUTTONS_MOD_FILES[] = {"40fbc4ad.png", "43a2b23a.png"};
-    public static String HEALTH_BAR_MOD_FILES[] = {"e3e2582d.png"};
-    public static String STAT_ICON_MOD_FILES[] = {"6b0e84c1.png"};
-    public static String THIEF_MASK_MOD_FILES[] = {"260c069f.png"};
-    public static String TREE_MOD_FILES[] = {"0ca7009e.dds", "7bf5653b.dds", "30fef25a.dds",
-                                    "65bff455.dds", "407561a6.dds", "ae451971.dds", 
-                                    "72fc5850.dds", "8106835c.dds", "b902fe0a.dds"};
-    public static String MESSAGES_MOD_FILES[] = {"d130f1d6.dds", "ed5ea154.dds"};
-    public static String SIGNS_MOD_FILES[] = {"36e28b90.dds", "290d87fd.dds",
-                                "3271fdc4.dds", "10445a76.dds"};
-    public static String FACE_MOD_FILES[] = {"0cea740e.png", "2eb33072.png",
-            "2f8ddd4a.png", "3af0e742.png", "6c39543c.png", "7b13d313.png",
-            "5673a0a0.png", "14446733.png", "a2a628ff.png", "a4aa30db.png",
-            "b56f11c0.png", "c27c7e10.png", "cac54c6c.png", "d7ddd679.png",
-            "e2111698.png", "ed2520d3.png", "ee17d079.png", "f0adfbfc.png",
-            "fe049911.png"};
-    public static String ANOR_LONDO_DISTANT_LANDSCAPE_MOD_FILES[] = {"76b0b5b8.dds",
-                                                                    "6552a860.dds"};
-    public static String PAINTING_MOD_FILES[] = {"330906ff.dds"};
-    public static String ARROW_MOD_FILES[] = {"245d08aa.dds", "c5783bd7.dds", "fac97094.dds"};
-    public static String QUIVER_MOD_FILES[] = {"1ab832ab.dds"};
-    public static String BANDAI_SPLASH_MOD_FILES[] = {"2fba57c1.png"};
-    public static String ALL_AURAS_MOD_FILES[] = {"3bca98e4.png", "8accc4ef.png",
-                                            "0755aa88.png", "c467d9f5.png", "e087970c.png"};
     //
         //DSCfgUtil Files/Directories
     public static String FILES_DIR = "src\\dscfgutil\\zFiles";
+    public static final String TEMP_README_FILE = FILES_DIR + "\\Readme_tmp.txt";
+    public static final String CONFIG_FILE = FILES_DIR + "\\config.ini";
+    public static final String LOG_FILE = FILES_DIR + "\\" + PROGRAM_SHORT + ".log";
+    public static String[] TEX_MOD_STORAGE_DIR_DEFAULTS = { FILES_DIR + TEXTURE_MODS_FOLDER };
     public static String TEMPLATES_DIR = FILES_DIR + "\\templates";
     public static String IMAGE_DIRECTORY = FILES_DIR + "\\images";
     public static String PATCHES_FOLDER = "\\patches";
@@ -196,14 +178,45 @@ public class DSCfgUtilConstants {
     public static String CSS_DIRECTORY = "/dscfgutil/style/Style.css";
     public static String INI_EXT_FILTER[] = {"ini Files (*.ini)", "*.ini"};
     public static String DLL_EXT_FILTER[] = {"dll Files (*.dll)", "*.dll"};
+    public static String ZIP_EXT_FILTER[] = {"zip Archives (*.zip)", "*.zip"};
     public static String DSCU_CHECK_UPDATES_URL = "https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases";
     public static String DSCU_HELP_URL = "https://github.com/SeanPesce/Dark_Souls_Config_Utility/blob/master/Readme.md";
-    public static String GET_DS_URL = "http://store.steampowered.com/app/211420/";
-    public static String GET_MODS_URL = "http://www.nexusmods.com/darksouls/";
+    public static String GET_DS_URL = "https://store.steampowered.com/app/211420/";
+    public static String GET_MODS_URL = "https://www.nexusmods.com/darksouls/";
     
     
     //Menus & Interface Strings/Constants
     public static PseudoClass INVALID_INPUT = PseudoClass.getPseudoClass("invalid_input");
+    
+    public static String ERROR = "Error";
+    public static String SUCCESS = "Success";
+    public static String FAIL = "Failed";
+    public static String INSTALL = "Install";
+    public static String UNINSTALL = "Uninstall";
+    public static String NEW = "New";
+    public static String OPEN = "Open";
+    public static String CONFIGURE = "Configure";
+    public static String DETAILS = "Details";
+    public static String DELETE = "Delete";
+    public static String PERMANENTLY = "Permanently";
+    public static String PRINT = "Print";
+    public static String WRITE = "Write";
+    public static String AUTHOR = "Author";
+    public static String VERSION = "Version";
+    public static String README = "Readme";
+    public static String OVERVIEW = "Overview";
+    public static String DESCRIPTION = "Description";
+    public static String WEBSITE = "Website";
+    public static String NEXUS = "Nexus";
+    public static String PAGE = "Page";
+    public static String UNKNOWN = "Unknown";
+    public static String UNCATEGORIZED = "Uncategorized";
+    public static String TEXTURE_MOD = "Texture Mod";
+    public static String PACK = "Pack";
+    public static String UNSAFE_OPERATION = "Unsafe operation";
+    public static String PROCESSING = "Processing data";
+    
+    public static String PRINT_INFO = PRINT + " info";
     
         //File toolbar
         //File menu
@@ -275,7 +288,7 @@ public class DSCfgUtilConstants {
         public static String UNSAFE_OPS = "Unstable";
         public static String KEY_BINDINGS = DSF + " Key Bindings";
         public static String SETTINGS = "Settings";
-        public static String TEXTURE_MODS = "Texture Mods";
+        //public static String TEXTURE_MODS = "Texture Mods";
         public static String TEX_MOD_TT = "Install/Uninstall Texture Mods";
         //
         //Console
@@ -591,74 +604,73 @@ public class DSCfgUtilConstants {
         public static String TOGGLE_OVERLAY_LABEL = "Toggle overlay: ";
         public static String ABOUT_DSPW_LABEL = "About DSPW: ";
         //Texture Mods Pane
-        public static String TEX_MOD_DISCLAIMER = "Texture mods will only work " +
+        public static String TEX_MOD_DISCLAIMER = "Note: Texture mods will only work " +
                                     "if 'Texture Override' is enabled in the DSFix " +
                                     "texture settings.";
-        public static String BUTTON_ICON_MODS_LABEL = "Button Icons: ";
-        public static String FONT_MODS_LABEL = "Fonts: ";
-        public static String HEALTH_BAR_MODS_LABEL = "Health Bars & Bow Crosshairs: ";
-        public static String HEALTH_BAR_MODS_LABEL_TT = "Health bars and crosshairs " +
-                                        "are contained in the same texture file.";
-        public static String STAT_ICON_MODS_LABEL = "Status Icons: ";
-        public static String THIEF_MASK_MODS_LABEL = "Thief Mask Texture: ";
-        public static String TREE_TEXTURE_MODS_LABEL = "Tree Textures: ";
-        public static String TREE_LOD_TEXTURE_MODS_TT = "Fixes a bug in which the " +
-                                                "trees in some places " +
-                                                "were using a low LOD texture.";
-        public static String SIGNS_MODS_LABEL = "Player Messages & Summon Signs: ";
-        public static String FACE_MODS_LABEL = "Character Face Textures: ";
-        public static String ANOR_LONDO_DISTANCE_LABEL = "Anor Londo Distance Textures: ";
-        public static String PAINTING_LABEL = "Ariamis Painting Texture: ";
-        public static String ARROW_MOD_LABEL = "Arrows & Quiver: ";
-        public static String BANDAI_SPLASH_MOD_LABEL = "Bandai Namco™ Splash Screen: ";
-        public static String AURAS_MOD_LABEL = "Player Auras: ";
-        public static String UNINSTALL_BUTTON_MOD_BUTTON = "Uninstall Button Icon Mods";
-        public static String XB360_ICONS_BUTTON = "HD Xbox 360 Buttons";
-        public static String XB1_ICONS_BUTTON = "Xbox One Buttons";
-        public static String PS3_ICONS_BUTTON = "PS3 Buttons";
-        public static String PS4_ICONS_BUTTON = "PS4 Buttons";
-        public static String KBM_ICONS_BUTTON = "Keyboard + Mouse Buttons";
-        public static String KBM_ICONS_BUTTON_TT = "KB+M icons will only be accurate " +
-                                        "with the default control scheme.";
-        public static String UNINSTALL_FONT_MOD_BUTTON = "Uninstall Font Mods";
-        public static String HD_FONT_BUTTON = "HD Fonts";
-        public static String UHD_FONT_BUTTON = "Ultra HD Fonts";
-        public static String UHD_FONT_BUTTON_TT = "The author of this mod recommended " +
-                                        "the HD fonts over the Ultra HD fonts.";
-        public static String UNINSTALL_HEALTH_BAR_MOD_BUTTON = "Uninstall Health Bar/Crosshair Mods";
-        public static String UNINSTALL_HEALTH_BAR_MOD_BUTTON_TT = "Default Health Bars/Default Crosshair";
-        public static String HIGH_VIS_HEALTH_BAR_BUTTON = "High Contrast Health Bars/Default Crosshair";
-        public static String COLORBLIND_HEALTH_BAR_BUTTON = "Color Blind Health Bars/Default Crosshair";
-        public static String HIGH_VIS_HEALTH_BAR_REVAMPED_XHAIR_BUTTON = "High Contrast Health Bars/Revamped Crosshair";
-        public static String COLORBLIND_HEALTH_BAR_REVAMPED_XHAIR_BUTTON = "Color Blind Health Bars/Revamped Crosshair";
-        public static String DEFAULT_HEALTH_BAR_REVAMPED_XHAIR_BUTTON = "Default Health Bars/Revamped Crosshair";
-        public static String UNINSTALL_STAT_ICON_MOD_BUTTON = "Uninstall Status Icon Mods";
-        public static String REVAMPED_STAT_ICON_BUTTON = "Revamped Status Icons";
-        public static String UNINSTALL_THIEF_MASK_MOD_BUTTON = "Uninstall Thief Mask Mods";
-        public static String THIEF_MASK_FIX_BUTTON = "Thief Mask Texture Fix";
-        public static String UNINSTALL_TREES_MOD_BUTTON = "Uninstall Tree Mods";
-        public static String TREE_LOD_FIX_BUTTON = "Tree LOD Texture Fix";
-        public static String UNINSTALL_SIGNS_MOD_BUTTON = "Uninstall Message & Summon Sign Mods";
-        public static String HD_MESSAGES_BUTTON = "HD Player Messages";
-        public static String HD_SIGNS_BUTTON = "HD Summon Signs";
-        public static String UNINSTALL_FACE_MOD_BUTTON = "Uninstall Face Mods";
-        public static String REVAMPED_FACES_BUTTON = "Revamped Facial Textures";
-        public static String UNINSTALL_ANOR_LONDO_DISTANCE_MOD_BUTTON = "Uninstall Anor Londo Texture Mods";
-        public static String HD_ANOR_LONDO_DISTANCE_TEX_BUTTON = "HD Anor Londo Distance Textures";
-        public static String UNINSTALL_PAINTING_MOD_BUTTON = "Uninstall Painting Texture Mods";
-        public static String HD_PAINTING_TEX_BUTTON = "HD Ariamis Painting";
-        public static String HD_PAINTING_TEX_BUTTON_TT = "2048x2048";
-        public static String UHD_PAINTING_TEX_BUTTON = "Ultra HD Ariamis Painting";
-        public static String UHD_PAINTING_TEX_BUTTON_TT = "4096x4096";
-        public static String UNINSTALL_ARROW_MOD_BUTTON = "Uninstall Arrow & Quiver Texture Mods";
-        public static String ARROW_BUTTON = "Revamped Arrows";
-        public static String QUIVER_BUTTON = "Revamped Quiver";
-        public static String UNINSTALL_SPLASH_MOD_BUTTON = "Uninstall Splash Screen Mods";
-        public static String BLACK_SPLASH_BUTTON = "Black Background Mod";
-        public static String BLACK_SPLASH_BUTTON_TT = "Some players find the default " +
-                                "white background irritating.";
-        public static String UNINSTALL_AURA_MOD_BUTTON = "Uninstall Aura Mods";
-        public static String REMOVE_AURAS_BUTTON = "Remove Player Auras";
+        public static String LOAD_TEX_MOD = "Add new mod(s)";
+        public static String LOAD_TEX_MOD_TT = "Load new texure mod(s) into this program for easy installing";
+        public static String DELETE_TEX_MOD_TT = "Permanently remove this mod entry from the program and delete the files from disk";
+        public static String LOAD_TEX_MOD_DIALOG_TITLE = "Load new texture mod(s)";
+        public static String LOAD_TEX_MOD_DIALOG_MESSAGE = "Loading a texture mod into this program adds a permanent entry for the mod, allowing you to install and uninstall the mod more easily in the future.";
+        public static String LOAD_TEX_MOD_DIALOG_CHOICES[] = { "Single texture mod", "Texture mod pack" };
+        public static String LOAD_TEX_MOD_DIALOG_CHOICES_TT[] = { "Load a texture mod from one directory that contains texture replacement files (PNG/DDS)",
+        															"Load multiple texture mods from a directory that contains one or more sub-folders,\neach of which contains texture replacement files (PNG/DDS)" };
+        public static String LOAD_TEX_MOD_DIALOG_ZIP = "Load from .zip file";
+        public static String DELETE_TEX_MOD_SRC_DIALOG = "Delete source files (Not recommended)";
+        public static String DELETE_TEX_MOD_SRC_DIALOG_TT = "Select to permanently delete the folder that the mod was installed from.";
+        public static String DELETE_TEX_MOD_SRC_DIALOG_ZIP = "Delete source archive (Not recommended)";
+        public static String DELETE_TEX_MOD_SRC_DIALOG_ZIP_TT = "Select to permanently delete the .zip archive that the mod was installed from.";
+        public static String DELETE_TEX_PACK_SRC_DIALOG_TT = "Select to permanently delete the folder that the mods were installed from.";
+        public static String DELETE_TEX_PACK_SRC_DIALOG_ZIP_TT = "Select to permanently delete the .zip archive that the mods were installed from.";
+        public static String LOAD_TEX_MOD_DIALOG_ZIP_TT = "Select this to load texture mod(s) from a .zip file instead of a normal folder";
+        public static String LOAD_TXM_DIAG_INVALID_TITLE = "Invalid " + TEXTURE_MOD.toLowerCase() + " directory";
+        public static String[] LOAD_TXM_DIAG_INVALID_MSGS = { "Unable to load new texture mod because the chosen directory is not a valid source. Reason: ",
+        														"Read access denied, or the folder does not exist.",
+        														"The specified file is not a directory.",
+        														UNSAFE_OPERATION + ": Can't use drive root as source directory.",
+        														"No valid texture files in base directory. Valid filetypes are PNG and DDS.",
+        														UNSAFE_OPERATION + ": Too many files in source directory tree. Maximum allowed file count is " + DsTextureMod.MAX_ALLOWED_FILES + ".",
+        														"Source folder can't be the " + PROGRAM + " directory or one of its subfolders.",
+        														"Source folder can't be a mod storage directory or a subfolder of one.",
+        														"Source folder has the same name as an existing texture mod folder."};
+        public static String LOAD_TEX_MOD_CHECK_DIR_SUCCESS_MESSAGE = "Verified valid texture mod directory";
+        public static String LOAD_TEX_MOD_SUCCESS_MESSAGE = "Texture mod was loaded without issue";
+        public static String COPY_DIAG_CONFIRM_TITLE = "Copy files?";
+        public static String LOAD_TXM_DIAG_CONFIRM_MSG[] = { "All files from source folder will be copied to the " + PROGRAM + " texture mod storage directory, and a new entry"
+        														+ " will appear in the Texture Mods tab.\n\nSource folder:\t\t", "\nNumber of files:\t",
+        														"\n\nCopy files?" };
+        public static String LOAD_TXM_START = "Attempting to load new texture mod. Copying files...";
+        public static String LOAD_TXM_CANCEL = "Cancelled. No new texture mods loaded.";
+        public static String LOAD_TXM_DEL_OLD_EXTRACT = "Found leftover files from previous archive extraction. Deleting...";
+        public static String LOAD_TXM_EXTRACT_START = "Unzipping ";
+        public static String LOAD_TXM_EXTRACT_FAIL = "Failed to unzip file ";
+        public static String LOAD_TXM_EXTRACT_DONE = "Files were extracted from ";
+        public static String LOAD_TXM_REMOVE_PARTIAL = "Encountered errors. Attempting to remove newly copied files...";
+        public static String LOAD_TXM_REMOVE_PARTIAL_DONE = "New mod was not loaded because errors were encountered.";
+        public static String LOAD_TXM_REMOVE_PARTIAL_SUCCESS = LOAD_TXM_REMOVE_PARTIAL_DONE + " No changes were made.";
+        public static String LOAD_TXM_REMOVE_PARTIAL_FAIL = LOAD_TXM_REMOVE_PARTIAL_DONE + " Leftover files from the unsuccessful load might still be present in the storage directory";
+        public static String LOAD_TEX_PACK_CONFIRM_DIAG_TITLE = "Load texture mod pack?";
+        public static String LOAD_TEX_PACK_CONFIRM_DIAG_MSG[] = { "For each texture mod folder, all files will be copied to the " + PROGRAM + " texture mod storage directory, and a new entry"
+																	+ " will appear in the Texture Mods tab.\n\nSource folder:\t\t", "\nTexture mod folders:\t", "\nIgnored folders:\t", "\nIgnored files:\t",
+																	"\n\nCopy files?" };
+        public static String LOAD_TEX_PACK_NO_MODS_DIAG_TITLE = "No mods in source directory";
+        public static String LOAD_TEX_PACK_NO_MODS_DIAG_MSG = "Source directory must contain at least one texture mod folder.";
+        public static String[] LOAD_TEX_PACK_START = { "Attempting to load new texture mod pack (Contains ", " texture mods)" };
+        public static String[] LOAD_TEX_PACK_DONE = { " out of ", " texture mods were loaded." };
+        public static String LOAD_TEX_PACK_DONE_TITLE = " mods loaded";
+        public static String TEX_MOD_CONFIGURE_TT = "Double-click to configure this texture mod";
+        public static String OPEN_README = OPEN + " " + README + " " + FILE.toLowerCase();
+        public static String NO_README_AVAILABLE = "No " + README + " found for this mod; a basic " + README + " file will be automatically generated.";
+        public static String NEXUS_HOME = OPEN + " " + DS + " " + NEXUS + " homepage (no " + NEXUS + " page supplied)";
+        public static String REMOVE_PART_INSTALL = "Remove partial " + INSTALL.toLowerCase();
+        public static String EDIT_TEX_MOD_DIALOG_TITLE = "Configure texture mod";
+        public static String DELETE_TEX_MOD_DIALOG_TITLE = "Delete texture mod?";
+        public static String DELETE_TEX_MOD_DIALOG_MSG = "Are you sure you want to delete this mod? Doing so will permanently remove the mod entry from this program"
+        										+ " and delete the files from the hard drive. You will have to re-acquire the mod before it can be installed again.";
+        public static String DELETE_TEX_MOD_AND_UNINSTALL = "Uninstall mod from game directory";
+        public static String DELETE_TEX_MOD_AND_UNINSTALL_TT = "One or more files from this mod are present in the " + DS + " game\n"
+        													+ "directory. If selected, this option will remove the files from the game\n"
+        													+ "folder before deleting the mod from this program.";
         //
             //Tooltips
         public static String VERSION_TT = "Set this to false to hide the version"
@@ -757,11 +769,13 @@ public class DSCfgUtilConstants {
     public static String DS_VERSION_DETECTED[] = { "Detected latest supported build.", "Detected Steamworks beta build.", "Detected Debug build.", "Unknown game version" };
     public static String DS_VERSION_DETECTED_UNKNOWN = ": " + DS_EXE + " exists, but the build version could not be determined.";
     public static String DS_VERSION_DETECTED_MISSING = ": " + DS_EXE + " is missing!";
+    public static String INSTALLING = "Installing ";
     public static String INSTALLING_DSF = "Installing " + DSF + "...";
     public static String INSTALLING_DSM = "Installing " + DSM + "...";
     public static String INSTALLING_DSPW = "Installing " + DSPW_SHORT + "...";
     public static String COPYING = "Copying file: ";
     public static String CREATING_INI = "Creating new " + DS_INI + " with disabled AA...";
+    public static String INSTALLED_SUCCESS = " installed without issue.";
     public static String DSF_INSTALLED_SUCCESS = DSF + " installed without issue.";
     public static String DSM_INSTALLED_SUCCESS = DSM + " installed without issue. Make " +
                                                 "sure to chain " + DSM_FILES[0] + " in \"" +
@@ -774,11 +788,15 @@ public class DSCfgUtilConstants {
     public static String DSF_INSTALLED_ERRORS = DSF + " installation encountered errors.";
     public static String DSM_INSTALLED_ERRORS = DSM + " installation encountered errors.";
     public static String DSPW_INSTALLED_ERRORS = DSPW_SHORT + " installation encountered errors.";
+    public static String PERM_DELETING = "Permanently deleting ";
+    public static String UNINSTALLING = "Uninstalling ";
     public static String UNINSTALLING_DSF = "Uninstalling " + DSF + "...";
     public static String UNINSTALLING_DSM = "Uninstalling " + DSM + "...";
     public static String UNINSTALLING_DSPW = "Uninstalling " + DSPW_SHORT + "...";
     public static String DSF_FILE_NOT_FOUND = "File not found: ";
     public static String FILE_DELETED = "File deleted: ";
+    public static String UNINSTALLED_SUCCESS = " was successfully uninstalled.";
+    public static String DELETED_SUCCESS = " files were successfully deleted.";
     public static String DSF_UNINSTALLED_SUCCESS = DSF + " uninstalled without issue.";
     public static String DSM_UNINSTALLED_SUCCESS = DSM + " uninstalled without issue.";
     public static String DSPW_UNINSTALLED_SUCCESS = DSPW_SHORT + " uninstalled without issue.";
@@ -807,6 +825,39 @@ public class DSCfgUtilConstants {
     public static String RECHECKING[] = {"Rechecking... (", " tries remaining)"};
     public static String END_TRYING_DSM_PROCESS = "Mouse Fix UI is taking too long to load.";
     
+    
+    // Startup strings:
+    	// Config key values:
+    public static String LOG_FILE_KEY = "WriteLogToFile=";
+    public static String SHOW_CONSOLE_KEY = "ShowConsole=";
+    public static String WINDOW_WIDTH_KEY = "WindowWidth=";
+    public static String WINDOW_HEIGHT_KEY = "WindowHeight=";
+    public static String WINDOW_X_OFFSET_KEY = "WindowOffsetX=";
+    public static String WINDOW_Y_OFFSET_KEY = "WindowOffsetY=";
+    public static String CONSOLE_X_OFFSET_KEY = "ConsoleWindowOffsetX=";
+    public static String CONSOLE_Y_OFFSET_KEY = "ConsoleWindowOffsetY=";
+    public static String TEX_MOD_STORAGE_DIR_KEY = "TextureModStorageDir=";
+    	//Messages:
+    public static String CONFIG = "Config";
+    public static String ENTRY = "Entry";
+    public static String CONFIG_ENTRY_PREFIX = "[" + CONFIG + " " + ENTRY + "] ";
+    public static String LOADING_PROGRAM_CONFIG = "Loading " + PROGRAM + " configuration file...";
+    public static String LOADING_PROGRAM_CONFIG_FAIL = "Failed to read " + PROGRAM + " configuration file.";
+    public static String WRITE_PROGRAM_CONFIG_FAIL = "Failed to write " + PROGRAM + " configuration file.";
+    public static String CONFIG_TEX_MOD_DIR_OK = "Adding texture mod library";
+    public static String CONFIG_TEX_MOD_DIR_FAIL = "Ignored invalid texture mod library entry";
+    public static String CONFIG_LOG_FILE_ENABLE = "Console log file enabled.";
+    public static String CONFIG_LOG_FILE_DISABLE = "Console log file disabled.";
+    public static String CONFIG_WINDOW_WIDTH = "Main window width set to ";
+    public static String CONFIG_WINDOW_HEIGHT = "Main window height set to ";
+    public static String CONFIG_WINDOW_X_OFFSET = "Main window X offset set to ";
+    public static String CONFIG_WINDOW_Y_OFFSET = "Main window Y offset set to ";
+    public static String[] CONFIG_SHOW_CONSOLE = { "Console bar and console window hidden.", "Console bar enabled and console window hidden.", "Console bar hidden and console window enabled." };
+    public static String CONFIG_CONSOLE_X_OFFSET = "Console window X offset set to ";
+    public static String CONFIG_CONSOLE_Y_OFFSET = "Console window Y offset set to ";
+    public static String[] LOADING_TEX_MOD_DIR_COUNT = { "Loading texture mods from ", " director", "y", "ies" };
+    
+    
     //Dialog Messages:
     public static String COPY_MESSAGE = "Auto-Copy";
     public static String COPY_MSG_TOOLTIP = "When checked, the window's content is " +
@@ -832,7 +883,9 @@ public class DSCfgUtilConstants {
     public static String DIALOG_MSG_DSM_UNINSTALL = "Are you sure you want to uninstall "
                                                 + DSM + "?";
     public static String DIALOG_BUTTON_TEXTS[] = {"OK", "Cancel", "Yes", "No",
-                                                  "Continue", "Close"};
+                                                  "Continue", "Close", "Done",
+                                                  "Apply", "Discard"};
+    public static String DIALOG_NO_CHOICES = "No available options to display.";
     public static String DIALOG_TITLE_INSTALL_ERR = "Installation error";
     public static String DIALOG_MSG_FILE_COPY_ERR = "Some files were not copied " +
                                             "during installation. " + DSF + " or " + DS +
@@ -876,26 +929,6 @@ public class DSCfgUtilConstants {
                             "(Simply click the '" + APPLY_SETTINGS + "' button)";
     public static String DIALOG_MSG_DSM_NOT_INST_FIX_CHAINING = "A " + DSMOUSE + " install was not detected," +
                             " but DLL Chaining was set to " + DSM_FILES[0] + ".";
-    /*
-    public static String DIALOG_MSG_TRY_ALTERNATE_NO_DOF = "The correct way to disable " + //Old unused message
-                                                    "DOF is to set DOF Scaling to \"" +
-                                                    "Disabled.\" This method is not " +
-                                                    "recommended, but exists because " +
-                                                    "the default method may not work " +
-                                                    "for everyone. Are you sure you want " +
-                                                    "to use this method?";
-    */
-    public static String DIALOG_MSG_TRY_ALTERNATE_NO_DOF = "Choosing \"No DOF\" " +
-                                                "will disable Depth of Field " +
-                                                "completely, but will also limit your ability " +
-                                                "to customize some other graphics settings. To " +
-                                                "disable the majority of DOF " +
-                                                "while preserving all graphics options, " +
-                                                "simply set DOF Scaling to \"Disabled\" " +
-                                                "(A small amount of DOF will remain, but disabling DOF Scaling " +
-                                                " also has a smaller impact on performance). " +
-                                                "Do you still want to completely disable DOF?";
-                                                
     public static String DIALOG_TITLE_SCREENSHOTS = "Choose screenshot folder";
     public static String DIALOG_TITLE_DLL = "Choose .dll";
     public static String DIALOG_TITLE_DISABLE_AA = "WARNING: Disable in-game AA";
@@ -938,6 +971,7 @@ public class DSCfgUtilConstants {
     public static String FAILED_OPEN_FOLDER_ERR = "Failed to open folder";
     public static String FAILED_FILE_COPY_ERR = "File failed to copy: ";
     public static String FAILED_FILE_DELETE_ERR = "Failed to delete file: ";
+    public static String FAILED_FOLDER_DELETE_ERR = "Failed to delete folder: ";
     public static String FAILED_FILE_PATCH_ERR = "Failed to create patched file: ";
     public static String COULDNT_APPLY_CFG_ERR = "Config was not applied " +
                                             "because one or more settings inputs " +
@@ -1022,6 +1056,23 @@ public class DSCfgUtilConstants {
     public static String LANGUAGE_WINDOWS_XP = "This setting doesn't work in Windows XP";
     public static String INVALID_DOUBLE_0_1 = "Value must be a number between 0 and 1";
     public static String SLEEP_INTERRUPTED = "Thread was disrupted while sleeping";
-    
-    
+    public static String SHA1_ERROR = "ERROR calculating SHA-1 hash. ";
+    public static String SHA1_FNF_ERROR = SHA1_ERROR + DSF_FILE_NOT_FOUND;
+    public static String SHA1_IOE_ERROR = SHA1_ERROR + " Failed to open filestream for file: ";
+    public static String INVALID_HASH_ALGORITHM = "ERROR: Invalid hash algorithm specified ";
+    public static String MOD_FOLDER_NOT_FOUND = "Specified mod folder does not exist.";
+    public static String MOD_FOLDER_NOT_DIR = "Specified mod folder must be a directory.";
+    public static String README_NOT_FOUND = "ERROR: Failed to locate specified Readme file ";
+    public static String README_NOT_EXIST = "No Readme found; this basic Readme file was automatically generated.";
+    public static String README_NOT_OPENED_ERR = "ERROR: Unable to open Readme file: ";
+    public static String INFO_NOT_WRITTEN_ERR = "ERROR: Unable to write " + MOD_INFO_FILE.substring(1) + " for mod: ";
+    public static String MOD_WEBSITE_NOT_EXIST = "ERROR: No website info was provided for this mod.";
+    public static String WEBSITE_CANT_ACCESS = "ERROR: Unable to open website: ";
+    public static String INSTALL_ERRORS = "Errors encountered while attempting to install ";
+    public static String UNINSTALL_ERRORS = "Errors were encountered while attempting to uninstall ";
+    public static String DELETE_ERRORS = "Errors were encountered while attempting to delete ";
+    public static String FAIL_CLEAR_README_TMP_ERR = "ERROR: Unable to write Readme temp file. Leftover data may still be present.";
+    public static String FAIL_CLEAR_LOG_ERR = "ERROR: Unable to clear log file. Data from last session may still be present.";
+    public static String DUPLICATE_MOD_WARN = "WARNING: Duplicate mods detected ";
+    public static String WAIT_VERIFY_FOLDER = "Verifying folder, please wait";
 }

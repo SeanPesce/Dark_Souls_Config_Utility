@@ -1,0 +1,4 @@
+Title=Revamped Status Icons
+Readme=readme.txt
+Author=SilentRequiem
+NexusID=8

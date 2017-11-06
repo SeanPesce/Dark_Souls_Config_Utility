@@ -1,0 +1,5 @@
+Title=HD Summon Signs
+Readme=readme.txt
+Author=Augh
+Category=Player Messages & Signs
+NexusID=394

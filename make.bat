@@ -47,11 +47,12 @@ IF "%1"=="clean" (
 	robocopy "%~dp0src\dscfgutil\zFiles" "%~dp0build\src\dscfgutil\zFiles" /s /e > nul
 	robocopy "%~dp0src\dscfgutil\style" "%~dp0build\src\dscfgutil\style" /s /e > nul
 	robocopy "%~dp0src\dscfgutil\package" "%~dp0build\src\dscfgutil\package" /s /e > nul
-	del /f /s /q "%~dp0build\src\dscfgutil\zFiles\Tex_Mods\add" 2> nul
-	rmdir "%~dp0build\src\dscfgutil\zFiles\Tex_Mods\add" /s /q
 	mkdir "%~dp0build\lib" 2> nul
 	copy /y "%~dp0src\*.jar" "%~dp0build\lib\*jar" > nul
 
+	REM Remove extra texture mods
+	for /F "tokens=*" %%A in (%~dp0ExtraTexModList.txt) do ( del /f /s /q "%~dp0build\src\dscfgutil\zFiles\Tex_Mods\%%A" 2> nul && rmdir "%~dp0build\src\dscfgutil\zFiles\Tex_Mods\%%A" /s /q)
+	
 	echo Creating .jar package...
 	javapackager -createjar -nocss2bin -appclass dscfgutil.DSCfgUtil -classpath "lib\apache-commons-io-2.4.jar";"lib\commons-lang3-3.4.jar" -outdir "%~dp0build" -outfile DSCfgUtil -srcdir "%~dp0build\src"
 

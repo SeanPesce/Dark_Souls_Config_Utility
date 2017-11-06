@@ -26,10 +26,14 @@ import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -48,6 +52,7 @@ class DSFSavesPane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -77,6 +82,7 @@ class DSFSavesPane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFConfiguration config;
+    int tabIndex = 3;
     
     public DSFSavesPane(DSCfgMainUI initUI){
         ui = initUI;
@@ -127,7 +133,7 @@ class DSFSavesPane extends ScrollPane {
         saveBackupsPane.getStyleClass().add("settings_pane");
         saveBackupsLabel = new Label(SAVE_BACKUPS_LABEL + "  ");
         saveBackupsLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        saveBackupsPicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        saveBackupsPicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.enableBackups.get() == 0){
             saveBackupsPicker.setValue(saveBackupsPicker.getItems().get(0));
         }else{
@@ -165,6 +171,9 @@ class DSFSavesPane extends ScrollPane {
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -236,10 +245,42 @@ class DSFSavesPane extends ScrollPane {
                 }
             }
         });
+        
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
     }
     
     public boolean hasInvalidInputs(){
-        ArrayList<TextField> fields = new ArrayList();
+        ArrayList<TextField> fields = new ArrayList<TextField>();
         
         fields.add(saveIntervalField);
         fields.add(maxSavesField);
@@ -251,5 +292,12 @@ class DSFSavesPane extends ScrollPane {
         }
         
         return false;
+    }
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
 }

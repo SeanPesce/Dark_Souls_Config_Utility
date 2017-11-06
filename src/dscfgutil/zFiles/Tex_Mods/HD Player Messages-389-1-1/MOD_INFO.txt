@@ -1,0 +1,5 @@
+Title=HD Player Messages
+Readme=Readme.txt
+Author=Augh
+Category=Player Messages & Signs
+NexusID=389

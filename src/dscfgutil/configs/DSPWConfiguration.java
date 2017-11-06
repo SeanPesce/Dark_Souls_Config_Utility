@@ -16,7 +16,6 @@ import static dscfgutil.DSCfgUtilConstants.DSPW_SETTINGS_LOADED;
 import static dscfgutil.DSCfgUtilConstants.DSPW_SETTINGS_LOAD_FAIL;
 import static dscfgutil.DSCfgUtilConstants.DSPW_SETTINGS_LOAD_PARTIAL_FAIL;
 import static dscfgutil.DSCfgUtilConstants.DSPW_SETTING_NAMES;
-import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
 import static dscfgutil.DSCfgUtilConstants.FILES_EDITED_ERR;
 import static dscfgutil.DSCfgUtilConstants.IOEX_FILE_WRITER;
 import static dscfgutil.DSCfgUtilConstants.LOADING_DSPW_SETTINGS;
@@ -31,8 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.IIOException;
 
 /**
@@ -170,6 +167,7 @@ public class DSPWConfiguration {
                     settingsLoaded++;
                 }
             }
+            iniReader.close();
             
             if(settingsLoaded < NUMBER_OF_DSPW_SETTINGS){
                 ui.printConsole((settingsLoaded) + " out of " + NUMBER_OF_DSPW_SETTINGS + " " + DSPW_ABBREV + " settings loaded.");

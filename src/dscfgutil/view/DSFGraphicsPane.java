@@ -74,12 +74,16 @@ import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -99,6 +103,7 @@ public class DSFGraphicsPane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -205,6 +210,7 @@ public class DSFGraphicsPane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFConfiguration config;
+    int tabIndex = 0;
     
     //Input checks
     String presentRes[] = {"0", "0"};
@@ -233,6 +239,9 @@ public class DSFGraphicsPane extends ScrollPane {
         primaryPane.getColumnConstraints().addAll(spacerColumn, primaryColumn);
         primaryVBox = new VBox();
         primaryVBox.getStyleClass().add("spacing_15");
+        //InnerShadow iShadow = new InnerShadow(BlurType.GAUSSIAN, Color.rgb(0, 0, 0, 0.3), 10.0, 0.0, 0.0, -5.0);
+        //this.setEffect(iShadow);
+        //this.setStyle("-fx-border-color: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent); -fx-border-style: solid; -fx-border-width: 0 0 10 0;");
         primaryPane.add(primaryVBox, 1, 0);
         titleLabel = new Label(GRAPHICS.toUpperCase() + " " + SETTINGS.toUpperCase());
         titleLabel.getStyleClass().add("settings_title");
@@ -335,7 +344,7 @@ public class DSFGraphicsPane extends ScrollPane {
         aaQualityLabel = new Label(AA_QUALITY_LABEL + "  ");
         aaQualityLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         aaQualityLabel.setTooltip(new Tooltip(AA_QUALITY_TT));
-        aaQualityPicker = new ComboBox(FXCollections.observableArrayList(AAQUALITIES));
+        aaQualityPicker = new ComboBox<String>(FXCollections.observableArrayList(AAQUALITIES));
         try{
                 aaQualityPicker.setValue(AAQUALITIES[config.aaQuality.get()]);
         }catch(IndexOutOfBoundsException iobEx){
@@ -350,7 +359,7 @@ public class DSFGraphicsPane extends ScrollPane {
         aaTypeLabel = new Label(AA_TYPE_LABEL + "  ");
         aaTypeLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         aaTypeLabel.setTooltip(new Tooltip(AA_TYPE_TT));
-        aaTypePicker = new ComboBox(FXCollections.observableArrayList(AATYPES));
+        aaTypePicker = new ComboBox<String>(FXCollections.observableArrayList(AATYPES));
         aaTypePicker.setValue(config.aaType.toString());
         if(config.aaQuality.get() == 0){
             aaTypePicker.setDisable(true);
@@ -367,7 +376,7 @@ public class DSFGraphicsPane extends ScrollPane {
         ssaoStrengthLabel = new Label(SSAO_STRENGTH_LABEL + "  ");
         ssaoStrengthLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         ssaoStrengthLabel.setTooltip(new Tooltip(SSAO_STRENGTH_TT));
-        ssaoStrengthPicker = new ComboBox(FXCollections.observableArrayList(SSAOSTRENGTHS));
+        ssaoStrengthPicker = new ComboBox<String>(FXCollections.observableArrayList(SSAOSTRENGTHS));
         try{
                 ssaoStrengthPicker.setValue(SSAOSTRENGTHS[config.ssaoStrength.get()]);
         }catch(IndexOutOfBoundsException iobEx){
@@ -382,7 +391,7 @@ public class DSFGraphicsPane extends ScrollPane {
         ssaoScaleLabel = new Label(SSAO_SCALE_LABEL + "  ");
         ssaoScaleLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         ssaoScaleLabel.setTooltip(new Tooltip(SSAO_SCALE_TT));
-        ssaoScalePicker = new ComboBox(FXCollections.observableArrayList(SSAOSCALES));
+        ssaoScalePicker = new ComboBox<String>(FXCollections.observableArrayList(SSAOSCALES));
         ssaoScalePicker.setValue(SSAOSCALES[config.ssaoScale.get() - 1]);
         try{
                 ssaoScalePicker.setValue(SSAOSCALES[config.ssaoScale.get() - 1]);
@@ -401,7 +410,7 @@ public class DSFGraphicsPane extends ScrollPane {
         ssaoTypeLabel = new Label(SSAO_TYPE_LABEL + "  ");
         ssaoTypeLabel.setTooltip(new Tooltip(SSAO_TYPE_TT));
         ssaoTypeLabel.getStyleClass().addAll("bold_text", "font_12_pt");
-        ssaoTypePicker = new ComboBox(FXCollections.observableArrayList(SSAOTYPES));
+        ssaoTypePicker = new ComboBox<String>(FXCollections.observableArrayList(SSAOTYPES));
         ssaoTypePicker.setValue(config.ssaoType.toString());
         if(config.ssaoStrength.get() == 0){
             ssaoTypePicker.setDisable(true);
@@ -556,7 +565,7 @@ public class DSFGraphicsPane extends ScrollPane {
         texOverrideLabel = new Label(TEX_FILTERING_OVERRIDE_LABEL + "  ");
         texOverrideLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         texOverrideLabel.setTooltip(new Tooltip(TEX_FILT_OR_TT));
-        texOverridePicker = new ComboBox(FXCollections.observableArrayList(FILTERINGOVERRIDES));
+        texOverridePicker = new ComboBox<String>(FXCollections.observableArrayList(FILTERINGOVERRIDES));
         for(int i = 0; i < FILTERING_OVERRIDE_OPTIONS.length; i++){
             if(config.filteringOverride.get() == i){
                 texOverridePicker.setValue(FILTERINGOVERRIDES[i]);
@@ -598,6 +607,9 @@ public class DSFGraphicsPane extends ScrollPane {
         
         initializeEventHandlers();
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -969,6 +981,37 @@ public class DSFGraphicsPane extends ScrollPane {
         texOverridePicker.setOnAction(e -> {
             config.filteringOverride.set(texOverridePicker.getItems().indexOf(texOverridePicker.getValue()));
         });
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
     }
     
     private void setDisableDofCheckBoxEventHandler(){
@@ -1161,7 +1204,7 @@ public class DSFGraphicsPane extends ScrollPane {
     }
     
     public boolean hasInvalidInputs(){
-        ArrayList<TextField> fields = new ArrayList();
+        ArrayList<TextField> fields = new ArrayList<TextField>();
         
         fields.add(fpsLimitField);
         fields.add(fpsThresholdField);
@@ -1181,9 +1224,13 @@ public class DSFGraphicsPane extends ScrollPane {
         return false;
     }
     
-    private void recheckTextInputUnsafe(TextField field){
-        String text = field.getText();
-        field.setText("");
-        field.appendText(text);
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
+    
+    
 }

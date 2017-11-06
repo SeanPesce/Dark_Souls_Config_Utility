@@ -1,0 +1,11 @@
+Title=
+Readme=
+Version=
+Author=
+Category=
+Summary=
+Description=
+Website=
+NexusID=
+InstallFolder=
+ExcludeFile=

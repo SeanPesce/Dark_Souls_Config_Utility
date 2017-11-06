@@ -1,0 +1,5 @@
+Title=Revamped Character Face Textures
+Readme=Install.txt
+Version=v4.0
+Author=Mike Blackney
+NexusID=23

@@ -37,10 +37,14 @@ import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -59,6 +63,7 @@ class DSFHudPane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -103,6 +108,7 @@ class DSFHudPane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFConfiguration config;
+    int tabIndex = 1;
     DecimalFormat decimalFormat = new DecimalFormat("#.##"); 
     
     public DSFHudPane(DSCfgMainUI initUI){
@@ -155,7 +161,7 @@ class DSFHudPane extends ScrollPane {
         hudModsLabel = new Label(HUD_MODS_LABEL + "  ");
         hudModsLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         hudModsLabel.setTooltip(new Tooltip(HUD_MODS_TT));
-        hudModsPicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        hudModsPicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.enableHudMod.get() == 0){
             hudModsPicker.setValue(hudModsPicker.getItems().get(0));
         }else{
@@ -169,7 +175,7 @@ class DSFHudPane extends ScrollPane {
         minimalHUDLabel = new Label(MINIMAL_HUD_LABEL + "  ");
         minimalHUDLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         minimalHUDLabel.setTooltip(new Tooltip(MIN_HUD_TT));
-        minimalHUDPicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        minimalHUDPicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.enableMinimalHud.get() == 0){
             minimalHUDPicker.setValue(minimalHUDPicker.getItems().get(0));
         }else{
@@ -242,6 +248,9 @@ class DSFHudPane extends ScrollPane {
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -371,10 +380,41 @@ class DSFHudPane extends ScrollPane {
                 }
             }
         });
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
     }
     
     public boolean hasInvalidInputs(){
-        ArrayList<TextField> fields = new ArrayList();
+        ArrayList<TextField> fields = new ArrayList<TextField>();
         
         fields.add(hudScaleField);
         fields.add(topLeftHUDOpField);
@@ -388,5 +428,12 @@ class DSFHudPane extends ScrollPane {
         }
         
         return false;
+    }
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
 }

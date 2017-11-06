@@ -1,0 +1,6 @@
+Title=HD Default Font (1024x1024)
+Readme=Installation Instructions for CHRFR for EFIGS.txt
+Version=v2.0
+Author=roxahris
+Category=Fonts
+NexusID=22

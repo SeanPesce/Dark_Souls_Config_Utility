@@ -1,0 +1,4 @@
+Title=Black Background for Bandai Namco Splash Screen
+Author=BiancoAngelo7
+Category=Main Menu & Splash Screens
+NexusID=175

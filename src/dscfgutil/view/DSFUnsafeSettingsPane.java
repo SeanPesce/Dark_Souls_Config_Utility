@@ -28,11 +28,15 @@ import dscfgutil.dialog.ContinueDialog;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -52,6 +56,7 @@ class DSFUnsafeSettingsPane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -84,6 +89,7 @@ class DSFUnsafeSettingsPane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFConfiguration config;
+    int tabIndex = 6;
     
     public DSFUnsafeSettingsPane(DSCfgMainUI initUI){
         ui = initUI;
@@ -159,7 +165,7 @@ class DSFUnsafeSettingsPane extends ScrollPane {
         vsyncLabel = new Label(VSYNC_LABEL + "  ");
         vsyncLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         vsyncLabel.setTooltip(new Tooltip(VSYNC_TT));
-        vsyncPicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        vsyncPicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.enableVsync.get() == 0){
             vsyncPicker.setValue(vsyncPicker.getItems().get(0));
         }else{
@@ -184,6 +190,9 @@ class DSFUnsafeSettingsPane extends ScrollPane {
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -246,6 +255,37 @@ class DSFUnsafeSettingsPane extends ScrollPane {
                 }
             }
         });
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
     }
     
     public boolean hasInvalidInputs(){
@@ -255,5 +295,12 @@ class DSFUnsafeSettingsPane extends ScrollPane {
         }
         
         return false;
+    }
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
 }

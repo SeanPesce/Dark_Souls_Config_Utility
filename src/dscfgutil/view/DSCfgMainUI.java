@@ -5,190 +5,17 @@
  */
 package dscfgutil.view;
 
-import static dscfgutil.DSCfgUtilConstants.ABOUT_DSF;
-import static dscfgutil.DSCfgUtilConstants.ABOUT_DSCU;
-import static dscfgutil.DSCfgUtilConstants.ABOUT_DSM;
-import static dscfgutil.DSCfgUtilConstants.ABOUT_DSPW;
-import static dscfgutil.DSCfgUtilConstants.APPLY_CONFIG;
-import static dscfgutil.DSCfgUtilConstants.APPLY_DSF_KEYBINDS;
-import static dscfgutil.DSCfgUtilConstants.APPLY_DSPW_CONFIG;
-import static dscfgutil.DSCfgUtilConstants.CHANGE_DS_VERSION;
-import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DS;
-import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSF;
-import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSM;
-import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DSPW;
-import static dscfgutil.DSCfgUtilConstants.CHECKING_FOR_DS_REG_ENTRIES;
-import static dscfgutil.DSCfgUtilConstants.CHECKING_STEAM_LIBRARY;
-import static dscfgutil.DSCfgUtilConstants.CHECK_DSCU_UPDATES;
-import static dscfgutil.DSCfgUtilConstants.CHECK_DS_VERSION;
-import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_ITE_ERR;
-import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_NO_REG_ACC_ERR;
-import static dscfgutil.DSCfgUtilConstants.CHECK_FOR_DS_PROCESS;
-import static dscfgutil.DSCfgUtilConstants.CHOOSE_DIRECTORY;
-import static dscfgutil.DSCfgUtilConstants.CONFIGURE_DS;
-import static dscfgutil.DSCfgUtilConstants.CONFIGURE_DSM;
-import static dscfgutil.DSCfgUtilConstants.CONFIGURE_DSM_FAILED;
-import static dscfgutil.DSCfgUtilConstants.CONSOLE;
-import static dscfgutil.DSCfgUtilConstants.CONSOLE_HOVER;
-import static dscfgutil.DSCfgUtilConstants.CONSOLE_POPOUT_HOVER;
-import static dscfgutil.DSCfgUtilConstants.CONSOLE_POPOUT_ICON;
-import static dscfgutil.DSCfgUtilConstants.COULDNT_APPLY_CFG_ERR;
-import static dscfgutil.DSCfgUtilConstants.COULDNT_CHECK_PROCESSES;
-import static dscfgutil.DSCfgUtilConstants.COULDNT_CHECK_PROCESS_DSM;
-import static dscfgutil.DSCfgUtilConstants.COULDNT_EXPORT_INVALID_INPUT_ERR;
-import static dscfgutil.DSCfgUtilConstants.COULDNT_FIND_DS_PROCESS;
-import static dscfgutil.DSCfgUtilConstants.CSS_DIRECTORY;
-import static dscfgutil.DSCfgUtilConstants.DATA_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DEFAULT_STEAM_DIR;
-import static dscfgutil.DSCfgUtilConstants.DEFAULT_STEAM_SUBDIR;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_APPLY_DSM_CHAIN;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_APPLY_NO_DLL_CHAIN;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DSM_INST_FIX_CHAINING;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DSM_NOT_INST_FIX_CHAINING;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DSM_REINSTALL;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DSM_UNINSTALL;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_INSTALL_DSF;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_REINSTALL;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_REINSTALL_DSPW;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_UNINSTALL;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_UNINSTALL_DSPW;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_APPLY_CHANGES;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_CFG_NOT_APPLIED;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_DSM_UNINSTALL;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_INSTALL_DSF;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_RESET;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_UNINSTALL;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_UNINSTALL_DSPW;
-import static dscfgutil.DSCfgUtilConstants.DIRECTORY;
-import static dscfgutil.DSCfgUtilConstants.DIRECTORY_DESC;
-import static dscfgutil.DSCfgUtilConstants.DS;
-import static dscfgutil.DSCfgUtilConstants.DSCM_DELAY;
-import static dscfgutil.DSCfgUtilConstants.DSCM_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSCM_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DSCM_SHORT;
-import static dscfgutil.DSCfgUtilConstants.DSF;
-import static dscfgutil.DSCfgUtilConstants.DSCUTIL_FILE_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSCU_CHECK_UPDATES_URL;
-import static dscfgutil.DSCfgUtilConstants.DSCU_HELP_URL;
-import static dscfgutil.DSCfgUtilConstants.DSCU_OPTIONS;
-import static dscfgutil.DSCfgUtilConstants.DSF_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSF_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSF_HELP_URL;
-import static dscfgutil.DSCfgUtilConstants.DSF_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSF_PARTIALLY_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSF_STATUS;
-import static dscfgutil.DSCfgUtilConstants.DSF_STATUS_DESC;
-import static dscfgutil.DSCfgUtilConstants.DSMOUSE;
-import static dscfgutil.DSCfgUtilConstants.DSM_DELAY;
-import static dscfgutil.DSCfgUtilConstants.DSM_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSM_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSM_HELP_URL;
-import static dscfgutil.DSCfgUtilConstants.DSM_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSM_STATUS_DESC;
-import static dscfgutil.DSCfgUtilConstants.DSPW_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSPW_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSPW_HELP_URL;
-import static dscfgutil.DSCfgUtilConstants.DSPW_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSPW_SHORT;
-import static dscfgutil.DSCfgUtilConstants.DSPW_STATUS_DESC;
-import static dscfgutil.DSCfgUtilConstants.DS_EXE;
-import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_REG_VALUE_NAME;
-import static dscfgutil.DSCfgUtilConstants.DS_REGISTRY_KEY;
-import static dscfgutil.DSCfgUtilConstants.DS_SIZES;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSIONS;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_CHECKING;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DESC;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED_MISSING;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED_UNKNOWN;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_MENU;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_WARN_DESC;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_BETA;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_DEBUG;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_LATEST;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_UNKNOWN;
-import static dscfgutil.DSCfgUtilConstants.END_TRYING_DSM_PROCESS;
-import static dscfgutil.DSCfgUtilConstants.END_TRYING_DS_PROCESS;
-import static dscfgutil.DSCfgUtilConstants.EXIT_PROGRAM;
-import static dscfgutil.DSCfgUtilConstants.EXPORT_DSF;
-import static dscfgutil.DSCfgUtilConstants.EXPORT_DSF_INI;
-import static dscfgutil.DSCfgUtilConstants.EXPORT_DSF_KEYBINDS_INI;
-import static dscfgutil.DSCfgUtilConstants.FILE;
-import static dscfgutil.DSCfgUtilConstants.FOUND_DS;
-import static dscfgutil.DSCfgUtilConstants.GRAPHICS;
-import static dscfgutil.DSCfgUtilConstants.HELP;
-import static dscfgutil.DSCfgUtilConstants.HUD;
-import static dscfgutil.DSCfgUtilConstants.IMAGE_DIRECTORY;
-import static dscfgutil.DSCfgUtilConstants.INSTALL_DSF;
-import static dscfgutil.DSCfgUtilConstants.INVALID_INPUT;
-import static dscfgutil.DSCfgUtilConstants.KEY_BINDINGS;
-import static dscfgutil.DSCfgUtilConstants.LOAD;
-import static dscfgutil.DSCfgUtilConstants.NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.OPTIONS;
-import static dscfgutil.DSCfgUtilConstants.OTHER_OPS;
-import static dscfgutil.DSCfgUtilConstants.PROGRAM_ICON;
-import static dscfgutil.DSCfgUtilConstants.RECHECK_DSF;
-import static dscfgutil.DSCfgUtilConstants.REINSTALL_DSF;
-import static dscfgutil.DSCfgUtilConstants.EXPORT_MENU;
-import static dscfgutil.DSCfgUtilConstants.FAILED_OPEN_FOLDER_ERR;
-import static dscfgutil.DSCfgUtilConstants.FAILED_TO_OPEN_URL;
-import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
-import static dscfgutil.DSCfgUtilConstants.FOUND_DS_PROCESS;
-import static dscfgutil.DSCfgUtilConstants.GAME_VERSION;
-import static dscfgutil.DSCfgUtilConstants.GET_DS;
-import static dscfgutil.DSCfgUtilConstants.GET_DS_URL;
-import static dscfgutil.DSCfgUtilConstants.GET_MODS;
-import static dscfgutil.DSCfgUtilConstants.GET_MODS_URL;
-import static dscfgutil.DSCfgUtilConstants.INSTALL_DSM;
-import static dscfgutil.DSCfgUtilConstants.INSTALL_DSPW;
-import static dscfgutil.DSCfgUtilConstants.LAUNCH;
-import static dscfgutil.DSCfgUtilConstants.LAUNCHING_DS;
-import static dscfgutil.DSCfgUtilConstants.LAUNCHING_DSCM;
-import static dscfgutil.DSCfgUtilConstants.LAUNCHING_DSM;
-import static dscfgutil.DSCfgUtilConstants.LAUNCH_DS;
-import static dscfgutil.DSCfgUtilConstants.LAUNCH_DSCM;
-import static dscfgutil.DSCfgUtilConstants.LAUNCH_DSCM_FAILED;
-import static dscfgutil.DSCfgUtilConstants.LAUNCH_DS_AND_CM;
-import static dscfgutil.DSCfgUtilConstants.LAUNCH_DS_FAILED;
-import static dscfgutil.DSCfgUtilConstants.LOAD_DSF_CFG;
-import static dscfgutil.DSCfgUtilConstants.LOAD_DSF_KEYBINDS;
-import static dscfgutil.DSCfgUtilConstants.NONE;
-import static dscfgutil.DSCfgUtilConstants.OPEN_DATA_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.OPEN_PROGRAM_DIR;
-import static dscfgutil.DSCfgUtilConstants.PROGRAM_LONG;
-import static dscfgutil.DSCfgUtilConstants.PROGRAM_VERSION;
-import static dscfgutil.DSCfgUtilConstants.RECHECKING;
-import static dscfgutil.DSCfgUtilConstants.RECHECK_DSPW;
-import static dscfgutil.DSCfgUtilConstants.REINSTALL_DSM;
-import static dscfgutil.DSCfgUtilConstants.REINSTALL_DSPW;
-import static dscfgutil.DSCfgUtilConstants.SAVE_BACKUP;
-import static dscfgutil.DSCfgUtilConstants.SLEEP_INTERRUPTED;
-import static dscfgutil.DSCfgUtilConstants.STATUS;
-import static dscfgutil.DSCfgUtilConstants.STEAM_CFG_ENTRY;
-import static dscfgutil.DSCfgUtilConstants.STEAM_CFG_FILE;
-import static dscfgutil.DSCfgUtilConstants.STEAM_INSTALL_REG_KEYS;
-import static dscfgutil.DSCfgUtilConstants.TEXTURES;
-import static dscfgutil.DSCfgUtilConstants.TEXTURE_MODS;
-import static dscfgutil.DSCfgUtilConstants.TEX_MOD_TT;
-import static dscfgutil.DSCfgUtilConstants.TOGGLE_CONSOLE;
-import static dscfgutil.DSCfgUtilConstants.TRYING_DEFAULT_DIR_ERR;
-import static dscfgutil.DSCfgUtilConstants.UNABLE_TO_READ_FILE;
-import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSF;
-import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSM;
-import static dscfgutil.DSCfgUtilConstants.UNINSTALL_DSPW;
-import static dscfgutil.DSCfgUtilConstants.UNSAFE_OPS;
-import static dscfgutil.DSCfgUtilConstants.UNSUPPORTED_DESKTOP;
-import static dscfgutil.DSCfgUtilConstants.WAITING;
-import static dscfgutil.DSCfgUtilConstants.WINDOW_MOUSE;
 import dscfgutil.FileIO.DSFixFileController;
+
+import static dscfgutil.DSCfgUtilConstants.*;
 import static dscfgutil.FileIO.DSFixFileController.launchProgram;
 import static dscfgutil.FileIO.DSFixFileController.processIsRunning;
 import dscfgutil.FileIO.WinRegistry;
 import dscfgutil.configs.DSFConfiguration;
 import dscfgutil.configs.DSFKeybindsConfiguration;
 import dscfgutil.configs.DSPWConfiguration;
+import dscfgutil.configs.DsMod;
+import dscfgutil.configs.DsTextureMod;
 import dscfgutil.dialog.AlertDialog;
 import dscfgutil.dialog.ContinueDialog;
 import dscfgutil.dialog.CopyableMsgDialog;
@@ -199,7 +26,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -208,6 +37,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -225,7 +55,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -235,18 +66,21 @@ import javafx.stage.Stage;
  */
 public class DSCfgMainUI {
     
+	//STATIC VARIABLES:
+	public static boolean writeLogToFile = false;
+	
     //INSTANCE VARIABLES:
     private int dsVersion = DS_VER_ENUM_UNKNOWN; // Current version of Dark Souls (Latest, Beta, Debug, or Unknown)
-    private int dsfStatus; //Installed status of DSFix (Installed, Not Installed, or Unknown)
+    private int dsfStatus; //Installed status of DSFix (Installed = 0, Not Installed = 1, Unknown = 2)
     private int dsmStatus; //Installed status of DSMouseFix (Installed, Not Installed, or Unknown)
     private int dspwStatus; //Installed status of DS PvP Watchdog (Installed, Not Installed, or Unknown)
     DSFConfiguration config; //Config object for saving/loading/editing DSFix configs
     DSFKeybindsConfiguration dsfKeybinds; //Config object for saving/loading/editing DSFix keybinds
     DSPWConfiguration dspwConfig; //Config object for saving/loading/editing DS PvP Watchdog settings
     File dataFolder; //Directory of DATA folder in Dark Souls install directory, if it exists
-    boolean showConsoleBar = true; //Indicates if the console bar is visible
-    boolean showConsoleWindow = false;//Indicates if the console window is open
-    String consoleLog;
+    public static boolean showConsoleBar = true; //Indicates if the console bar is visible
+    public static boolean showConsoleWindow = false;//Indicates if the console window is open
+    public static String consoleLog = "";
     DSFixFileController fileController;
     CopyableMsgDialog consoleWindow;
     
@@ -254,7 +88,16 @@ public class DSCfgMainUI {
     //Primary window builders
     Stage primaryStage;
     Scene primaryScene;
-    VBox primaryVBox;
+    public VBox primaryVBox;
+    public Group primaryGroup; // Used for floating Nodes
+    public static double defaultWindowWidth = 0.0;
+    public static double defaultWindowHeight = 0.0;
+    public static double userWindowWidth = 0.0;
+    public static double userWindowHeight = 0.0;
+    public static double defaultWindowXPos = 0.0;
+    public static double defaultWindowYPos = 0.0;
+    public static double windowXOffset = 0.0;
+    public static double windowYOffset = 0.0;
     //
     //File toolbar
     MenuBar fileToolbar;
@@ -309,7 +152,7 @@ public class DSCfgMainUI {
     //
     //////DSCfgUtil options
     Menu optionsMenu;
-        MenuItem toggleConsole;
+        public MenuItem toggleConsole;
     Menu helpMenu;
     //////Help options
         MenuItem updatesDSCU;
@@ -327,6 +170,7 @@ public class DSCfgMainUI {
     Button directoryButton;
     //
     //Tab Pane
+    double scrollbarWidth;
     TabPane primaryTabPane;
     Tab graphicsTab;
     DSFGraphicsPane graphicsPane;
@@ -350,12 +194,16 @@ public class DSCfgMainUI {
     DSFTextureModPane texModsPane;
     //
     //Console
-    HBox consoleBar;
+    public HBox consoleBar;
     Label consoleLabel;
-    TextField consoleText;
+    public TextField consoleText;
     Button consoleButton;
+    public static double consoleWindowXOffset = 0.0;
+    public static double consoleWindowYOffset = 0.0;
+    double consoleBarHeight = 0.0;
     //Status bar
     HBox statusBar;
+    Rectangle statusBarShadow;
     Label dsVersionLabeller;
     Label dsVersionLabel;
     Label dsfStatusLabeller;
@@ -369,6 +217,7 @@ public class DSCfgMainUI {
      * Default (and only) constructor.
      */
     public DSCfgMainUI(Stage initStage){
+    	MAIN_UI = this;
         primaryStage = initStage;
         fileController = new DSFixFileController(this);
         consoleLog = new String("");
@@ -381,6 +230,7 @@ public class DSCfgMainUI {
      * 
      */
     private void initUI(){
+    	
         initWindow();
         
         
@@ -389,14 +239,14 @@ public class DSCfgMainUI {
         if(dsmStatus == 0 && !config.dinput8dllWrapper.toString().equals(DSM_FILES[0])){
             config.dinput8dllWrapper.replace(0, config.dinput8dllWrapper.length(), DSM_FILES[0]);
             setSelectedTab(5);
-            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
+            new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
                                             DIALOG_MSG_DSM_INST_FIX_CHAINING + 
                                             "\n\n" + DIALOG_MSG_APPLY_DSM_CHAIN,
                                             DIALOG_BUTTON_TEXTS[0]);
         }else if((dsmStatus == 1 || dsmStatus == 2) && config.dinput8dllWrapper.toString().equals(DSM_FILES[0])){
             config.dinput8dllWrapper.replace(0, config.dinput8dllWrapper.length(), NONE);
             setSelectedTab(5);
-            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
+            new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
                                             DIALOG_MSG_DSM_NOT_INST_FIX_CHAINING + 
                                             "\n\n" + DIALOG_MSG_APPLY_NO_DLL_CHAIN,
                                             DIALOG_BUTTON_TEXTS[0]);
@@ -407,14 +257,20 @@ public class DSCfgMainUI {
         
         //Set window size
         Screen screen = Screen.getPrimary();
-	Rectangle2D bounds = screen.getVisualBounds();
+        Rectangle2D bounds = screen.getVisualBounds();
         primaryStage.setX(bounds.getMaxX() / 4.0);
-	primaryStage.setY(bounds.getMaxY() / 4.0);
-	primaryStage.setWidth(bounds.getWidth() / 2.0);
-	primaryStage.setHeight(bounds.getHeight() / 2.0);
+        primaryStage.setY(bounds.getMaxY() / 4.0);
+        primaryStage.setWidth(bounds.getWidth() / 2.0);
+        primaryStage.setHeight(bounds.getHeight() / 2.0);
         
         primaryVBox = new VBox();
-        primaryScene = new Scene(primaryVBox);
+        primaryGroup = new Group();
+        statusBarShadow = new Rectangle();
+        //primaryGroup.getChildren().add(statusBarShadow);
+        primaryGroup.getChildren().addAll(primaryVBox, statusBarShadow);
+        //primaryScene = new Scene(primaryVBox);
+        primaryScene = new Scene(primaryGroup);
+        
         
         //Set window title, icon, and stylesheet
         primaryStage.setTitle(PROGRAM_LONG + " v" + PROGRAM_VERSION);
@@ -427,19 +283,73 @@ public class DSCfgMainUI {
         initializeDirectoryToolbar();
         initializeConsoleBar();
         initializeStatusBar();
+        
         checkForDS();
+        
+        // Clear write files
+        DsMod.clearReadmeTempFile();
+        DSFixFileController.clearLogFile();
+        
+        // Initialize default class data
+        DsTextureMod.initDefaultStorageDirs();
+        
+        // Load program configurable settings
+        DSFixFileController.loadStartupConfig();
+        
+        // Initialize configurable class data
+        DsTextureMod.initModList();
+        
         dsfKeybinds = new DSFKeybindsConfiguration(this, true);
         config = new DSFConfiguration(this, true);
         dspwConfig = new DSPWConfiguration(this, true);
         initializeSettingsTabs();
-        primaryVBox.getChildren().addAll(fileToolbar, directoryToolbar,
+        primaryVBox.getChildren().addAll(/*primaryGroup,*/ fileToolbar, directoryToolbar,
                                          primaryTabPane, statusBar, consoleBar);
+        /*if(showConsoleBar){
+        	primaryVBox.getChildren().add(consoleBar);
+        }*/
+        
         primaryStage.setScene(primaryScene);
         
-        
         primaryStage.show();
+        defaultWindowWidth = primaryStage.getWidth();
+        defaultWindowHeight = primaryStage.getHeight();
+        defaultWindowXPos = primaryStage.getX();
+		defaultWindowYPos = primaryStage.getY();
+        primaryStage.setX(primaryStage.getX() + DSCfgMainUI.windowXOffset);
+        primaryStage.setY(primaryStage.getY() + DSCfgMainUI.windowYOffset);
+        
+        consoleBarHeight = consoleBar.getHeight();
+        if(showConsoleWindow){
+        	showConsoleBar = false;
+			primaryVBox.getChildren().remove(consoleBar);
+			toggleConsole.setText(TOGGLE_CONSOLE[1]);
+			consoleWindow.show();
+			consoleWindow.getAlert().setX(consoleWindow.getAlert().getX() + DSCfgMainUI.consoleWindowXOffset);
+			consoleWindow.getAlert().setY(consoleWindow.getAlert().getY() + DSCfgMainUI.consoleWindowYOffset);
+        }else if(showConsoleBar){
+        	toggleConsole.setText(TOGGLE_CONSOLE[1]);
+        }else{
+        	primaryVBox.getChildren().remove(consoleBar);
+        	toggleConsole.setText(TOGGLE_CONSOLE[0]);
+        }
+        
+        primaryVBox.setPrefWidth(primaryScene.getWidth());
+        primaryVBox.setPrefHeight(primaryScene.getHeight());
+        
+        scrollbarWidth = 16.0;
+        statusBarShadow.setFill(LinearGradient.valueOf("linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent)"));
+        statusBarShadow.setHeight(7.0);
+        statusBarShadow.setX(0.0);
+        statusBarShadow.setMouseTransparent(true);
+        updateStatusBarShadow();
         
         initializeEventHandlers();
+        
+        if(userWindowWidth > 0.0)
+        	primaryStage.setWidth(userWindowWidth);
+        if(userWindowHeight > 0.0)
+        	primaryStage.setHeight(userWindowHeight);
         
         refreshUI();
         
@@ -451,7 +361,6 @@ public class DSCfgMainUI {
                 fileController.installDSFix();
             }
         }
-        
     }
     
     private void initializeFileToolbar(){
@@ -577,7 +486,7 @@ public class DSCfgMainUI {
         unsafeTab = new Tab(UNSAFE_OPS);
         keysTab = new Tab(KEY_BINDINGS);
         dspwTab = new Tab(DSPW_SHORT);
-        texModsTab = new Tab(TEXTURE_MODS);
+        texModsTab = new Tab(TEXTURE_MOD + "s");
         
         
         //Populate tabs
@@ -646,6 +555,12 @@ public class DSCfgMainUI {
                                             CONSOLE_POPOUT_ICON));
         consoleButton.setTooltip(new Tooltip(CONSOLE_POPOUT_HOVER));
         consoleBar.getChildren().addAll(consoleLabel, consoleText, consoleButton);
+        
+        consoleWindow = new CopyableMsgDialog(500.0, 200.0, 
+			                CONSOLE.toUpperCase(), consoleLog,
+			                DIALOG_BUTTON_TEXTS[5]);
+        
+        MAIN_UI.printConsole("[" + new java.util.Date() + "] Initializing");
     }
     
     private void initializeStatusBar(){
@@ -677,6 +592,9 @@ public class DSCfgMainUI {
         
         //Stylize
         statusBar.getStyleClass().add("light_gray_background_border");
+        statusBar.setStyle("-fx-border-thickness: 0;");
+        statusBar.setFillHeight(true);
+        //statusBar.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0, 0, 0, 0.3), 10.0, 0.0, 0.0, -5.0));
         statusBar.setAlignment(Pos.TOP_CENTER);
         dsVersionLabeller.getStyleClass().add("translate_y_4");
         dsVersionLabeller.setPrefWidth(100.0);
@@ -729,7 +647,7 @@ public class DSCfgMainUI {
             if(!invalidDSFInputsExist()){
                 fileController.exportDSF();
             }else{
-                AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
+                new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
                                                   COULDNT_EXPORT_INVALID_INPUT_ERR,
                                                   DIALOG_BUTTON_TEXTS[0]);
             }
@@ -739,7 +657,7 @@ public class DSCfgMainUI {
             if(!invalidDSFInputsExist()){
                 fileController.exportDSFIniFile();
             }else{
-                AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
+                new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
                                                   COULDNT_EXPORT_INVALID_INPUT_ERR,
                                                   DIALOG_BUTTON_TEXTS[0]);
             }
@@ -759,7 +677,11 @@ public class DSCfgMainUI {
         });
         //
         exitProgram.setOnAction(e -> {
-            if(showConsoleWindow & consoleWindow != null){
+        	DsMod.clearReadmeTempFile();
+        	if(consoleBar != null){
+            	MAIN_UI.printConsole("[" + new java.util.Date() + "] Exiting");
+            }
+            if(showConsoleWindow && consoleWindow != null){
                 consoleWindow.close();
             }
             System.exit(0);
@@ -890,7 +812,7 @@ public class DSCfgMainUI {
                 printConsole(LAUNCHING_DSM);
                 String cfgDSM = dataFolder.toPath() + "\\" + DSM_FILES[2];
                 File cfgDSMFile = new File(cfgDSM);
-                Process dsmFix = Runtime.getRuntime().exec(cfgDSMFile.getPath(), null, dataFolder);
+                Runtime.getRuntime().exec(cfgDSMFile.getPath(), null, dataFolder);
                 disableElementsForSleeping();
                 for(int i = DSM_DELAY; i >= 0; i--){
                     try {
@@ -1044,6 +966,7 @@ public class DSCfgMainUI {
             }else{
                 primaryVBox.getChildren().add(consoleBar);
                 showConsoleBar = true;
+                showConsoleWindow = false;
                 toggleConsole.setText(TOGGLE_CONSOLE[1]);
             }
             enableAndDisableElements();
@@ -1168,66 +1091,37 @@ public class DSCfgMainUI {
         //Console bar
         //
         consoleButton.setOnAction(e -> {
-            consoleWindow = new CopyableMsgDialog(500.0, 200.0, 
-                                        CONSOLE.toUpperCase(), consoleLog,
-                                        DIALOG_BUTTON_TEXTS[5]);
-            consoleWindow.getAlert().initModality(Modality.NONE);
-            primaryVBox.getChildren().remove(primaryVBox.getChildren().size() - 1);
+            if(primaryVBox.getChildren().contains(consoleBar)){
+            	primaryVBox.getChildren().remove(consoleBar);
+            }
             
             showConsoleBar = false;
             showConsoleWindow = true;
+            updateStatusBarShadow();
             
-            consoleWindow.getAlert().setResizable(true);
-            //consoleWindow.getStage().setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 
-            //                            consoleWindow.getDPane().getMinWidth() - 30); //this was causing issues for some people
             consoleWindow.show();
+            consoleWindow.getAlert().setX(consoleWindow.getAlert().getX() + DSCfgMainUI.consoleWindowXOffset);
+			consoleWindow.getAlert().setY(consoleWindow.getAlert().getY() + DSCfgMainUI.consoleWindowYOffset);
             
-            if(showConsoleWindow){
-                showConsoleWindow = false;
-                showConsoleBar = true;
-                primaryVBox.getChildren().add(consoleBar);
-            }
-            
+            updateStatusBarShadow();
         });
-        //
-        /*consoleText.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2){
-                    consoleWindow = new CopyableMsgDialog(500.0, 200.0, 
-                                        CONSOLE.toUpperCase(), consoleLog,
-                                        DIALOG_BUTTON_TEXTS[5]);
-                consoleWindow.getAlert().initModality(Modality.NONE);
-                primaryVBox.getChildren().remove(primaryVBox.getChildren().size() - 1);
-
-                showConsoleBar = false;
-                showConsoleWindow = true;
-
-                consoleWindow.getAlert().setResizable(true);
-                //consoleWindow.getStage().setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 
-                //                            consoleWindow.getDPane().getMinWidth() - 30); //this was causing issues for some people
-                consoleWindow.show();
-
-                if(showConsoleWindow){
-                    showConsoleWindow = false;
-                    showConsoleBar = true;
-                    primaryVBox.getChildren().add(consoleBar);
-                }
-                }
-            }
-        });*/
         
         //When exiting program:
         primaryStage.setOnCloseRequest(e -> {
-            if(showConsoleWindow & consoleWindow != null){
+        	DsMod.clearReadmeTempFile();
+        	if(consoleBar != null){
+        		MAIN_UI.printConsole("[" + new java.util.Date() + "] Exiting");
+            }
+            if(showConsoleWindow && consoleWindow != null){
                 consoleWindow.close();
             }
+            System.exit(0);
         });
         
         //When changing tabs:
         primaryTabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
                 @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth, Number newWidth) {
+                public void changed(ObservableValue<? extends Number> observableValue, Number oldTab, Number newTab) {
                     refreshUI();
                 }
             });
@@ -1240,6 +1134,24 @@ public class DSCfgMainUI {
                     consoleText.setPrefWidth(newWidth.doubleValue() - 115.0);
                 }
             });
+        
+        primaryScene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth, Number newWidth) {
+            	primaryVBox.setPrefWidth(primaryScene.getWidth());
+            	//directoryField.setPrefWidth(primaryVBox.getWidth() - directoryLabel.getWidth() - directoryButton.getWidth());
+                //consoleText.setPrefWidth(primaryVBox.getWidth() - consoleLabel.getWidth() - consoleButton.getWidth());
+            	updateStatusBarShadow();
+            }
+        });
+        
+        primaryScene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight) {
+                primaryVBox.setPrefHeight(primaryScene.getHeight());
+                updateStatusBarShadow();
+            }
+        });
         
         
         directoryField.textProperty().addListener(new ChangeListener<String>() {
@@ -1307,6 +1219,7 @@ public class DSCfgMainUI {
                                 }
                             }
                         }
+                        cfgReader.close();
                     } catch (FileNotFoundException ex) {
                         printConsole(UNABLE_TO_READ_FILE + steamFolder.getName());
                     }
@@ -1556,7 +1469,7 @@ public class DSCfgMainUI {
         
         //Find selected pane and refresh it
         if(primaryTabPane != null){
-            switch(getCurrentTab()){
+        	switch(getCurrentTab()){
                 case 0:
                     graphicsPane = new DSFGraphicsPane(this);
                     graphicsTab.setContent(graphicsPane);
@@ -1593,6 +1506,10 @@ public class DSCfgMainUI {
                     dspwPane = new DSPWPane(this);
                     dspwTab.setContent(dspwPane);
                     break;
+                case 9: 
+                	texModsPane = new DSFTextureModPane(this);
+                    texModsTab.setContent(texModsPane);
+                    break;
                 default:
                     break;
                 
@@ -1600,7 +1517,6 @@ public class DSCfgMainUI {
         }
         
         enableAndDisableElements();
-        
     }
     
     public void enableAndDisableElements(){
@@ -1812,13 +1728,25 @@ public class DSCfgMainUI {
         }
         
         //Console bar
-        if(showConsoleBar){
+        /*if(showConsoleBar){
             consoleButton.setDisable(false);
         }else{
             consoleButton.setDisable(true);
-        }
+        }*/
         
+        updateStatusBarShadow();
     }
+    
+    
+    // Update the dimensions of the status bar's shadow
+    public void updateStatusBarShadow(){
+    	statusBarShadow.setWidth(primaryScene.getWidth() - scrollbarWidth);
+    	double consoleBarOffset = 0.0;
+    	if(showConsoleBar)
+    		consoleBarOffset = consoleBarHeight;
+        statusBarShadow.setY(primaryScene.getHeight() - consoleBarOffset - statusBar.getHeight() - statusBarShadow.getHeight());
+    }
+    
     
     public void disableElementsForSleeping(){
         graphicsPane.applySettingsButton.setDisable(true);
@@ -1856,7 +1784,7 @@ public class DSCfgMainUI {
     
     public void applyDSFConfig(){
         if(invalidDSFInputsExist()){
-            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
+            new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
                                               COULDNT_APPLY_CFG_ERR, DIALOG_BUTTON_TEXTS[0]);
         }else{
             graphicsPane.applySettingsButton.setDisable(true);
@@ -1879,7 +1807,7 @@ public class DSCfgMainUI {
     
     public void applyDSPWConfig(){
         if(dspwPane.hasInvalidInputs()){
-            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
+            new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
                                               COULDNT_APPLY_CFG_ERR, DIALOG_BUTTON_TEXTS[0]);
         }else{
             dspwPane.applySettingsButton.setDisable(true);
@@ -1892,8 +1820,17 @@ public class DSCfgMainUI {
         
         System.out.println(message);
         consoleText.setText(message);
-        message += "\n";
+        message += String.format("%n");
+        if(writeLogToFile){
+        	try {
+				Files.write(Paths.get(LOG_FILE), message.getBytes(), StandardOpenOption.APPEND);
+			} catch (IOException e) {
+				
+			}
+        }
         consoleLog += message;
+        consoleText.setAlignment(Pos.CENTER_LEFT);
+        consoleText.setAlignment(Pos.CENTER);
         
         if(consoleWindow != null){
             consoleWindow.setMessage(consoleLog);
@@ -2070,4 +2007,5 @@ public class DSCfgMainUI {
     public int getDSVersion(){
         return dsVersion;
     }
+    
 }

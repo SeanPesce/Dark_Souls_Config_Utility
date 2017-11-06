@@ -1,0 +1,3 @@
+Title=Remove Player Auras
+Author=hatyn
+NexusID=62

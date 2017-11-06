@@ -5,125 +5,42 @@
  */
 package dscfgutil.FileIO;
 
-import static dscfgutil.DSCfgUtilConstants.AA_SETTING;
-import static dscfgutil.DSCfgUtilConstants.APPDATA;
-import static dscfgutil.DSCfgUtilConstants.APPDATA_INI;
-import static dscfgutil.DSCfgUtilConstants.APPLY_DSPW_FPS_FIX;
-import static dscfgutil.DSCfgUtilConstants.BSPATCH;
-import static dscfgutil.DSCfgUtilConstants.CANT_PATCH;
-import static dscfgutil.DSCfgUtilConstants.COPYING;
-import static dscfgutil.DSCfgUtilConstants.CREATING_INI;
-import static dscfgutil.DSCfgUtilConstants.DATA_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_BUTTON_TEXTS;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_APPLY_DSM_CHAIN;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_APPLY_NO_DLL_CHAIN;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DELETE_ERRORS_PROMPT;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DISABLE_AA;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DSM_FILE_COPY_ERR;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_DSPW_FILE_COPY_ERR;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_FILE_COPY_ERR;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_MSG_NO_DS_EXE;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_APPLY_CHANGES;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_DISABLE_AA;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_EXPORT_DSF;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_EXPORT_INI;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_IMPORT_INI;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_INSTALL_ERR;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_NO_DS_EXE;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_OPEN_FOLDER_PROMPT;
-import static dscfgutil.DSCfgUtilConstants.DIALOG_TITLE_PICK_DIR;
-import static dscfgutil.DSCfgUtilConstants.DSF_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSF_FILE_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DSF_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DSF_INSTALLED_ERRORS;
-import static dscfgutil.DSCfgUtilConstants.DSF_INSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.DSF_TEX_OVERRIDE_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DSF_UNINSTALLED_ERRORS;
-import static dscfgutil.DSCfgUtilConstants.DSF_UNINSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.DSM_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSM_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DSM_INSTALLED_ERRORS;
-import static dscfgutil.DSCfgUtilConstants.DSM_INSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.DSM_UNINSTALLED_ERRORS;
-import static dscfgutil.DSCfgUtilConstants.DSM_UNINSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.DSPW_FILES;
-import static dscfgutil.DSCfgUtilConstants.DSPW_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DSPW_INSTALLED_ERRORS;
-import static dscfgutil.DSCfgUtilConstants.DSPW_INSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.DSPW_UNINSTALLED_ERRORS;
-import static dscfgutil.DSCfgUtilConstants.DSPW_UNINSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.DS_EXE;
-import static dscfgutil.DSCfgUtilConstants.DS_INI;
-import static dscfgutil.DSCfgUtilConstants.DS_INSTALL_NOT_FOUND;
-import static dscfgutil.DSCfgUtilConstants.DS_SIZES;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSIONS;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_CREATING_BACKUP;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_DETECTED;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_PATCHING;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_REMOVING_INVALID_BACKUP;
-import static dscfgutil.DSCfgUtilConstants.DS_VERSION_SWITCHING;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_BETA;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_DEBUG;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_LATEST;
-import static dscfgutil.DSCfgUtilConstants.DS_VER_ENUM_UNKNOWN;
-import static dscfgutil.DSCfgUtilConstants.EXE_BACKUP;
-import static dscfgutil.DSCfgUtilConstants.FAILED_FILE_COPY_ERR;
-import static dscfgutil.DSCfgUtilConstants.FAILED_FILE_DELETE_ERR;
-import static dscfgutil.DSCfgUtilConstants.FAILED_FILE_PATCH_ERR;
-import static dscfgutil.DSCfgUtilConstants.FAILED_OPEN_FOLDER_ERR;
-import static dscfgutil.DSCfgUtilConstants.FAILED_TO_OVERWRITE;
-import static dscfgutil.DSCfgUtilConstants.FAILED_TO_PATCH;
-import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
-import static dscfgutil.DSCfgUtilConstants.FILE_DELETED;
-import static dscfgutil.DSCfgUtilConstants.FILE_WRITE_FAILED;
-import static dscfgutil.DSCfgUtilConstants.FOUND_APPDATA;
-import static dscfgutil.DSCfgUtilConstants.FPS_FIX_FILES;
-import static dscfgutil.DSCfgUtilConstants.FPS_FIX_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.INI_EXT_FILTER;
-import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSF;
-import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSM;
-import static dscfgutil.DSCfgUtilConstants.INSTALLING_DSPW;
-import static dscfgutil.DSCfgUtilConstants.IOEX_FILE_WRITER;
-import static dscfgutil.DSCfgUtilConstants.NONE;
-import static dscfgutil.DSCfgUtilConstants.PATCHES_DIRECTORY;
-import static dscfgutil.DSCfgUtilConstants.PATCH_FROM_LATEST;
-import static dscfgutil.DSCfgUtilConstants.PATCH_TO_LATEST;
-import static dscfgutil.DSCfgUtilConstants.PROGRAM_VERSION;
-import static dscfgutil.DSCfgUtilConstants.RENAMING_FILE;
-import static dscfgutil.DSCfgUtilConstants.SAME_VERSION;
-import static dscfgutil.DSCfgUtilConstants.SEE_CONSOLE;
-import static dscfgutil.DSCfgUtilConstants.SLEEP_INTERRUPTED;
-import static dscfgutil.DSCfgUtilConstants.TEMPLATES_DIR;
-import static dscfgutil.DSCfgUtilConstants.TEXTURE_MODS_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.TEX_MOD_INSTALLED_SUCCESS;
-import static dscfgutil.DSCfgUtilConstants.TURNED_OFF_AA;
-import static dscfgutil.DSCfgUtilConstants.TURNING_OFF_AA;
-import static dscfgutil.DSCfgUtilConstants.UNABLE_TO_FIND_APPDATA;
-import static dscfgutil.DSCfgUtilConstants.UNABLE_TO_FIND_DS_INI;
-import static dscfgutil.DSCfgUtilConstants.UNABLE_TO_READ_DS_INI;
-import static dscfgutil.DSCfgUtilConstants.UNINSTALLING_DSF;
-import static dscfgutil.DSCfgUtilConstants.UNINSTALLING_DSM;
-import static dscfgutil.DSCfgUtilConstants.UNINSTALLING_DSPW;
-import static dscfgutil.DSCfgUtilConstants.UNKNOWN_VERSION;
-import static dscfgutil.DSCfgUtilConstants.WRITING_FILE;
+import static dscfgutil.DSCfgUtilConstants.*;
+
+import dscfgutil.configs.DsTextureMod;
 import dscfgutil.dialog.AlertDialog;
 import dscfgutil.dialog.ContinueDialog;
 import dscfgutil.view.DSCfgMainUI;
+import static dscfgutil.view.DSCfgMainUI.showConsoleBar;
+import static dscfgutil.view.DSCfgMainUI.showConsoleWindow;
+import static dscfgutil.view.DSCfgMainUI.writeLogToFile;
+
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.AccessDeniedException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javax.imageio.IIOException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
@@ -154,7 +71,8 @@ public class DSFixFileController {
                 //Make sure they didn't pick the parent folder by accident
                 dsExe = new File(newDataFolder.getPath() + DATA_FOLDER + "\\" + DS_EXE);
                 if(!dsExe.exists()){
-                    AlertDialog dsExeNotFound = new AlertDialog(300.0, 80.0,
+                    @SuppressWarnings("unused")
+					AlertDialog dsExeNotFound = new AlertDialog(300.0, 80.0,
                                                     DIALOG_TITLE_NO_DS_EXE,
                                                     DIALOG_MSG_NO_DS_EXE,
                                                     DIALOG_BUTTON_TEXTS[0]);
@@ -243,7 +161,8 @@ public class DSFixFileController {
             ui.getConfig().dinput8dllWrapper.replace(0, ui.getConfig().dinput8dllWrapper.length(), DSM_FILES[0]);
             ui.setSelectedTab(5);
             ui.refreshUI();
-            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
+            @SuppressWarnings("unused")
+			AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
                                             DIALOG_MSG_APPLY_DSM_CHAIN,
                                             DIALOG_BUTTON_TEXTS[0]);
         }else{
@@ -530,7 +449,8 @@ public class DSFixFileController {
             ui.getConfig().dinput8dllWrapper.replace(0, ui.getConfig().dinput8dllWrapper.length(), NONE);
             ui.setSelectedTab(5);
             ui.refreshUI();
-            AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
+            @SuppressWarnings("unused")
+			AlertDialog aD = new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
                                             DIALOG_MSG_APPLY_NO_DLL_CHAIN,
                                             DIALOG_BUTTON_TEXTS[0]);
         }
@@ -713,7 +633,7 @@ public class DSFixFileController {
                     ui.printConsole(UNABLE_TO_READ_DS_INI + " " + linesRead);
                     couldntTurnOffAA();
                 }
-                
+                fileReader.close();
             }else{
                 ui.printConsole(UNABLE_TO_FIND_DS_INI);
                 File template = new File(TEMPLATES_DIR + "\\" + DS_INI);
@@ -732,7 +652,8 @@ public class DSFixFileController {
     }
     
     private void couldntTurnOffAA(){
-        AlertDialog aD = new AlertDialog(300.0, 80.0,
+        @SuppressWarnings("unused")
+		AlertDialog aD = new AlertDialog(300.0, 80.0,
                                         DIALOG_TITLE_DISABLE_AA,
                                         DIALOG_MSG_DISABLE_AA,
                                         DIALOG_BUTTON_TEXTS[0]);
@@ -762,6 +683,10 @@ public class DSFixFileController {
         }
         
         fileReader.close();
+        
+        // If text is still null, return empty string
+        if(text == null)
+        	text = "";
         return text;
     }
     
@@ -792,8 +717,7 @@ public class DSFixFileController {
             //If file exists, try to delete it
             if(!writeFile.delete()){
                 //If file cannot be deleted, throw OIOException
-                throw new IIOException("Could not delete pre-existing file: " +
-                    filePath);
+                throw new IIOException("Could not delete pre-existing file: " + filePath);
             }
         }else if(writeFile.exists() && !overwrite){
             //If file exists but is not allowed to be overwritten, throw AccessDeniedException
@@ -1053,6 +977,7 @@ public class DSFixFileController {
         return true;
     }
     
+    
     public void patchFile(String in, String out, String patch) throws IOException{
         String command = "cmd /c " + BSPATCH + " \"" + in + "\" \"" + out + "\" \"" + patch + "\"";
         Process patcher = Runtime.getRuntime().exec(command, null, new File(PATCHES_DIRECTORY));
@@ -1063,4 +988,441 @@ public class DSFixFileController {
             ui.printConsole(SLEEP_INTERRUPTED);
         }
     }
+    
+    
+    /*
+     * Obtains the SHA-1 hash of the given file.
+     * 
+     * @return The SHA-1 hash of the given file, or empty string if an error occurred.
+     */
+    public static String getSHA1Hash(String file){
+    	// The code in this method was found here:
+    	//     https://www.mkyong.com/java/how-to-generate-a-file-checksum-value-in-java/
+    	
+    	StringBuffer hash = null;
+    	
+    	try{
+    		MessageDigest md = MessageDigest.getInstance("SHA1");
+    		FileInputStream fis = new FileInputStream(file);
+    		
+    		byte[] dataBytes = new byte[1024];
+
+            int nread = 0;
+
+            while ((nread = fis.read(dataBytes)) != -1) {
+              md.update(dataBytes, 0, nread);
+            };
+            
+            byte[] mdbytes = md.digest();
+
+            //convert the byte to hex format
+            hash = new StringBuffer("");
+            for (int i = 0; i < mdbytes.length; i++) {
+            	hash.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            fis.close();
+    	}catch(FileNotFoundException fnfEx){
+    		MAIN_UI.printConsole(SHA1_FNF_ERROR + file);
+    	}catch(NoSuchAlgorithmException nsaEx){
+    		MAIN_UI.printConsole(INVALID_HASH_ALGORITHM + "(\"" + "SHA1" + "\")");
+    	} catch (IOException ioEx) {
+    		MAIN_UI.printConsole(SHA1_IOE_ERROR + file);
+		}
+    	
+    	if(hash != null){
+    		return hash.toString();
+    	}else{
+    		return "";
+    	}
+    }
+    
+    
+    /*
+	 * Delete a folder, along with its entire subtree (files and folders)
+	 * 
+	 * @return true if no errors occurred; otherwise return false
+	 */
+    public static boolean deleteFileTree(File root){
+		boolean error = false;
+		Collection<File> files = FileUtils.listFiles(root, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+		
+		for(File file : files){
+			if(file.exists()){
+				try {
+					file.delete();
+					// Delete leftover folders, if empty
+					String parent = new File(file.getParent()).getAbsolutePath();
+					while(parent != null && parent.indexOf("\\") > -1 && parent.length() >= root.getAbsolutePath().length()){
+						parent = parent.substring(0, parent.lastIndexOf("\\"));
+						File folder = new File(MAIN_UI.getDataFolder().getPath() + "\\" + parent);
+						
+						if(folder.exists() && folder.isDirectory() && FileUtils.listFiles(folder, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size() == 0){
+							try{
+								folder.delete();
+							}catch (SecurityException ex){
+								// Unable to delete folder
+								error = true;
+								// @TODO: Log event
+							}
+						}
+					}
+				} catch (SecurityException ex) {
+					// Unable to delete file
+					error = true;
+					// @TODO: Log event
+				}
+			}
+			
+			if(root.exists()){
+				try{
+					Collection<File> dirList;
+					while((dirList = FileUtils.listFilesAndDirs(root, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)).size() > 0){
+						boolean stopDeleting = false;
+						for(File d : dirList){
+							if(d.isDirectory()){
+								Collection<File> subDirList = FileUtils.listFilesAndDirs(d, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+								d.delete();
+								if(subDirList.size() == 0 && d.exists()){
+									stopDeleting = true;
+									break;
+								}
+							}else{
+								d.delete();
+								if(d.exists()){
+									stopDeleting = true;
+									break;
+								}
+							}
+						}
+						if(stopDeleting){
+							break;
+						}
+					}
+					root.delete();
+				}catch (SecurityException ex){
+					// Unable to delete root folder
+					error = true;
+					// @TODO: Log event
+				}catch (IllegalArgumentException iaEx){
+					// Root folder was deleted already but for some reason there was an attempt to delete it again
+				}
+			}
+		}
+		if(!error){
+			// Success, no errors encountered
+			// @TODO: Log event
+		}else{
+			// Errors were encountered
+			// @TODO: Log event
+		}
+		
+		return !error;
+	}
+    
+    
+    /*
+	 * Get various settings from the program configuration file
+	 */
+	public static void loadStartupConfig(){
+		MAIN_UI.printConsole(LOADING_PROGRAM_CONFIG);
+		
+		File cfgFile = new File(CONFIG_FILE);
+		if(!cfgFile.exists()){
+			try {
+				if(cfgFile.createNewFile()){
+					// Config file was missing, but a new one was made
+					// @TODO: Log event
+				}else{
+					throw new IOException();
+				}
+			} catch (IOException e) {
+				// Config file is missing and couldn't be created
+				// @TODO: Log event
+			}
+		}else if(cfgFile.isDirectory()){
+			// This should never happen
+			// @TODO: Log event
+		}else{
+			// Config file was found
+			
+			Scanner fileReader;
+			try {
+				fileReader = new Scanner(DSFixFileController.readTextFile(cfgFile.getPath()));
+				
+				// Read config file line by line
+				while(fileReader.hasNextLine()){
+					String line = fileReader.nextLine().trim();
+					
+					if(isConfigKeyValue(line, TEX_MOD_STORAGE_DIR_KEY)){
+						String newStorageDirVal = getConfigKeyValue(line, TEX_MOD_STORAGE_DIR_KEY);
+						File newStorageDir = new File(newStorageDirVal);
+						if(newStorageDirVal.length() > 0 && DsTextureMod.isValidStorageDir(newStorageDir)){
+							// Add the new texture mod storage folder to the current list
+							DsTextureMod.STORAGE_DIRS.add(newStorageDir);
+							MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_TEX_MOD_DIR_OK + ": " + newStorageDir);
+						}else{
+							// Not a valid texture mod storage folder
+							if(newStorageDirVal.length() > 0){
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_TEX_MOD_DIR_FAIL + ": " + newStorageDir);
+							}
+						}
+					}else if(isConfigKeyValue(line, LOG_FILE_KEY)){
+						String writeLogVal = getConfigKeyValue(line, LOG_FILE_KEY);
+						if(writeLogVal.length() > 0 && NumberUtils.isParsable(writeLogVal) && Integer.parseInt(writeLogVal) == 1){
+							// Enable console log file writing
+							boolean oldVal = writeLogToFile;
+							writeLogToFile = true;
+							
+							if(!oldVal){
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_LOG_FILE_ENABLE);
+								// Write current log to log file
+								try {
+									DSFixFileController.writeTextFile(LOG_FILE, DSCfgMainUI.consoleLog, true);
+								} catch (IOException e) {
+									
+								}
+							}
+						}else if(writeLogToFile && writeLogVal.length() > 0 && NumberUtils.isParsable(writeLogVal) && Integer.parseInt(writeLogVal) == 0){
+							// Disable console log file writing
+							writeLogToFile = false;
+							MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_LOG_FILE_DISABLE);
+							DSFixFileController.clearLogFile();
+						}
+					}else if(isConfigKeyValue(line, SHOW_CONSOLE_KEY)){
+						String showConsoleStrVal = getConfigKeyValue(line, SHOW_CONSOLE_KEY);
+						if(showConsoleStrVal.length() > 0 && NumberUtils.isParsable(showConsoleStrVal)){
+							int showConsoleVal = Integer.parseInt(showConsoleStrVal);
+							switch(showConsoleVal){
+								case 0: // Hide console
+									if(showConsoleBar || showConsoleWindow){
+										MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_SHOW_CONSOLE[showConsoleVal]);
+									}
+									showConsoleBar = false;
+					                showConsoleWindow = false;
+									break;
+								case 1: // Show console bar
+									if(!showConsoleBar){
+										MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_SHOW_CONSOLE[showConsoleVal]);
+									}
+									showConsoleBar = true;
+									showConsoleWindow = false;
+									break;
+								case 2: // Show console window
+									if(!showConsoleWindow){
+										MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_SHOW_CONSOLE[showConsoleVal]);
+									}
+									showConsoleBar = false;
+									showConsoleWindow = true;
+									break;
+								default:
+									break;
+							}
+						}
+					}else if(isConfigKeyValue(line, WINDOW_WIDTH_KEY)){
+						String widthStr = getConfigKeyValue(line, WINDOW_WIDTH_KEY);
+						if(widthStr.length() > 0 && NumberUtils.isParsable(widthStr)){
+							double width = Double.parseDouble(widthStr);
+							if(width != DSCfgMainUI.userWindowWidth && width > 0.0){
+								DSCfgMainUI.userWindowWidth = width;
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_WINDOW_WIDTH + width + ".");
+							}
+						}
+					}else if(isConfigKeyValue(line, WINDOW_HEIGHT_KEY)){
+						String heightStr = getConfigKeyValue(line, WINDOW_HEIGHT_KEY);
+						if(heightStr.length() > 0 && NumberUtils.isParsable(heightStr)){
+							double height = Double.parseDouble(heightStr);
+							if(height != DSCfgMainUI.userWindowHeight && height > 0.0){
+								DSCfgMainUI.userWindowHeight = height;
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_WINDOW_HEIGHT + height + ".");
+							}
+						}
+					}else if(isConfigKeyValue(line, WINDOW_X_OFFSET_KEY)){
+						String xOffsetStr = getConfigKeyValue(line, WINDOW_X_OFFSET_KEY);
+						if(xOffsetStr.length() > 0 && NumberUtils.isParsable(xOffsetStr)){
+							double xOffset = Double.parseDouble(xOffsetStr);
+							if(xOffset != DSCfgMainUI.windowXOffset){
+								DSCfgMainUI.windowXOffset = xOffset;
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_WINDOW_X_OFFSET + xOffset + ".");
+							}
+						}
+					}else if(isConfigKeyValue(line, WINDOW_Y_OFFSET_KEY)){
+						String yOffsetStr = getConfigKeyValue(line, WINDOW_Y_OFFSET_KEY);
+						if(yOffsetStr.length() > 0 && NumberUtils.isParsable(yOffsetStr)){
+							double yOffset = Double.parseDouble(yOffsetStr);
+							if(yOffset != DSCfgMainUI.windowYOffset){
+								DSCfgMainUI.windowYOffset = yOffset;
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_WINDOW_Y_OFFSET + yOffset + ".");
+							}
+						}
+					}else if(isConfigKeyValue(line, CONSOLE_X_OFFSET_KEY)){
+						String xOffsetStr = getConfigKeyValue(line, CONSOLE_X_OFFSET_KEY);
+						if(xOffsetStr.length() > 0 && NumberUtils.isParsable(xOffsetStr)){
+							double xOffset = Double.parseDouble(xOffsetStr);
+							if(xOffset != DSCfgMainUI.consoleWindowXOffset){
+								DSCfgMainUI.consoleWindowXOffset = xOffset;
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_CONSOLE_X_OFFSET + xOffset + ".");
+							}
+						}
+					}else if(isConfigKeyValue(line, CONSOLE_Y_OFFSET_KEY)){
+						String yOffsetStr = getConfigKeyValue(line, CONSOLE_Y_OFFSET_KEY);
+						if(yOffsetStr.length() > 0 && NumberUtils.isParsable(yOffsetStr)){
+							double yOffset = Double.parseDouble(yOffsetStr);
+							if(yOffset != DSCfgMainUI.consoleWindowYOffset){
+								DSCfgMainUI.consoleWindowYOffset = yOffset;
+								MAIN_UI.printConsole(CONFIG_ENTRY_PREFIX.toUpperCase() + CONFIG_CONSOLE_Y_OFFSET + yOffset + ".");
+							}
+						}
+					}
+				}
+				fileReader.close();
+			} catch (FileNotFoundException e) {
+				// Error from initializing Scanner
+				MAIN_UI.printConsole(ERROR + ": " + LOADING_PROGRAM_CONFIG_FAIL);
+			}
+			
+		}
+	}
+	
+	/*
+	 * Write current settings to the program configuration file
+	 */
+	public static void writeStartupConfig(){
+		String newCfgFile = "";
+		
+		// Main window dimensions
+		if(DSCfgMainUI.userWindowWidth > 0.0)
+			newCfgFile += WINDOW_WIDTH_KEY + DSCfgMainUI.userWindowWidth + String.format("%n");
+		if(DSCfgMainUI.userWindowHeight > 0.0)
+			newCfgFile += WINDOW_HEIGHT_KEY + DSCfgMainUI.userWindowHeight + String.format("%n");
+		
+		// Main window offsets
+		if(DSCfgMainUI.windowXOffset != 0.0)
+			newCfgFile += WINDOW_X_OFFSET_KEY + DSCfgMainUI.windowXOffset + String.format("%n");
+		if(DSCfgMainUI.windowYOffset != 0.0)
+			newCfgFile += WINDOW_Y_OFFSET_KEY + DSCfgMainUI.windowYOffset + String.format("%n");
+		
+		// Writing console log to file
+		if(writeLogToFile)
+			newCfgFile += LOG_FILE_KEY + 1 + String.format("%n");
+		else
+			newCfgFile += LOG_FILE_KEY + 0 + String.format("%n");
+		
+		// Show console output elements
+		if(!showConsoleBar && !showConsoleWindow){
+			newCfgFile += SHOW_CONSOLE_KEY + 0 + String.format("%n");
+		}else if(!showConsoleBar && showConsoleWindow){
+			newCfgFile += SHOW_CONSOLE_KEY + 2 + String.format("%n");
+		}else{
+			newCfgFile += SHOW_CONSOLE_KEY + 1 + String.format("%n");
+		}
+		
+		// Console window offsets
+		if(DSCfgMainUI.consoleWindowXOffset != 0.0)
+			newCfgFile += CONSOLE_X_OFFSET_KEY + DSCfgMainUI.consoleWindowXOffset + String.format("%n");
+		if(DSCfgMainUI.consoleWindowYOffset != 0.0)
+			newCfgFile += CONSOLE_Y_OFFSET_KEY + DSCfgMainUI.consoleWindowYOffset + String.format("%n");
+		
+		// Additional texture mod directories
+		for(File dir : DsTextureMod.STORAGE_DIRS){
+			boolean defaultDir = false;
+			for(String defDir : TEX_MOD_STORAGE_DIR_DEFAULTS){
+				if(dir.getAbsolutePath().equals(new File(defDir).getAbsolutePath())){
+					defaultDir = true;
+					break;
+				}
+			}
+			if(!defaultDir){
+				newCfgFile += TEX_MOD_STORAGE_DIR_KEY + dir.getPath() + String.format("%n");
+			}
+		}
+		
+		// Write the config file
+		try {
+			DSFixFileController.writeTextFile(CONFIG_FILE, newCfgFile, true);
+		} catch (IOException e) {
+			MAIN_UI.printConsole(ERROR + ": " + WRITE_PROGRAM_CONFIG_FAIL);
+		}
+	}
+	
+	/*
+	 * Checks if the given line from a config file starts with the given key value
+	 */
+	public static boolean isConfigKeyValue(String line, String key){
+		return (line.length() >= key.length() && line.substring(0, key.length()).toUpperCase().equals(key.toUpperCase()));
+	}
+	
+	/*
+	 * Gets the configuration setting value from the line consisting of a config key and a config value
+	 */
+	public static String getConfigKeyValue(String line, String key){
+		return line.substring(key.length()).trim();
+	}
+	
+	// Clear the log file
+	public static void clearLogFile(){
+		FileWriter fw;
+		try {
+			fw = new FileWriter(LOG_FILE, false);
+			fw.write("");
+			fw.close();
+		} catch (IOException e) {
+			MAIN_UI.printConsole(FAIL_CLEAR_LOG_ERR);
+		}
+	}
+	
+	
+	public static boolean extractZipFile(String archiveFile, String destinationFolder){
+		// Source: http://www.avajava.com/tutorials/lessons/how-do-i-unzip-the-contents-of-a-zip-file.html
+		if(destinationFolder.length() == 0){
+			destinationFolder = new File(new File(archiveFile).getParent()).getAbsolutePath();
+		}
+		if(!new File(destinationFolder).exists()){
+			if(!new File(destinationFolder).mkdirs()){
+				return false;
+			}
+		}
+		
+		try {
+            // Open the zip file
+            ZipFile zipFile = new ZipFile(archiveFile);
+            Enumeration<?> enu = zipFile.entries();
+            while (enu.hasMoreElements()) {
+                ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+
+                String name = zipEntry.getName();
+                //long size = zipEntry.getSize();
+                //long compressedSize = zipEntry.getCompressedSize();
+                //System.out.printf("name: %-20s | size: %6d | compressed size: %6d\n", 
+                //        name, size, compressedSize);
+
+                // Do we need to create a directory ?
+                File file = new File(name);
+                if (name.endsWith("/")) {
+                    new File(new File(destinationFolder).getAbsolutePath() + "\\" + file.getPath()).mkdirs();
+                    continue;
+                }
+
+                File parent = file.getParentFile();
+                if (parent != null) {
+                	new File(new File(destinationFolder).getAbsolutePath() + "\\" + parent.getPath()).mkdirs();
+                }
+
+                // Extract the file
+                InputStream is = zipFile.getInputStream(zipEntry);
+                FileOutputStream fos = new FileOutputStream(new File(destinationFolder).getAbsolutePath() + "\\" + file.getPath());
+                byte[] bytes = new byte[1024];
+                int length;
+                while ((length = is.read(bytes)) >= 0) {
+                    fos.write(bytes, 0, length);
+                }
+                is.close();
+                fos.close();
+
+            }
+            zipFile.close();
+        } catch (IOException e) {
+            return false;
+        }
+		return true;
+	}
 }

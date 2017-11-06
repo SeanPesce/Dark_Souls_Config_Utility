@@ -23,11 +23,16 @@ import static dscfgutil.DSCfgUtilConstants.SETTINGS;
 import static dscfgutil.DSCfgUtilConstants.WINDOW_MOUSE;
 import dscfgutil.configs.DSFConfiguration;
 import dscfgutil.dialog.ContinueDialog;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.ColumnConstraints;
@@ -44,6 +49,7 @@ class DSFWindowMousePane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -73,6 +79,7 @@ class DSFWindowMousePane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFConfiguration config;
+    int tabIndex = 2;
     
     public DSFWindowMousePane(DSCfgMainUI initUI){
         ui = initUI;
@@ -124,7 +131,7 @@ class DSFWindowMousePane extends ScrollPane {
         borderlessFullscreenLabel = new Label(BORDERLESS_FS_LABEL + "  ");
         borderlessFullscreenLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         borderlessFullscreenLabel.setTooltip(new Tooltip(BORDERLESS_FS_TT));
-        borderlessFullscreenPicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        borderlessFullscreenPicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.borderlessFullscreen.get() == 0){
             borderlessFullscreenPicker.setValue(borderlessFullscreenPicker.getItems().get(0));
         }else{
@@ -139,7 +146,7 @@ class DSFWindowMousePane extends ScrollPane {
         disableCursorLabel = new Label(DISABLE_CURSOR_LABEL + "  ");
         disableCursorLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         disableCursorLabel.setTooltip(new Tooltip(DISABLE_CURSOR_TT));
-        disableCursorPicker = new ComboBox(FXCollections.observableArrayList(ENABLE_DISABLE));
+        disableCursorPicker = new ComboBox<String>(FXCollections.observableArrayList(ENABLE_DISABLE));
         if(config.disableCursor.get() == 0){
             disableCursorPicker.setValue(disableCursorPicker.getItems().get(0));
         }else{
@@ -154,7 +161,7 @@ class DSFWindowMousePane extends ScrollPane {
         captureCursorLabel = new Label(CAPTURE_CURSOR_LABEL + "  ");
         captureCursorLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         captureCursorLabel.setTooltip(new Tooltip(CAPTURE_CURSOR_TT));
-        captureCursorPicker = new ComboBox(FXCollections.observableArrayList(CAPTURECURSOR));
+        captureCursorPicker = new ComboBox<String>(FXCollections.observableArrayList(CAPTURECURSOR));
         if(config.captureCursor.get() == 0){
             captureCursorPicker.setValue(captureCursorPicker.getItems().get(0));
         }else{
@@ -171,6 +178,9 @@ class DSFWindowMousePane extends ScrollPane {
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
     }
     
     private void initializeEventHandlers(){
@@ -201,5 +211,43 @@ class DSFWindowMousePane extends ScrollPane {
         captureCursorPicker.setOnAction(e -> {
             config.captureCursor.set(captureCursorPicker.getSelectionModel().getSelectedIndex());
         });
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
+    }
+    
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
     }
 }

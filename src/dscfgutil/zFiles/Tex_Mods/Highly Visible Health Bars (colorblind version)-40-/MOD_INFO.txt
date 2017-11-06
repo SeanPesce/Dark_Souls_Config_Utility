@@ -1,0 +1,7 @@
+Title=Default Crosshair/Colorblind Health Bars
+Readme=HVHB_0.3_readme.txt
+Version=v0.3
+Author=AJane
+Category=Health Bars & Crosshairs
+Website=http://www.reddit.com/r/DarkSoulsMods/comments/zr53v/highly_visible_enemy_health_bars/
+NexusID=40

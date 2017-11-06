@@ -16,13 +16,11 @@ import static dscfgutil.DSCfgUtilConstants.DSCUTIL_FILE_NOT_FOUND;
 import static dscfgutil.DSCfgUtilConstants.DSF_FILES;
 import static dscfgutil.DSCfgUtilConstants.DSF_FILES_COPIED;
 import static dscfgutil.DSCfgUtilConstants.DSF_FOLDER;
-import static dscfgutil.DSCfgUtilConstants.DSF_VERIFICATION;
 import static dscfgutil.DSCfgUtilConstants.EXPORT_FAILED;
 import static dscfgutil.DSCfgUtilConstants.FILES_DIR;
 import static dscfgutil.DSCfgUtilConstants.FILES_EDITED_ERR;
 import static dscfgutil.DSCfgUtilConstants.FILE_WRITE_FAILED;
 import static dscfgutil.DSCfgUtilConstants.INT_VALUE_NAMES;
-import static dscfgutil.DSCfgUtilConstants.INVALID_DSF_INI;
 import static dscfgutil.DSCfgUtilConstants.INVALID_FILETYPE_ERR;
 import static dscfgutil.DSCfgUtilConstants.IOEX_FILE_WRITER;
 import static dscfgutil.DSCfgUtilConstants.LOADING_USER_SETTINGS;
@@ -299,7 +297,8 @@ public class DSFConfiguration {
     ////////////////////////////////////////////////////////////////////
     
     DSCfgMainUI ui;
-    public ArrayList settings;
+    @SuppressWarnings("rawtypes")
+	public ArrayList settings;
     Scanner fileInput;
     BufferedWriter fileWriter;
     
@@ -763,7 +762,8 @@ public class DSFConfiguration {
     }
     
     //Helper Methods
-    public void initSettingsList(){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void initSettingsList(){
         settings = new ArrayList();
         
         settings.add(renderWidth);

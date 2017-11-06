@@ -9,6 +9,12 @@
     -fx-border-thickness: 2;
 }
 
+.mid_border{
+    /*-fx-border-color: #dbdbdb;*/
+    -fx-border-color: transparent;
+    -fx-border-thickness: 2;
+}
+
 .border_right_only{
     -fx-border-right: #bfbfbf;
     -fx-border-thickness: 2;
@@ -37,6 +43,14 @@
 
 .bold_text{
     -fx-font-weight: bold;
+}
+
+.tex_mod_config_field_font{
+    -fx-font-size: 10px;
+}
+
+.font_18_px{
+    -fx-font-size: 18px;
 }
 
 .font_12_pt{
@@ -76,14 +90,16 @@
 }
 
 .text_field:invalid_input{
-    -fx-text-box-border: red;
+    -fx-text-box-border: #b30000;
     -fx-focus-color: red;
-    -fx-text-fill: red;
+    -fx-text-fill: #b30000;
 }
 
 .dialog_buttons_pane{
     -fx-alignment:BOTTOM_RIGHT;
     -fx-padding: 20 0 0 0;
+    -fx-translate-y: 10;
+    -fx-translate-x: -10;
 }
 
 .dialog_buttons_pane_centered{
@@ -110,6 +126,20 @@
     -fx-translate-y: 5;
 }
 
+.settings_text_field_generic{
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: gray;
+    -fx-highlight-fill: dodgerblue;
+    -fx-highlight-text-fill: white;
+    -fx-display-caret: true;
+}
+
+.settings_text_field_generic:invalid_input{
+    -fx-text-box-border: #b30000;
+    -fx-focus-color: red;
+    -fx-text-fill: #b30000;
+}
+
 .settings_text_field{
     -fx-max-width: 50px;
     -fx-text-fill: black;
@@ -120,9 +150,9 @@
 }
 
 .settings_text_field:invalid_input{
-    -fx-text-box-border: red;
+    -fx-text-box-border: #b30000;
     -fx-focus-color: red;
-    -fx-text-fill: red;
+    -fx-text-fill: #b30000;
 }
 
 .settings_small_text_field{
@@ -132,6 +162,27 @@
     -fx-highlight-fill: dodgerblue;
     -fx-highlight-text-fill: white;
     -fx-display-caret: true;
+}
+
+.settings_small_text_field:invalid_input{
+    -fx-text-box-border: #b30000;
+    -fx-focus-color: red;
+    -fx-text-fill: #b30000;
+}
+
+.settings_med_text_field{
+    -fx-max-width: 60px;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: gray;
+    -fx-highlight-fill: dodgerblue;
+    -fx-highlight-text-fill: white;
+    -fx-display-caret: true;
+}
+
+.settings_med_text_field:invalid_input{
+    -fx-text-box-border: #b30000;
+    -fx-focus-color: red;
+    -fx-text-fill: #b30000;
 }
 
 .keybind_text_field{
@@ -147,30 +198,24 @@
 	-fx-faint-focus-color: transparent;
 }
 
-.settings_small_text_field:invalid_input{
-    -fx-text-box-border: red;
-    -fx-focus-color: red;
-    -fx-text-fill: red;
-}
-
-.settings_med_text_field{
-    -fx-max-width: 60px;
-    -fx-text-fill: black;
-    -fx-prompt-text-fill: gray;
-    -fx-highlight-fill: dodgerblue;
-    -fx-highlight-text-fill: white;
-    -fx-display-caret: true;
-}
-
-.settings_med_text_field:invalid_input{
-    -fx-text-box-border: red;
-    -fx-focus-color: red;
-    -fx-text-fill: red;
-}
-
 .settings_pane{
     -fx-alignment: CENTER_LEFT;
     -fx-hgap: 4;
+}
+
+.tex_mod_pane{
+    -fx-alignment: CENTER_LEFT;
+    -fx-hgap: 4;
+    -fx-background-color: transparent;
+    -fx-border-width: 1.0;
+    -fx-border-color: rgb(209, 209, 209);
+}
+
+.tex_mod_pane:hover{
+    -fx-alignment: CENTER_LEFT;
+    -fx-hgap: 4;
+    -fx-background-color: rgb(237, 237, 237);
+    -fx-border-color: rgb(173, 173, 173);
 }
 
 .keybinds_pane{

@@ -59,6 +59,7 @@ This project wouldn't exist if it weren't for these guys:
 Last but not least, the creators of the texture mods included with this program:  
 
 * [Improved aiming crosshairs](http://www.nexusmods.com/darksouls/mods/643/)*  
+* ["DSFix Enabled" Main Menu Logo Fix](https://www.nexusmods.com/darksouls/mods/758/)*  
 * [Highly Visibility Health Bars](http://www.nexusmods.com/darksouls/mods/40/)*  
 * [Combination of the previous two mods](http://www.nexusmods.com/darksouls/mods/892/)*  
 * [High Resolution Fonts](http://www.nexusmods.com/darksouls/mods/22)  

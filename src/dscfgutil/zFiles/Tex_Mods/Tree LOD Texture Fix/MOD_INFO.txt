@@ -1,0 +1,4 @@
+Title=Tree LoD Texture Fix
+Readme=Readme.txt
+Author=Rennn
+NexusID=67

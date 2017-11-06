@@ -1,0 +1,6 @@
+Title=DualShock 4 (PS4) Button Icons
+Readme=readme.txt
+Version=v1.9
+Author=Net_Bastard
+Category=Button Icons
+NexusID=690

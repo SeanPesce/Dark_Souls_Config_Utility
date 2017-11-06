@@ -9,7 +9,10 @@ import static dscfgutil.DSCfgUtilConstants.COPY_MESSAGE;
 import static dscfgutil.DSCfgUtilConstants.COPY_MSG_TOOLTIP;
 import static dscfgutil.DSCfgUtilConstants.CSS_DIRECTORY;
 import static dscfgutil.DSCfgUtilConstants.IMAGE_DIRECTORY;
+import static dscfgutil.DSCfgUtilConstants.MAIN_UI;
 import static dscfgutil.DSCfgUtilConstants.PROGRAM_ICON;
+import static dscfgutil.DSCfgUtilConstants.TOGGLE_CONSOLE;
+
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -29,6 +32,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -108,6 +112,9 @@ public class CopyableMsgDialog {
         copySpacer = new HBox();
         copySpacer.setMinWidth(20.0);
         
+        this.getAlert().initModality(Modality.NONE);
+        this.getAlert().setResizable(true);
+        
         //Event handlers
         stage.widthProperty().addListener(new ChangeListener<Number>() {
                 @Override
@@ -143,11 +150,12 @@ public class CopyableMsgDialog {
                 }
             }
             });
-        messageLabel.appendText("");
         
         stage.setOnCloseRequest(e -> {
-            close();
+        	close();
         });
+        
+        messageLabel.appendText("");
     }
     
     private void initializeButtons(String[] btTexts){
@@ -178,7 +186,8 @@ public class CopyableMsgDialog {
     }
     
     public void show(){
-        alert.showAndWait();
+        //alert.showAndWait();
+    	alert.show();
     }
     
     public void setMessage(String newMessage){
@@ -203,7 +212,19 @@ public class CopyableMsgDialog {
         return messageLabel;
     }
     
-    public void close(){
+    @SuppressWarnings("static-access")
+	public void close(){
+    	if(MAIN_UI.showConsoleWindow || MAIN_UI.showConsoleBar){
+    		MAIN_UI.showConsoleBar = true;
+    		MAIN_UI.showConsoleWindow = false;
+            if(!MAIN_UI.primaryVBox.getChildren().contains(MAIN_UI.consoleBar)){
+            	MAIN_UI.primaryVBox.getChildren().add(MAIN_UI.consoleBar);
+            }
+            MAIN_UI.toggleConsole.setText(TOGGLE_CONSOLE[1]);
+    	}else{
+    		MAIN_UI.toggleConsole.setText(TOGGLE_CONSOLE[0]);
+    	}
+    	MAIN_UI.updateStatusBarShadow();
         stage.close();
         alert.close();
     }

@@ -1,0 +1,7 @@
+Title=Xbox One Button Icons
+Readme=README.txt
+Version=v1.0
+Author=Lush
+Category=Button Icons
+Website=http://www.opengameart.org/
+NexusID=1061

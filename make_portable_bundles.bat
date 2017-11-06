@@ -10,7 +10,14 @@ cd Release\Extra_TexMod_Pack
 REM Create the Readme:
 echo Extra Texture Mods Pack - Readme> Readme_Extra_TexMod_Pack.txt
 echo:>> Readme_Extra_TexMod_Pack.txt
-echo To install the extra texture mods, merge this /app/ folder with the /app/ folder in the main Dark Souls Config Utility directory.>> Readme_Extra_TexMod_Pack.txt
+echo To install this texture mod pack: >> Readme_Extra_TexMod_Pack.txt
+echo  -Launch the Dark Souls Config Utility.>> Readme_Extra_TexMod_Pack.txt
+echo  -Switch to the "Texture Mods" tab.>> Readme_Extra_TexMod_Pack.txt
+echo  -Click the "Add new mod(s)" button. A prompt should be displayed.>> Readme_Extra_TexMod_Pack.txt
+echo  -In the prompt, select "Texture mod pack" and press "Ok".>> Readme_Extra_TexMod_Pack.txt
+echo  -Navigate to the folder containing this Readme file, and click "Select folder".>> Readme_Extra_TexMod_Pack.txt
+echo  -Another prompt will be displayed. Press "Ok" again.>> Readme_Extra_TexMod_Pack.txt
+echo  -That's it; the texture mod pack will begin installing.>> Readme_Extra_TexMod_Pack.txt
 echo:>> Readme_Extra_TexMod_Pack.txt
 echo For more info, visit https://github.com/SeanPesce/Dark_Souls_Config_Utility>> Readme_Extra_TexMod_Pack.txt
 echo -Sean P>> Readme_Extra_TexMod_Pack.txt

@@ -1,0 +1,4 @@
+Title=Revamped Quiver
+Author=shout4silence
+Category=Arrows & Quiver
+NexusID=197

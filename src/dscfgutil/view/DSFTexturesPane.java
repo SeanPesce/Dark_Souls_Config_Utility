@@ -19,11 +19,16 @@ import static dscfgutil.DSCfgUtilConstants.TEX_DUMP_TT;
 import static dscfgutil.DSCfgUtilConstants.TEX_OVERRIDE_TT;
 import dscfgutil.configs.DSFConfiguration;
 import dscfgutil.dialog.ContinueDialog;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.ColumnConstraints;
@@ -40,6 +45,7 @@ class DSFTexturesPane extends ScrollPane {
     
     //Main UI Components
     GridPane primaryPane;
+    ScrollBar scrollBar = null;
     ColumnConstraints spacerColumn;
     ColumnConstraints primaryColumn;
     VBox primaryVBox;
@@ -64,6 +70,7 @@ class DSFTexturesPane extends ScrollPane {
     //Instance Variables
     DSCfgMainUI ui;
     DSFConfiguration config;
+    int tabIndex = 4;
     
     public DSFTexturesPane(DSCfgMainUI initUI){
         ui = initUI;
@@ -115,7 +122,7 @@ class DSFTexturesPane extends ScrollPane {
         textureDumpLabel = new Label(TEXTURE_DUMPING_LABEL + "  ");
         textureDumpLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         textureDumpLabel.setTooltip(new Tooltip(TEX_DUMP_TT));
-        textureDumpPicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        textureDumpPicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.enableTextureDumping.get() == 0){
             textureDumpPicker.setValue(textureDumpPicker.getItems().get(0));
         }else{
@@ -129,7 +136,7 @@ class DSFTexturesPane extends ScrollPane {
         textureOverrideLabel = new Label(TEXTURE_OVERRIDE_LABEL + "  ");
         textureOverrideLabel.getStyleClass().addAll("bold_text", "font_12_pt");
         textureOverrideLabel.setTooltip(new Tooltip(TEX_OVERRIDE_TT));
-        textureOverridePicker = new ComboBox(FXCollections.observableArrayList(DISABLE_ENABLE));
+        textureOverridePicker = new ComboBox<String>(FXCollections.observableArrayList(DISABLE_ENABLE));
         if(config.enableTextureOverride.get() == 0){
             textureOverridePicker.setValue(textureOverridePicker.getItems().get(0));
         }else{
@@ -144,6 +151,10 @@ class DSFTexturesPane extends ScrollPane {
         initializeEventHandlers();
         
         this.setContent(primaryPane);
+        
+        ui.scrollbarWidth = getScrollbarWidth();
+    	ui.updateStatusBarShadow();
+    	
     }
     
     private void initializeEventHandlers(){
@@ -179,6 +190,43 @@ class DSFTexturesPane extends ScrollPane {
                 config.enableTextureOverride.set(1);
             }
         });
+        
+        // Check for ScrollBar being added to the pane
+        this.getChildren().addListener( new ListChangeListener<Node>() {
+    		@Override
+    		public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> newNodes) {
+    			// With help from: https://stackoverflow.com/questions/24810197/how-to-know-if-a-scroll-bar-is-visible-on-a-javafx-tableview
+    			if(scrollBar == null){
+    				for(Node node : newNodes.getList()){
+    					if (node instanceof ScrollBar) {
+    		                if (((ScrollBar)node).getOrientation().equals(Orientation.VERTICAL)) {
+    		                	scrollBar = (ScrollBar)node;
+    		                	scrollBar.setStyle("-fx-border-color: #bfbfbf; -fx-border-thickness: 1;");
+    		                	
+    		                	scrollBar.visibleProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+    		                		if(ui.getCurrentTab() == tabIndex){
+    		                			ui.scrollbarWidth = getScrollbarWidth();
+        		                		ui.updateStatusBarShadow();
+    		                		}
+    		                		
+    		                	});
+    		                	
+    		                	if(ui.getCurrentTab() == tabIndex){
+		                			ui.scrollbarWidth = getScrollbarWidth();
+    		                		ui.updateStatusBarShadow();
+		                		}
+    		                }
+    		            }
+    				}
+    			}
+    		}
+        });
     }
     
+    public double getScrollbarWidth() {
+    	if(this.scrollBar == null || !this.scrollBar.isVisible())
+    		return 0.0;
+    	else
+    		return this.scrollBar.getWidth() - 4.0;
+    }
 }

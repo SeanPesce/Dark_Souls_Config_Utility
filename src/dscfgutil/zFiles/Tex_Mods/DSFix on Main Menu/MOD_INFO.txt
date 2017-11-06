@@ -1,0 +1,7 @@
+Title="DSFix Enabled" on Main Menu
+Author=Durante & Kevkas
+Category=Main Menu & Splash Screens
+Readme=Readme.txt
+Website=http://blog.metaclassofnil.com/
+NexusID=758
+

@@ -1,0 +1,9 @@
+AndresHeadpack4_0-23-4-0
+AnorLondoHQDistanceTextures-132-1-0
+BlackBamcoScreen-175-1-1
+HQ Painting-148-1-0(2048)
+HQ Painting-148-1-0(4096)
+NoAuras
+Revamped Stat Buff Icons-8-1-0
+RevampedArrows-197-1-0
+RevampedQuiver-197-

@@ -1,0 +1,5 @@
+Title=Revamped Crosshair/Colorblind Health Bars
+Author=delular100 & AJane
+Category=Health Bars & Crosshairs
+NexusID=643
+NexusID=40
