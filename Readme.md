@@ -1,5 +1,5 @@
 # Dark Souls Configuration Utility  
-**for Dark Souls: Prepare to Die Edition on PC**  
+**for Dark Souls™: Prepare to Die Edition**  
 Author: Sean Pesce  
   
 For source code, updates, and other information about this project, check out the [public repository on GitHub](https://github.com/SeanPesce/Dark_Souls_Config_Utility).  
@@ -16,7 +16,7 @@ The code's a huge mess, because (as I said before) **this project was a learning
 The Dark Souls Configuration Utility is a launcher, mod manager, and configuration tool for [Dark Souls: Prepare to Die Edition](http://store.steampowered.com/app/211420/) on PC. Dark Souls is awesome, but it's probably one of the worst PC ports of all time. Luckily, the game has a very dedicated fanbase, and the community came together to create various fixes and updates to make it more playable. Unfortunately it can be a bit of a hassle to install and configure most of these fixes, and many people can't be bothered with doing so (nor do they want to play a game as broken as this one). The Dark Souls Configuration Utility aims to mitigate this issue by providing an easy-to-use, all-in-one resource for installing and configuring the most essential community fixes/mods.  
   
 ## Usage and Features  
-To run the Dark Souls Configuration Utility, open DSCfgUtil.exe in the main program directory (or search for "Dark Souls Config Utility" in the start menu if you used an installer). For in-depth usage and feature descriptions, see the documentation in the /docs/ folder. A video demo of the program can also be found [here](https://www.youtube.com/watch?v=OiVRokZtZAo).  
+To run the Dark Souls Configuration Utility, open DSCfgUtil.exe in the main program directory (or search for "Dark Souls Config Utility" in the start menu if you used an installer). For in-depth usage and feature descriptions, see the documentation in the /docs/ folder. A video demo for an older version of the program can also be found [here](https://www.youtube.com/watch?v=OiVRokZtZAo).  
 *@TODO: Add documentation in /docs/ with in-depth descriptions of usage/features.*  
   
 ## Compiling  
@@ -37,8 +37,9 @@ After compiling the project with the batch script, the 8 different package varia
 * **Setup** packages will run an installer to install the program onto your computer (adding a Start Menu entry and an Uninstall entry in the Control Panel).  
 * **Lite** packages (marked with an "**L**") come **without** a self-contained Java Runtime Environment (JRE), which means that the file size is significantly smaller than the normal standalone packages. However, **you must have a JRE installed on your computer for Lite packages to function**. You can download the latest JRE [here](https://java.com/en/download/).  
 * Packages marked with an "**X**" come with **additional texture mods pre-installed**. If you downloaded a package without the extra texture mods, you can download the **[extra texture mod pack](https://github.com/SeanPesce/Dark_Souls_Config_Utility/releases)** as a separate file and merge it with your program folder to install them.  
-  
-## Special Thanks  
+
+
+## Acknowledgments  
 This project wouldn't exist if it weren't for these guys:  
 
 * **Peter "Durante" Thoman** ([Website](http://blog.metaclassofnil.com/), [Twitter](https://twitter.com/Durante_PT), [GitHub](https://github.com/PeterTh)) for creating [DSFix](http://www.nexusmods.com/darksouls/mods/19/), undeniably the most essential fix for Dark Souls on PC.  
@@ -48,7 +49,7 @@ This project wouldn't exist if it weren't for these guys:
 * **[BANDAI NAMCO](https://www.bandainamcoent.com/)** and (more importantly) **[From Software, Inc](http://www.fromsoftware.jp/pc_en/)** for publishing/developing Dark Souls and taking the risk by [porting it to PC](http://www.pcgamer.com/dark-souls-pc-petition-at-nearly-70000-signatures-namco-listening/) even though they had no experience in doing such ports (Note: This was before the series was hugely popular like it is today, so there was no guarantee that this move was a good business decision).  
   
   
-## Other Contributors  
+**Other Contributors**  
 
 * **Colin Percival** ([Website](http://www.daemonology.net/), [Twitter](https://twitter.com/cperciva)) for creating [bsdiff and bspatch](http://www.daemonology.net/bsdiff/), which are used by Dark Souls Config Utility to switch between different builds of the game.  
 * **David Stellini** from [StackOverflow](http://stackoverflow.com/users/656963/david), for finding some Windows registry-related Java code that I used. He's not the original author of the code (I'm not sure who is), but he posted it in [this thread](http://stackoverflow.com/questions/62289/read-write-to-windows-registry-using-java), which is where I came across it.  
@@ -85,4 +86,15 @@ Last but not least, the creators of the texture mods included with this program:
 ◦ <sub><sup>Extra texture mods (included in program bundles with the **X** label)</sup></sub>  
 
 
-  
+## Built With  
+ * [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) by Oracle  
+ * [Inno Setup](http://www.jrsoftware.org/isinfo.php) by JRSoftware  
+
+
+## License  
+[GNU General Public License v3.0](LICENSE)  
+
+
+---------------------------------------------
+
+For unrelated inquiries and/or information about me, visit my **[personal website](https://SeanPesce.github.io)**.  
