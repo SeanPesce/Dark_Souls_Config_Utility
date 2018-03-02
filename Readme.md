@@ -3,8 +3,10 @@
 Author: Sean Pesce  
   
 For source code, updates, and other information about this project, check out the [public repository on GitHub](https://github.com/SeanPesce/Dark_Souls_Config_Utility).  
-  
-![image](http://i.imgur.com/bqZAB4s.png)
+
+![image](https://i.imgur.com/H2as861.png)  
+<sup>Texture mods tab</sup>  
+
   
 ## Background  
 This is an old project that I created a few years ago with the intent to become more familiar with JavaFX and UI design. I wasn't planning on releasing it, but I found that I was repeatedly reinstalling it for myself and my friends every time we installed Dark Souls on a new computer. Yes, the file size is **way** larger than it needs to be (mostly due to the self-contained JRE), but this is far outweighed by the program's usefulness if you're a hardcore Dark Souls fan (bandwidth isn't an issue for most people these days anyway).  
@@ -89,6 +91,11 @@ Last but not least, the creators of the texture mods included with this program:
 ## Built With  
  * [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) by Oracle  
  * [Inno Setup](http://www.jrsoftware.org/isinfo.php) by JRSoftware  
+
+
+## Media  
+![image](http://i.imgur.com/bqZAB4s.png)  
+<sup>Graphics settings tab</sup>  
 
 
 ## License  
