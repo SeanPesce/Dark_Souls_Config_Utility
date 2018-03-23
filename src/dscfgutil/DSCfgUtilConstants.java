@@ -16,9 +16,9 @@ import javafx.css.PseudoClass;
  * @author Sean Pesce
  */
 public class DSCfgUtilConstants {
-    
+
 	public static DSCfgMainUI MAIN_UI;
-	
+
     //Titles, Authors, and Versions
     public static String PROGRAM_AUTHOR = "Sean Pesce";
     public static String PROGRAM_SHORT = "DSCfgUtil";
@@ -86,7 +86,7 @@ public class DSCfgUtilConstants {
     public static String FPS_FIX = "FPS Fix+";
     public static String FPS_FIX_LONG = "Bonfire FPS Fix+";
     public static String FPS_FIX_AUTHOR = "Sean Pesce";
-    
+
     //FILES AND DIRECTORIES
     //
         //Dark Souls Files/Directories
@@ -183,11 +183,11 @@ public class DSCfgUtilConstants {
     public static String DSCU_HELP_URL = "https://github.com/SeanPesce/Dark_Souls_Config_Utility/blob/master/Readme.md";
     public static String GET_DS_URL = "https://store.steampowered.com/app/211420/";
     public static String GET_MODS_URL = "https://www.nexusmods.com/darksouls/";
-    
-    
+
+
     //Menus & Interface Strings/Constants
     public static PseudoClass INVALID_INPUT = PseudoClass.getPseudoClass("invalid_input");
-    
+
     public static String ERROR = "Error";
     public static String SUCCESS = "Success";
     public static String FAIL = "Failed";
@@ -215,9 +215,9 @@ public class DSCfgUtilConstants {
     public static String PACK = "Pack";
     public static String UNSAFE_OPERATION = "Unsafe operation";
     public static String PROCESSING = "Processing data";
-    
+
     public static String PRINT_INFO = PRINT + " info";
-    
+
         //File toolbar
         //File menu
         public static String FILE = "File";
@@ -226,19 +226,20 @@ public class DSCfgUtilConstants {
             public static String LOAD_DSF_KEYBINDS = DSF + " Keybinds";
             public static String SAVE_CONFIG = "Save config";
             public static String EXPORT_MENU = "Export...";
-            public static String EXPORT_DSF_INI = DSF + " config as .ini";
-            public static String EXPORT_DSF_KEYBINDS_INI = DSF + " keybinds as .ini";
-            public static String EXPORT_DSF = DSF + " with config & keybinds";
+            public static String EXPORT_DSF_INI = DSF + " config (.ini)";
+            public static String EXPORT_DSF_KEYBINDS_INI = DSF + " keybinds (.ini)";
+            public static String EXPORT_DSF = DSF + " bundle";
+            public static String EXPORT_DSF_DESC = DSF + " with config & keybinds";
             public static String EXPORT_CFG_TOOLTIP = "Export " + DSF + " with " +
                                                     "the current configuration";
-            public static String OPEN_PROGRAM_DIR = "Open program folder";
+            public static String OPEN_PROGRAM_DIR = "Open DSConfigUtil directory";
             // public static String OPEN_PROGRAM_DIR_TOOLTIP = "Opens the " + PROGRAM + " directory in Windows File Explorer";
             public static String EXIT_PROGRAM = "Exit";
         //Dark Souls Menu
             public static String LAUNCH = "Launch";
             public static String CONFIGURE_DS = "Change in-game settings";
             public static String OPEN_DATA_FOLDER = "Open DATA folder";
-            public static String DS_VERSION_MENU = "Game version...";
+            public static String DS_VERSION_MENU = "Version...";
                 public static String CHECK_DS_VERSION = "Recheck version";
                 public static String CHANGE_DS_VERSION = "Switch version...";
         //DSFix Menu
@@ -269,7 +270,7 @@ public class DSCfgUtilConstants {
         public static String TOGGLE_CONSOLE[] = {"Show console", "Hide console"};
         //Help menu
         public static String HELP = "Help";
-            public static String CHECK_DSCU_UPDATES = "Check for updates";
+            public static String CHECK_DSCU_UPDATES = "Check GitHub for updates";
             public static String ABOUT = "About ";
             public static String ABOUT_DSCU = ABOUT + PROGRAM;
             public static String ABOUT_DSF = ABOUT + DSF;
@@ -296,8 +297,8 @@ public class DSCfgUtilConstants {
         public static String CONSOLE_HOVER = "Console displays error messages" +
                                             " and other developer feedback";
         public static String CONSOLE_POPOUT_HOVER = "Display console in popout window";
-    
-    
+
+
     //Settings/Values
         //DSFix installed Status:
         public static String[] DSF_STATUS = {"Installed", "Not installed",
@@ -307,13 +308,13 @@ public class DSCfgUtilConstants {
         //
         //All integer-based settings, so everything except AA type, AO type,
         //  DoF additional blur, HUD scale, HUD opacities, screenshot directory,
-        //  language override, dll chaining, D3D override, 
+        //  language override, dll chaining, D3D override,
         public static int[] DEFAULT_INT_VALUES = {1920, 1080, 0, 0, 0, -2, 0, 1,
             -2, 540, 0, -2, 0, 60, 28, 0, 0, 1, -2, -2, -2, -2, 0, 0, 0, 0, 1500,
             10, 0, 0, 0, -2, -2, -2, -2, 0, 0, 0, 0, 60};
         public static String[] INT_VALUE_NAMES = {"renderWidth", "renderHeight",
             "presentWidth", "presentHeight", "aaQuality", null, "ssaoStrength",
-            "ssaoScale", null, "dofOverrideResolution", "disableDofScaling", null, 
+            "ssaoScale", null, "dofOverrideResolution", "disableDofScaling", null,
             "unlockFPS", "FPSlimit", "FPSthreshold", "filteringOverride",
             "enableHudMod", "enableMinimalHud", null, null, null, null,
             "borderlessFullscreen", "disableCursor", "captureCursor",
@@ -380,7 +381,7 @@ public class DSCfgUtilConstants {
         public static String DSF_KEY_ACTIONS[] = {"toggleCursorVisibility", "toggleCursorCapture",
             "toggleBorderlessFullscreen", "singleFrameFullCapture", "takeHudlessScreenshot", "toggleHUD",
             "toggleHUDChanges", "toggleAA", "toggleSMAA", "toggleVSSAO", "toggleDofGauss",
-            "reloadAAEffect", "reloadSSAOEffect", "reloadGAUSSEffect", "reloadHUDVertices", 
+            "reloadAAEffect", "reloadSSAOEffect", "reloadGAUSSEffect", "reloadHUDVertices",
             "toggle30FPSLimit", "togglePaused", "userTrigger"};
         public static String DSF_KEY_ACTION_NAMES[] = {"Toggle Cursor Visibility",
             "Toggle Cursor Capture", "Toggle Borderless Fullscreen", "Capture Full Frame",
@@ -388,21 +389,21 @@ public class DSCfgUtilConstants {
             "Toggle SMAA", "Toggle VSSAO", "Toggle DOF Gauss", "Reload AA Effect",
             "Reload SSAO Effect", "Reload Gauss Effect", "Reload HUD Vertices",
             "Toggle Unlocked Framerate", "Pause/Unpause", "User Trigger (?)"};
-        public static String DSF_KEYS[] = {"VK_LBUTTON", "VK_RBUTTON", "VK_CANCEL", "VK_MBUTTON", "VK_XBUTTON1", "VK_XBUTTON2", 
-            "VK_BACK", "VK_TAB", "VK_CLEAR", "VK_RETURN", "VK_SHIFT", "VK_CONTROL", "VK_MENU", "VK_PAUSE", 
-            "VK_CAPITAL", "VK_KANA", "VK_HANGUL", "VK_JUNJA", "VK_FINAL", "VK_HANJA", "VK_KANJI", 
-            "VK_ESCAPE", "VK_CONVERT", "VK_NONCONVERT", "VK_ACCEPT", "VK_MODECHANGE", "VK_SPACE", 
-            "VK_PRIOR", "VK_NEXT", "VK_END", "VK_HOME", "VK_LEFT", "VK_UP", "VK_RIGHT", "VK_DOWN", "VK_SELECT", 
-            "VK_PRINT", "VK_EXECUTE", "VK_SNAPSHOT", "VK_INSERT", "VK_DELETE", "VK_HELP", 
-            "VK_0", "VK_1", "VK_2", "VK_3", "VK_4", "VK_5", "VK_6", "VK_7", "VK_8", "VK_9", 
-            "VK_A", "VK_B", "VK_C", "VK_D", "VK_E", "VK_F", "VK_G", "VK_H", "VK_I", "VK_J", "VK_K", "VK_L", 
-            "VK_M", "VK_N", "VK_O", "VK_P", "VK_Q", "VK_R", "VK_S", "VK_T", "VK_U", "VK_V", "VK_W", "VK_X", "VK_Y", "VK_Z", 
-            "VK_LWIN", "VK_RWIN", "VK_APPS", "VK_SLEEP", "VK_NUMPAD0", "VK_NUMPAD1", "VK_NUMPAD2", 
-            "VK_NUMPAD3", "VK_NUMPAD4", "VK_NUMPAD5", "VK_NUMPAD6", "VK_NUMPAD7", "VK_NUMPAD8", 
-            "VK_NUMPAD9", "VK_MULTIPLY", "VK_ADD", "VK_SEPARATOR", "VK_SUBTRACT", "VK_DECIMAL", 
-            "VK_DIVIDE", "VK_F1", "VK_F2", "VK_F3", "VK_F4", "VK_F5", "VK_F6", "VK_F7", "VK_F8", "VK_F9", "VK_F10", 
-            "K_F11", "VK_F12", "VK_F13", "VK_F14", "VK_F15", "VK_F16", "VK_F17", "VK_F18", "VK_F19", "VK_F20", 
-            "VK_F21", "VK_F22", "VK_F23", "VK_F24", 
+        public static String DSF_KEYS[] = {"VK_LBUTTON", "VK_RBUTTON", "VK_CANCEL", "VK_MBUTTON", "VK_XBUTTON1", "VK_XBUTTON2",
+            "VK_BACK", "VK_TAB", "VK_CLEAR", "VK_RETURN", "VK_SHIFT", "VK_CONTROL", "VK_MENU", "VK_PAUSE",
+            "VK_CAPITAL", "VK_KANA", "VK_HANGUL", "VK_JUNJA", "VK_FINAL", "VK_HANJA", "VK_KANJI",
+            "VK_ESCAPE", "VK_CONVERT", "VK_NONCONVERT", "VK_ACCEPT", "VK_MODECHANGE", "VK_SPACE",
+            "VK_PRIOR", "VK_NEXT", "VK_END", "VK_HOME", "VK_LEFT", "VK_UP", "VK_RIGHT", "VK_DOWN", "VK_SELECT",
+            "VK_PRINT", "VK_EXECUTE", "VK_SNAPSHOT", "VK_INSERT", "VK_DELETE", "VK_HELP",
+            "VK_0", "VK_1", "VK_2", "VK_3", "VK_4", "VK_5", "VK_6", "VK_7", "VK_8", "VK_9",
+            "VK_A", "VK_B", "VK_C", "VK_D", "VK_E", "VK_F", "VK_G", "VK_H", "VK_I", "VK_J", "VK_K", "VK_L",
+            "VK_M", "VK_N", "VK_O", "VK_P", "VK_Q", "VK_R", "VK_S", "VK_T", "VK_U", "VK_V", "VK_W", "VK_X", "VK_Y", "VK_Z",
+            "VK_LWIN", "VK_RWIN", "VK_APPS", "VK_SLEEP", "VK_NUMPAD0", "VK_NUMPAD1", "VK_NUMPAD2",
+            "VK_NUMPAD3", "VK_NUMPAD4", "VK_NUMPAD5", "VK_NUMPAD6", "VK_NUMPAD7", "VK_NUMPAD8",
+            "VK_NUMPAD9", "VK_MULTIPLY", "VK_ADD", "VK_SEPARATOR", "VK_SUBTRACT", "VK_DECIMAL",
+            "VK_DIVIDE", "VK_F1", "VK_F2", "VK_F3", "VK_F4", "VK_F5", "VK_F6", "VK_F7", "VK_F8", "VK_F9", "VK_F10",
+            "K_F11", "VK_F12", "VK_F13", "VK_F14", "VK_F15", "VK_F16", "VK_F17", "VK_F18", "VK_F19", "VK_F20",
+            "VK_F21", "VK_F22", "VK_F23", "VK_F24",
             "VK_NUMLOCK", "VK_SCROLL", "VK_LSHIFT", "VK_RSHIFT", "VK_LCONTROL", "VK_RCONTROL", "VK_LMENU", "VK_RMENU"};
         //
         //DS PvP Watchdog Strings
@@ -545,7 +546,7 @@ public class DSCfgUtilConstants {
             //Tooltips
         public static String TEX_DUMP_TT = "You only need this if you want to create your own override textures." +
                                         "\nTextures will be dumped to \"dsfix\\tex_override\\[hash].tga\"";
-        public static String TEX_OVERRIDE_TT = "Textures in \"dsfix\\tex_override\\[hash].png\"" + 
+        public static String TEX_OVERRIDE_TT = "Textures in \"dsfix\\tex_override\\[hash].png\"" +
                                         " will replace the corresponding originals.\n" +
                                     "This setting will cause a small slowdown during texture loading!";
         //
@@ -556,7 +557,7 @@ public class DSCfgUtilConstants {
                                                 "screenshots";
         public static String USE_BASE_SS_DIR = "Use base directory";
         public static String USE_BASE_SS_DIR_TT = "Screenshots will be saved to " +
-                                            "the folder where " + DSF + 
+                                            "the folder where " + DSF +
                                             " is installed";
         public static String LANGUAGE_LABEL = "Language Override: ";
         public static String DLL_CHAIN_LABEL = "DLL Chain: ";
@@ -705,7 +706,7 @@ public class DSCfgUtilConstants {
             "WARNING: If the target dll doesn't export D3DCreate9,\n" +
             "this won't work and Dark Souls won't load";
         //
-        
+
     //Language-Specific
     //Constants that I might want to change if I ever add language support (unlikely)
     public static String OPTIONS = "Options";
@@ -824,8 +825,8 @@ public class DSCfgUtilConstants {
     public static String WAITING[] = {"Waiting... ", " seconds remaining"};
     public static String RECHECKING[] = {"Rechecking... (", " tries remaining)"};
     public static String END_TRYING_DSM_PROCESS = "Mouse Fix UI is taking too long to load.";
-    
-    
+
+
     // Startup strings:
     	// Config key values:
     public static String LOG_FILE_KEY = "WriteLogToFile=";
@@ -856,8 +857,8 @@ public class DSCfgUtilConstants {
     public static String CONFIG_CONSOLE_X_OFFSET = "Console window X offset set to ";
     public static String CONFIG_CONSOLE_Y_OFFSET = "Console window Y offset set to ";
     public static String[] LOADING_TEX_MOD_DIR_COUNT = { "Loading texture mods from ", " director", "y", "ies" };
-    
-    
+
+
     //Dialog Messages:
     public static String COPY_MESSAGE = "Auto-Copy";
     public static String COPY_MSG_TOOLTIP = "When checked, the window's content is " +
@@ -925,7 +926,7 @@ public class DSCfgUtilConstants {
                             " but DLL Chaining was not set to " + DSM_FILES[0] + ".";
     public static String DIALOG_MSG_APPLY_NO_DLL_CHAIN = DSM + " DLL Chaining has been " +
                             "disabled.\n\nIt's important that you apply these changes, " +
-                            "otherwise " + DS + " or " + DSF + " may not function correctly. " + 
+                            "otherwise " + DS + " or " + DSF + " may not function correctly. " +
                             "(Simply click the '" + APPLY_SETTINGS + "' button)";
     public static String DIALOG_MSG_DSM_NOT_INST_FIX_CHAINING = "A " + DSMOUSE + " install was not detected," +
                             " but DLL Chaining was set to " + DSM_FILES[0] + ".";
@@ -943,7 +944,7 @@ public class DSCfgUtilConstants {
                                             "delete files?";
     public static String DIALOG_TITLE_SET_KEYBIND = "New keybind";
     public static String DIALOG_MSG_SET_KEYBIND = "Press any key to assign a new keybind.";
-    
+
     //Error Messages:
     public static String UNKNOWN_VERSION = "Unable to determine program version number.";
     public static String UNSUPPORTED_DESKTOP = "Error: Unsupported desktop.";
@@ -985,7 +986,7 @@ public class DSCfgUtilConstants {
     public static String SEE_CONSOLE = "See console log for details";
     public static String NOT_ALL_SETTINGS_APPLIED = "Not all settings could be applied. " +
                                             "File was not written.";
-    public static String COULDNT_WRITE_FILE = "Could not write file. Settings were not " + 
+    public static String COULDNT_WRITE_FILE = "Could not write file. Settings were not " +
                                             "saved.";
     public static String IOEX_FILE_WRITER = "IOException was encountered when " +
                                         "creating file writer.";
@@ -1031,15 +1032,15 @@ public class DSCfgUtilConstants {
                                             "because one or more settings inputs " +
                                             "are invalid.";
     public static String KEYBINDS_NOT_LOADED = "Keybinds were not loaded.";
-    public static String DSPW_SETTINGS_LOAD_FAIL = DSPW_SHORT + " config file could " 
+    public static String DSPW_SETTINGS_LOAD_FAIL = DSPW_SHORT + " config file could "
                             + "not be loaded. DSPW settings set to default values.";
     public static String DSPW_SETTINGS_LOAD_PARTIAL_FAIL = "Not all " + DSPW_SHORT +
                             " settings were loaded successfully. Using default " +
                             "values for remaining settings.";
     public static String DSPW_SETTINGS_APPLY_FAIL = " " + DSPW_SHORT + " settings could not be applied; " +
                             "configuration was not saved.";
-    
-    
+
+
     //Input checks:
     public static String POSITIVE_INTEGER = "Value must be a positive integer.";
     public static String SAME_RESOLUTIONS = "Render resolution should not equal " +

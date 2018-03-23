@@ -66,37 +66,37 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 public class DsTextureMod extends DsMod {
-	
+
 	// The folder where DSFix texture mods are installed (relative to the Dark Souls DATA folder)
 	public static final String DSFIX_TEXTURES_FOLDER = "dsfix\\tex_override";
-	
+
 	// List of valid texture mod file types
 	public static final String[] TEXTURE_FILE_EXTENSIONS = { ".png", ".dds" };
-	
+
 	// Maximum number of files a texture mod directory can hold (to avoid copying of large numbers of files)
 	public static final int MAX_ALLOWED_FILES = 256;
-	
+
 	// List of directories where texture mods can be stored
 	public static ArrayList<File> STORAGE_DIRS = new ArrayList<File>();
-	
+
 	// Index of the default texture mod storage directory
 	public static int DEFAULT_STORAGE_DIR = 0;
-	
+
 	// Stores all texture mod objects
 	public static ArrayList<DsTextureMod> texMods = null;
-	
+
 	// Pane for this mod to be displayed and configured through the GUI
 	public DsTexModPane pane;
-	
+
 	// Constructor
 	public DsTextureMod(String mod_folder) throws FileNotFoundException, IOException {
 		super(mod_folder); // Call DsMod constructor
-		
+
 		// Set installation folder to DSFix texture override folder
 		this.installSubDir = DSFIX_TEXTURES_FOLDER;
-		
+
 		this.pane = new DsTexModPane(this);
-		
+
 		if(DsTextureMod.texMods != null){
 			// Check if this mod already exists
 			String dup = null;
@@ -106,7 +106,7 @@ public class DsTextureMod extends DsMod {
 					break;
 				}
 			}
-			
+
 			if(dup == null){
 				DsTextureMod.texMods.add(this);
 			}else{
@@ -115,39 +115,39 @@ public class DsTextureMod extends DsMod {
 			}
 		}
 	}
-	
-	
+
+
 	// Install the mod by copying all files into the Dark Souls DATA folder
 	public void install(){
-		
+
 		super.install();
-		
+
 		this.pane.checkInstalled();
 	}
-	
-	
+
+
 	// Uninstall the mod by deleting all mod files from the Dark Souls DATA folder
 	public void uninstall(){
-		
+
 		super.uninstall();
-		
+
 		this.pane.checkInstalled();
 	}
-	
-	
-	
+
+
+
 	// Delete the texture mod files from the stored directory
 	public boolean delete(){
-		
+
 		boolean success = super.delete();
-		
+
 		// Remove this texture mod object from the global list of texture mods
 		DsTextureMod.texMods.remove(this);
-		
+
 		return success;
 	}
-	
-	
+
+
 	// Check if another DsTextureMod has the exact same files
 	public boolean hasSameFiles(DsTextureMod mod){
 		if(mod == null)
@@ -161,7 +161,7 @@ public class DsTextureMod extends DsMod {
 			 || this.hashes.size() != mod.hashes.size()){
 			return false;
 		}
-			
+
 		for(int i = 0; i < this.fileCount(); i++){
 			if(!this.files.get(i).equals(mod.files.get(i))
 					 || this.fileSizes[i] != mod.fileSizes[i]
@@ -169,11 +169,11 @@ public class DsTextureMod extends DsMod {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
-	
+
+
 	// Initialize default mod storage directories
 	public static void initDefaultStorageDirs(){
 		for(String d : TEX_MOD_STORAGE_DIR_DEFAULTS){
@@ -193,14 +193,14 @@ public class DsTextureMod extends DsMod {
 				addToList = false;
 				// @TODO: Log event
 			}
-				
+
 			if(addToList){
 				DsTextureMod.STORAGE_DIRS.add(dir);
 			}
 		}
 	}
-	
-	
+
+
 	// Check if a directory should be added to the list of texture mod storage directories
 	public static boolean isValidStorageDir(File dir){
 		if(dir.getAbsolutePath().length() <= 3){
@@ -213,34 +213,36 @@ public class DsTextureMod extends DsMod {
 		}else if(!dir.isDirectory()){
 			return false;
 		}
-		
+
 		for(File existingStorageDir : DsTextureMod.STORAGE_DIRS){
 			// Can't use a subdirectory of a knwon storage directory
 			if(dir.getAbsolutePath().length() >= existingStorageDir.getAbsolutePath().length() && dir.getAbsolutePath().startsWith(existingStorageDir.getAbsolutePath())){
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
-	
+
+
 	// Initialize the list of texture mods stored by the Config Utility
 	public static int initModList(){
-		String dirCountMsg = LOADING_TEX_MOD_DIR_COUNT[0] + DsTextureMod.STORAGE_DIRS.size() + LOADING_TEX_MOD_DIR_COUNT[1];
-		if(DsTextureMod.STORAGE_DIRS.size() == 1)
-			dirCountMsg += LOADING_TEX_MOD_DIR_COUNT[2] + "...";
-		else
-			dirCountMsg += LOADING_TEX_MOD_DIR_COUNT[3] + "...";
-		MAIN_UI.printConsole(dirCountMsg);
-		
+		if (MAIN_UI.getDataFolder() != null) {
+			String dirCountMsg = LOADING_TEX_MOD_DIR_COUNT[0] + DsTextureMod.STORAGE_DIRS.size() + LOADING_TEX_MOD_DIR_COUNT[1];
+			if(DsTextureMod.STORAGE_DIRS.size() == 1)
+				dirCountMsg += LOADING_TEX_MOD_DIR_COUNT[2] + "...";
+			else
+				dirCountMsg += LOADING_TEX_MOD_DIR_COUNT[3] + "...";
+			MAIN_UI.printConsole(dirCountMsg);
+		}
+
 		int modsLoaded = 0;
 		if(DsTextureMod.texMods != null){
 			return modsLoaded;
 		}
-		
+
 		ArrayList<DsTextureMod> list = new ArrayList<DsTextureMod>();
-		
+
 		for(File storageFolder : DsTextureMod.STORAGE_DIRS){
 			// Get list of files and directories in the texture mods folder:
 			String[] folder_list = storageFolder.list(new FilenameFilter() {
@@ -249,7 +251,7 @@ public class DsTextureMod extends DsMod {
 				    return new File(current, name).isDirectory();
 				  }
 				});
-			
+
 			for(String f : folder_list){
 				//ui.printConsole(f);
 				try {
@@ -280,15 +282,15 @@ public class DsTextureMod extends DsMod {
 				}
 			}
 		}
-		
+
 		DsTextureMod.texMods = list;
 		return modsLoaded;
 	}
-	
-	
+
+
 	/*
 	 * Attempts to load a single new texture mod into the program.
-	 * 
+	 *
 	 * @return true if successful, false otherwise.
 	 */
 	public static boolean loadNewMod(File newModFolder){
@@ -310,7 +312,7 @@ public class DsTextureMod extends DsMod {
 					break;
 				}
 			}
-			
+
 			if(!errorsOccurred){
 				// Files were successfully copied without issue
 				try {
@@ -329,7 +331,7 @@ public class DsTextureMod extends DsMod {
 			// Not a valid texture mod folder
 			return false;
 		}
-		
+
 		if(errorsOccurred){
 			// Try to delete the partially-copied mod
 			MAIN_UI.printConsole(FAIL.toUpperCase() + ": " + LOAD_TXM_REMOVE_PARTIAL);
@@ -351,18 +353,18 @@ public class DsTextureMod extends DsMod {
 		}
 		return !errorsOccurred;
 	}
-	
-	
+
+
 	/*
 	 * Attempts to load a single new texture mod into the program through the GUI
-	 * 
+	 *
 	 * @return true if successful, false otherwise.
 	 */
 	public static boolean loadNewModFromGUI(boolean fromCompressedFile){
 		boolean errorsOccurred = false;
 		File source = null;
 		File newModFolder = null;
-		
+
 		if(!fromCompressedFile){
 			// Load normally from a folder
 			DirectoryChooser dirPicker = new DirectoryChooser();
@@ -400,15 +402,15 @@ public class DsTextureMod extends DsMod {
 	        	MAIN_UI.printConsole(SUCCESS + ": " + LOAD_TXM_EXTRACT_DONE + archiveFile.getName());
 	        }
 		}
-		
+
 		String folderName = newModFolder.getName();
-		
+
 		// Check if valid texture mod directory
 		ArrayList<File> fileList = new ArrayList<File>();
 		if(DsTextureMod.canLoadModFromFolder(newModFolder.getAbsolutePath(), true, fileList)){
-			
+
 			// Confirm
-    		ContinueDialog contD = new ContinueDialog(500.0, 100.0, COPY_DIAG_CONFIRM_TITLE, 
+    		ContinueDialog contD = new ContinueDialog(500.0, 100.0, COPY_DIAG_CONFIRM_TITLE,
     												LOAD_TXM_DIAG_CONFIRM_MSG[0] + folderName + LOAD_TXM_DIAG_CONFIRM_MSG[1]
     												+ fileList.size() + LOAD_TXM_DIAG_CONFIRM_MSG[2],
     												DIALOG_BUTTON_TEXTS[0], DIALOG_BUTTON_TEXTS[1]);
@@ -426,7 +428,7 @@ public class DsTextureMod extends DsMod {
 						break;
 					}
     			}
-    			
+
     			if(!errorsOccurred){
     				// Files were successfully copied without issue
     				try {
@@ -455,7 +457,7 @@ public class DsTextureMod extends DsMod {
 			}
 			return false;
 		}
-		
+
 		if(errorsOccurred){
 			// Try to delete the partially-copied mod
 			MAIN_UI.printConsole(FAIL.toUpperCase() + ": " + LOAD_TXM_REMOVE_PARTIAL);
@@ -499,17 +501,17 @@ public class DsTextureMod extends DsMod {
 		}
 		return !errorsOccurred;
 	}
-	
+
 	/*
 	 * Attempts to load a new texture mod pack into the program through the GUI.
-	 * 
+	 *
 	 * @return The number of new mods that were successfully installed.
 	 */
 	public static int loadNewModPackFromGUI(boolean fromCompressedFile){
 		int modsLoaded = 0;
 		File source = null;
 		File folder = null;
-		
+
 		if(!fromCompressedFile){
 			// Load normally from a folder
 			DirectoryChooser dirPicker = new DirectoryChooser();
@@ -547,11 +549,11 @@ public class DsTextureMod extends DsMod {
 	        	MAIN_UI.printConsole(SUCCESS + ": " + LOAD_TXM_EXTRACT_DONE + archiveFile.getName());
 	        }
 		}
-		
+
 		File[] fileList = folder.listFiles();
 		int nonFolderFiles = 0;
 		ArrayList<File> list = new ArrayList<File>();
-		
+
 		for(File f : fileList){
 			if(f.isDirectory()){
 				if(DsTextureMod.canLoadModFromFolder(f, true, false)){
@@ -561,15 +563,15 @@ public class DsTextureMod extends DsMod {
 				nonFolderFiles++;
 			}
 		}
-		
+
 		if(list.size() > 0){
 			// Directory contains valid texture mod folders
 			// Confirm
-    		ContinueDialog contD = new ContinueDialog(500.0, 100.0, COPY_DIAG_CONFIRM_TITLE, 
+    		ContinueDialog contD = new ContinueDialog(500.0, 100.0, COPY_DIAG_CONFIRM_TITLE,
     				LOAD_TEX_PACK_CONFIRM_DIAG_MSG[0] + folder.getName() + LOAD_TEX_PACK_CONFIRM_DIAG_MSG[1] + list.size() +
     				LOAD_TEX_PACK_CONFIRM_DIAG_MSG[2] + (fileList.length - (list.size() + nonFolderFiles)) + LOAD_TEX_PACK_CONFIRM_DIAG_MSG[3] +
     				nonFolderFiles + LOAD_TEX_PACK_CONFIRM_DIAG_MSG[4], DIALOG_BUTTON_TEXTS[0], DIALOG_BUTTON_TEXTS[1]);
-    		
+
     		if(contD.show()){
     			MAIN_UI.printConsole(LOAD_TEX_PACK_START[0] + list.size() + LOAD_TEX_PACK_START[1]);
     			for(File f : list){
@@ -593,11 +595,11 @@ public class DsTextureMod extends DsMod {
 			new AlertDialog(300.0, 100.0, LOAD_TEX_PACK_NO_MODS_DIAG_TITLE, LOAD_TEX_PACK_NO_MODS_DIAG_MSG, DIALOG_BUTTON_TEXTS[0]);
 			return 0;
 		}
-		
+
 		if(fromCompressedFile){
 			DSFixFileController.deleteFileTree(folder.getParentFile());
 		}
-		
+
 		MAIN_UI.printConsole(modsLoaded + LOAD_TEX_PACK_DONE[0] + list.size() + LOAD_TEX_PACK_DONE[1]);
 		AlertDialog aD = new AlertDialog(360.0, 50.0, modsLoaded + LOAD_TEX_PACK_DONE_TITLE,
 					modsLoaded + LOAD_TEX_PACK_DONE[0] + list.size() + LOAD_TEX_PACK_DONE[1] + " " + SEE_CONSOLE + ".",
@@ -628,15 +630,15 @@ public class DsTextureMod extends DsMod {
 		}
 		return modsLoaded;
 	}
-	
-	
+
+
 	// Check if a folder is a valid candidate to load a new texture mod from (must contain at least 1 .png or .dds file at the top level)
 	public static boolean canLoadModFromFolder(File folder, boolean printMessages, boolean showDialogs, Collection<File> list){
 		String workingDir = new File(System.getProperty("user.dir")).getAbsolutePath();
-		
+
 		if(printMessages)
 			MAIN_UI.printConsole(WAIT_VERIFY_FOLDER + "...");
-		
+
 		if(folder == null || !folder.exists()){
 			// Folder doesn't exist
 			if(printMessages)
@@ -686,11 +688,11 @@ public class DsTextureMod extends DsMod {
 					return false;
 				}
 			}
-			
+
 			// Check for valid files (PNG/DDS)
 			File[] fileList = folder.listFiles();
 			boolean hasValidFiles = false;
-			
+
 			for(File f : fileList){
 				if(!f.isDirectory()){
 					String fileName = f.getName();
@@ -729,7 +731,7 @@ public class DsTextureMod extends DsMod {
 															DIALOG_BUTTON_TEXTS[0]);
 						return false;
 					}
-					
+
 					// Folder is a valid directory to load a texture mod from
 					if(printMessages)
 						MAIN_UI.printConsole(LOAD_TEX_MOD_CHECK_DIR_SUCCESS_MESSAGE + ": " + folder.getPath());
@@ -751,7 +753,7 @@ public class DsTextureMod extends DsMod {
 												LOAD_TXM_DIAG_INVALID_MSGS[0] + String.format("%n%n") + LOAD_TXM_DIAG_INVALID_MSGS[4],
 												DIALOG_BUTTON_TEXTS[0]);
 			}
-			
+
 		}
 		return false;
 	}
@@ -767,5 +769,5 @@ public class DsTextureMod extends DsMod {
 	public static boolean canLoadModFromFolder(File folder, boolean verbose, Collection<File> list){ return DsTextureMod.canLoadModFromFolder(folder, verbose, verbose, list); }
 	public static boolean canLoadModFromFolder(String folderPath, Collection<File> list){ return DsTextureMod.canLoadModFromFolder(new File(folderPath), false, false, list); }
 	public static boolean canLoadModFromFolder(File folder, Collection<File> list){ return DsTextureMod.canLoadModFromFolder(folder, false, false, list); }
-	
+
 }

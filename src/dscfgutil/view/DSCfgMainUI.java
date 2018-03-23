@@ -65,10 +65,10 @@ import javafx.stage.Stage;
  * @author Sean Pesce
  */
 public class DSCfgMainUI {
-    
+
 	//STATIC VARIABLES:
 	public static boolean writeLogToFile = false;
-	
+
     //INSTANCE VARIABLES:
     private int dsVersion = DS_VER_ENUM_UNKNOWN; // Current version of Dark Souls (Latest, Beta, Debug, or Unknown)
     private int dsfStatus; //Installed status of DSFix (Installed = 0, Not Installed = 1, Unknown = 2)
@@ -83,7 +83,7 @@ public class DSCfgMainUI {
     public static String consoleLog = "";
     DSFixFileController fileController;
     CopyableMsgDialog consoleWindow;
-    
+
     //UI COMPONENTS:
     //Primary window builders
     Stage primaryStage;
@@ -106,7 +106,7 @@ public class DSCfgMainUI {
         Menu loadMenu;
             MenuItem loadDSFCfg;
             MenuItem loadDSFKeybinds;
-        Menu     exportMenu;
+        Menu exportMenu;
             MenuItem exportDSFIni;
             MenuItem exportDSFKeybindsIni;
             MenuItem exportDSF;
@@ -149,6 +149,7 @@ public class DSCfgMainUI {
     Menu dscmMenu;
         MenuItem launchDSCM;
         MenuItem launchDSAndCM;
+        MenuItem launchDSCMnExit;
     //
     //////DSCfgUtil options
     Menu optionsMenu;
@@ -212,7 +213,7 @@ public class DSCfgMainUI {
     Label dsmStatusLabel;
     Label dspwStatusLabeller;
     Label dspwStatusLabel;
-    
+
     /**
      * Default (and only) constructor.
      */
@@ -223,38 +224,39 @@ public class DSCfgMainUI {
         consoleLog = new String("");
         fileController.getVersion();
         initUI();
+        printConsole(PROGRAM_LONG.toUpperCase() + " (Created by " + PROGRAM_AUTHOR + ")");
     }
-    
+
     /**
      * Initializes the entire UI.
-     * 
+     *
      */
     private void initUI(){
-    	
+
         initWindow();
-        
-        
+
+
         //Check that DLL chaining is enabled if DSMFix is installed, or check
         // that DLL chaining is not set to dsmfix.dll if DSMfix is not installed
         if(dsmStatus == 0 && !config.dinput8dllWrapper.toString().equals(DSM_FILES[0])){
             config.dinput8dllWrapper.replace(0, config.dinput8dllWrapper.length(), DSM_FILES[0]);
             setSelectedTab(5);
             new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
-                                            DIALOG_MSG_DSM_INST_FIX_CHAINING + 
+                                            DIALOG_MSG_DSM_INST_FIX_CHAINING +
                                             "\n\n" + DIALOG_MSG_APPLY_DSM_CHAIN,
                                             DIALOG_BUTTON_TEXTS[0]);
         }else if((dsmStatus == 1 || dsmStatus == 2) && config.dinput8dllWrapper.toString().equals(DSM_FILES[0])){
             config.dinput8dllWrapper.replace(0, config.dinput8dllWrapper.length(), NONE);
             setSelectedTab(5);
             new AlertDialog(300.0, 80.0, DIALOG_TITLE_APPLY_CHANGES,
-                                            DIALOG_MSG_DSM_NOT_INST_FIX_CHAINING + 
+                                            DIALOG_MSG_DSM_NOT_INST_FIX_CHAINING +
                                             "\n\n" + DIALOG_MSG_APPLY_NO_DLL_CHAIN,
                                             DIALOG_BUTTON_TEXTS[0]);
         }
     }
-    
+
     private void initWindow(){
-        
+
         //Set window size
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
@@ -262,7 +264,7 @@ public class DSCfgMainUI {
         primaryStage.setY(bounds.getMaxY() / 4.0);
         primaryStage.setWidth(bounds.getWidth() / 2.0);
         primaryStage.setHeight(bounds.getHeight() / 2.0);
-        
+
         primaryVBox = new VBox();
         primaryGroup = new Group();
         statusBarShadow = new Rectangle();
@@ -270,8 +272,8 @@ public class DSCfgMainUI {
         primaryGroup.getChildren().addAll(primaryVBox, statusBarShadow);
         //primaryScene = new Scene(primaryVBox);
         primaryScene = new Scene(primaryGroup);
-        
-        
+
+
         //Set window title, icon, and stylesheet
         primaryStage.setTitle(PROGRAM_LONG + " v" + PROGRAM_VERSION);
         primaryStage.getIcons().add(new Image("file:" + IMAGE_DIRECTORY +
@@ -283,22 +285,22 @@ public class DSCfgMainUI {
         initializeDirectoryToolbar();
         initializeConsoleBar();
         initializeStatusBar();
-        
+
         checkForDS();
-        
+
         // Clear write files
         DsMod.clearReadmeTempFile();
         DSFixFileController.clearLogFile();
-        
+
         // Initialize default class data
         DsTextureMod.initDefaultStorageDirs();
-        
+
         // Load program configurable settings
         DSFixFileController.loadStartupConfig();
-        
+
         // Initialize configurable class data
         DsTextureMod.initModList();
-        
+
         dsfKeybinds = new DSFKeybindsConfiguration(this, true);
         config = new DSFConfiguration(this, true);
         dspwConfig = new DSPWConfiguration(this, true);
@@ -308,9 +310,9 @@ public class DSCfgMainUI {
         /*if(showConsoleBar){
         	primaryVBox.getChildren().add(consoleBar);
         }*/
-        
+
         primaryStage.setScene(primaryScene);
-        
+
         primaryStage.show();
         defaultWindowWidth = primaryStage.getWidth();
         defaultWindowHeight = primaryStage.getHeight();
@@ -318,7 +320,7 @@ public class DSCfgMainUI {
 		defaultWindowYPos = primaryStage.getY();
         primaryStage.setX(primaryStage.getX() + DSCfgMainUI.windowXOffset);
         primaryStage.setY(primaryStage.getY() + DSCfgMainUI.windowYOffset);
-        
+
         consoleBarHeight = consoleBar.getHeight();
         if(showConsoleWindow){
         	showConsoleBar = false;
@@ -333,26 +335,26 @@ public class DSCfgMainUI {
         	primaryVBox.getChildren().remove(consoleBar);
         	toggleConsole.setText(TOGGLE_CONSOLE[0]);
         }
-        
+
         primaryVBox.setPrefWidth(primaryScene.getWidth());
         primaryVBox.setPrefHeight(primaryScene.getHeight());
-        
+
         scrollbarWidth = 16.0;
         statusBarShadow.setFill(LinearGradient.valueOf("linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent)"));
         statusBarShadow.setHeight(7.0);
         statusBarShadow.setX(0.0);
         statusBarShadow.setMouseTransparent(true);
         updateStatusBarShadow();
-        
+
         initializeEventHandlers();
-        
+
         if(userWindowWidth > 0.0)
         	primaryStage.setWidth(userWindowWidth);
         if(userWindowHeight > 0.0)
         	primaryStage.setHeight(userWindowHeight);
-        
+
         refreshUI();
-        
+
         if(dsfStatus == 1){
             ContinueDialog cD = new ContinueDialog(300.0, 80.0, DIALOG_TITLE_INSTALL_DSF,
                                 DIALOG_MSG_INSTALL_DSF, DIALOG_BUTTON_TEXTS[2],
@@ -362,13 +364,13 @@ public class DSCfgMainUI {
             }
         }
     }
-    
+
     private void initializeFileToolbar(){
-        
+
         //File toolbar options
         fileToolbar = new MenuBar();
         fileMenu = new Menu(FILE);
-        dsMenu = new Menu(DS);
+        dsMenu = new Menu("Game");
         dsfMenu = new Menu(DSF);
         dsmMenu = new Menu(DSMOUSE);
         dspwMenu = new Menu(DSPW_SHORT);
@@ -377,7 +379,7 @@ public class DSCfgMainUI {
         helpMenu = new Menu(HELP);
         fileToolbar.getMenus().addAll(fileMenu, dsMenu, dsfMenu, dsmMenu,
                                       dspwMenu, dscmMenu, optionsMenu, helpMenu);
-        
+
         //File menu options
         loadMenu = new Menu(LOAD);
             loadDSFCfg = new MenuItem(LOAD_DSF_CFG);
@@ -391,7 +393,7 @@ public class DSCfgMainUI {
         openProgramDir = new MenuItem(OPEN_PROGRAM_DIR);
         exitProgram = new MenuItem(EXIT_PROGRAM);
         fileMenu.getItems().addAll(loadMenu, exportMenu, openProgramDir, exitProgram);
-        
+
         //Dark Souls menu options
         launchDS = new MenuItem(LAUNCH + " " + DS);
         configureDS = new MenuItem(CONFIGURE_DS);
@@ -405,7 +407,7 @@ public class DSCfgMainUI {
             changeDSVersion.getItems().addAll(latestDSVersion, betaDSVersion, debugDSVersion);
         dsVersionMenu.getItems().addAll(checkDSVersion, changeDSVersion);
         dsMenu.getItems().addAll(launchDS, openDataFolder, dsVersionMenu); //@TODO: add configureDS if you want to add support for configuring in-game settings
-        
+
         //DSFix menu options
         applyConfig = new MenuItem(APPLY_CONFIG);
         applyDSFKeybinds = new MenuItem(APPLY_DSF_KEYBINDS);
@@ -414,13 +416,13 @@ public class DSCfgMainUI {
         recheckDSF = new MenuItem(RECHECK_DSF);
         dsfMenu.getItems().addAll(applyConfig, applyDSFKeybinds, installDSF,
                                                 uninstallDSF, recheckDSF);
-        
+
         //DSMfix menu options
         installDSM = new MenuItem(INSTALL_DSM);
         uninstallDSM = new MenuItem(UNINSTALL_DSM);
         configureDSM = new MenuItem(CONFIGURE_DSM);
         dsmMenu.getItems().addAll(installDSM, uninstallDSM, configureDSM);
-        
+
         //DS PvP Watchdog menu options
         applyDSPWConfig = new MenuItem(APPLY_DSPW_CONFIG);
         installDSPW = new MenuItem(INSTALL_DSPW);
@@ -428,16 +430,17 @@ public class DSCfgMainUI {
         recheckDSPW = new MenuItem(RECHECK_DSPW);
         dspwMenu.getItems().addAll(applyDSPWConfig, installDSPW, uninstallDSPW,
                                     recheckDSPW);
-        
+
         //Dark Souls Connectivity Mod options
         launchDSCM = new MenuItem(LAUNCH_DSCM);
         launchDSAndCM = new MenuItem(LAUNCH_DS_AND_CM);
-        dscmMenu.getItems().addAll(launchDSCM, launchDSAndCM);
-        
+        launchDSCMnExit = new MenuItem("Launch DSCM & exit");
+        dscmMenu.getItems().addAll(launchDSCM, launchDSAndCM, launchDSCMnExit);
+
         //DSCfgUtil Options menu
         toggleConsole = new MenuItem(TOGGLE_CONSOLE[0]);
         optionsMenu.getItems().add(toggleConsole);
-        
+
         //Help menu options
         updatesDSCU = new MenuItem(CHECK_DSCU_UPDATES);
         aboutDSCU = new MenuItem(ABOUT_DSCU);
@@ -448,9 +451,9 @@ public class DSCfgMainUI {
         getMods = new MenuItem(GET_MODS);
         helpMenu.getItems().addAll(updatesDSCU, aboutDSCU, aboutDSF, aboutDSM, aboutDSPW, getDS, getMods);
     }
-    
+
     private void initializeDirectoryToolbar(){
-        
+
         //Initialize
         directoryToolbar = new HBox();
         directoryLabel = new Label("   " + DS + " " + DIRECTORY + ":  ");
@@ -460,22 +463,22 @@ public class DSCfgMainUI {
         directoryField.setTooltip(new Tooltip(DIRECTORY_DESC));
         directoryButton = new Button("...");
         directoryButton.setTooltip(new Tooltip(CHOOSE_DIRECTORY));
-        
-        
+
+
         //Stylize
         directoryToolbar.getStyleClass().add("gray_background");
         directoryLabel.getStyleClass().add("translate_y_4");
         directoryLabel.setPrefWidth(127.0);
         directoryField.getStyleClass().add("text_field");
         directoryField.setPrefWidth(primaryStage.getWidth() - 164.0);
-        
+
         directoryToolbar.getChildren().addAll(directoryLabel, directoryField,
                                               directoryButton);
-        
+
     }
-    
+
     private void initializeSettingsTabs(){
-        
+
         primaryTabPane = new TabPane();
         graphicsTab = new Tab(GRAPHICS);
         hudTab = new Tab(HUD);
@@ -487,8 +490,8 @@ public class DSCfgMainUI {
         keysTab = new Tab(KEY_BINDINGS);
         dspwTab = new Tab(DSPW_SHORT);
         texModsTab = new Tab(TEXTURE_MOD + "s");
-        
-        
+
+
         //Populate tabs
         graphicsPane = new DSFGraphicsPane(this);
         graphicsPane.setPrefHeight(Integer.MAX_VALUE);
@@ -520,11 +523,11 @@ public class DSCfgMainUI {
         texModsPane = new DSFTextureModPane(this);
         texModsPane.setPrefHeight(Integer.MAX_VALUE);
         texModsTab.setContent(texModsPane);
-        
+
         primaryTabPane.getTabs().addAll(graphicsTab, hudTab, windowMouseTab,
                                         savesTab, texturesTab, otherTab,
                                         unsafeTab, keysTab, dspwTab, texModsTab);
-        
+
         for(Tab tab : primaryTabPane.getTabs()){
             tab.setClosable(false);
             tab.setTooltip(new Tooltip(DSF +  " " + tab.getText() + " " + OPTIONS));
@@ -533,16 +536,16 @@ public class DSCfgMainUI {
         dspwTab.setTooltip(new Tooltip(DSPW_SHORT + " " + OPTIONS));
         texModsTab.setTooltip(new Tooltip(TEX_MOD_TT));
     }
-    
+
     private void initializeConsoleBar(){
-        
+
         //Initialize
         consoleBar = new HBox();
         consoleLabel = new Label("    " + CONSOLE + ":  ");
         consoleText = new TextField();
         consoleText.setEditable(false);
         consoleButton = new Button();
-        
+
         //Stylize
         consoleBar.getStyleClass().add("gray_background");
         consoleLabel.getStyleClass().add("translate_y_4");
@@ -555,16 +558,16 @@ public class DSCfgMainUI {
                                             CONSOLE_POPOUT_ICON));
         consoleButton.setTooltip(new Tooltip(CONSOLE_POPOUT_HOVER));
         consoleBar.getChildren().addAll(consoleLabel, consoleText, consoleButton);
-        
-        consoleWindow = new CopyableMsgDialog(500.0, 200.0, 
+
+        consoleWindow = new CopyableMsgDialog(500.0, 200.0,
 			                CONSOLE.toUpperCase(), consoleLog,
 			                DIALOG_BUTTON_TEXTS[5]);
-        
+
         MAIN_UI.printConsole("[" + new java.util.Date() + "] Initializing");
     }
-    
+
     private void initializeStatusBar(){
-        
+
 
         //Initialize
         statusBar = new HBox();
@@ -589,7 +592,7 @@ public class DSCfgMainUI {
         dspwStatusLabel = new Label();
         dspwStatusLabel.setTextOverrun(OverrunStyle.CLIP);
         dspwStatusLabel.setTooltip(new Tooltip(DSPW_STATUS_DESC));
-        
+
         //Stylize
         statusBar.getStyleClass().add("light_gray_background_border");
         statusBar.setStyle("-fx-border-thickness: 0;");
@@ -617,15 +620,15 @@ public class DSCfgMainUI {
         //dspwStatusLabeller.setAlignment(Pos.CENTER);
         dspwStatusLabel.setPrefWidth(80.0);
         //dspwStatusLabel.setAlignment(Pos.CENTER);
-        
+
         statusBar.getChildren().addAll(dsVersionLabeller, dsVersionLabel,
                                        dsfStatusLabeller, dsfStatusLabel,
                                        dsmStatusLabeller, dsmStatusLabel,
                                        dspwStatusLabeller, dspwStatusLabel);
     }
-    
+
     private void initializeEventHandlers(){
-        
+
         //FILE TOOLBAR
         //File menu
         //
@@ -750,7 +753,7 @@ public class DSCfgMainUI {
         //
         installDSF.setOnAction(e -> {
             if(dsfStatus == 0 || dsfStatus == 2){
-                ContinueDialog cD = new ContinueDialog(300.0, 80.0, 
+                ContinueDialog cD = new ContinueDialog(300.0, 80.0,
                                         DIALOG_TITLE_RESET, DIALOG_MSG_REINSTALL,
                                         DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[1]);
                 if(cD.show()){
@@ -762,7 +765,7 @@ public class DSCfgMainUI {
         });
         //
         uninstallDSF.setOnAction(e -> {
-            ContinueDialog cD = new ContinueDialog(300.0, 80.0, 
+            ContinueDialog cD = new ContinueDialog(300.0, 80.0,
                                         DIALOG_TITLE_UNINSTALL, DIALOG_MSG_UNINSTALL,
                                         DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[1]);
             if(cD.show()){
@@ -784,7 +787,7 @@ public class DSCfgMainUI {
         //DSMFix menu
         installDSM.setOnAction(e -> {
            if(dsmStatus == 0 || dsmStatus == 2){
-                ContinueDialog cD = new ContinueDialog(300.0, 80.0, 
+                ContinueDialog cD = new ContinueDialog(300.0, 80.0,
                                         DIALOG_TITLE_RESET, DIALOG_MSG_DSM_REINSTALL,
                                         DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[1]);
                 if(cD.show()){
@@ -798,7 +801,7 @@ public class DSCfgMainUI {
         });
         //
         uninstallDSM.setOnAction(e -> {
-            ContinueDialog cD = new ContinueDialog(300.0, 80.0, 
+            ContinueDialog cD = new ContinueDialog(300.0, 80.0,
                                         DIALOG_TITLE_DSM_UNINSTALL, DIALOG_MSG_DSM_UNINSTALL,
                                         DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[1]);
             if(cD.show()){
@@ -858,7 +861,7 @@ public class DSCfgMainUI {
         //
         installDSPW.setOnAction(e -> {
             if(dspwStatus == 0 || dspwStatus == 2){
-                ContinueDialog cD = new ContinueDialog(300.0, 80.0, 
+                ContinueDialog cD = new ContinueDialog(300.0, 80.0,
                                         DIALOG_TITLE_RESET, DIALOG_MSG_REINSTALL_DSPW,
                                         DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[1]);
                 if(cD.show()){
@@ -870,7 +873,7 @@ public class DSCfgMainUI {
         });
         //
         uninstallDSPW.setOnAction(e -> {
-            ContinueDialog cD = new ContinueDialog(300.0, 80.0, 
+            ContinueDialog cD = new ContinueDialog(300.0, 80.0,
                                         DIALOG_TITLE_UNINSTALL_DSPW, DIALOG_MSG_UNINSTALL_DSPW,
                                         DIALOG_BUTTON_TEXTS[2], DIALOG_BUTTON_TEXTS[1]);
             if(cD.show()){
@@ -894,9 +897,9 @@ public class DSCfgMainUI {
                 printConsole(LAUNCH_DS_FAILED + ", " + ex.toString());
                 return;
             }
-            
+
             printConsole(CHECK_FOR_DS_PROCESS);
-            
+
             disableElementsForSleeping();
             for(int i = DSCM_DELAY; i >= 0; i--){
                 try {
@@ -930,10 +933,10 @@ public class DSCfgMainUI {
                     Logger.getLogger(DSCfgMainUI.class.getName()).log(Level.SEVERE, null, ex);
                     printConsole(SLEEP_INTERRUPTED);
                 }
-                
+
             }
             enableElementsForSleeping();
-            
+
             try {
                 printConsole(LAUNCHING_DSCM);
                 launchProgram(FILES_DIR + DSCM_FOLDER + "\\" + DSCM_FILES[1]);
@@ -941,11 +944,21 @@ public class DSCfgMainUI {
                 printConsole(LAUNCH_DSCM_FAILED + ": " + ex.toString());
             }
         });
-        
+
         launchDSCM.setOnAction(e -> {
             try {
                 printConsole(LAUNCHING_DSCM);
                 launchProgram(FILES_DIR + DSCM_FOLDER + "\\" + DSCM_FILES[1]);
+            } catch (IOException ex) {
+                printConsole(LAUNCH_DSCM_FAILED + ": " + ex.toString());
+            }
+        });
+
+        launchDSCMnExit.setOnAction(e -> {
+            try {
+                printConsole(LAUNCHING_DSCM);
+                launchProgram(FILES_DIR + DSCM_FOLDER + "\\" + DSCM_FILES[1]);
+                System.exit(0);
             } catch (IOException ex) {
                 printConsole(LAUNCH_DSCM_FAILED + ": " + ex.toString());
             }
@@ -1050,7 +1063,7 @@ public class DSCfgMainUI {
                 printConsole(FAILED_TO_OPEN_URL + GET_MODS_URL);
             }
         });
-        
+
         //Directory bar
         directoryLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -1087,25 +1100,25 @@ public class DSCfgMainUI {
         directoryButton.setOnAction(e -> {
             fileController.chooseDataFolder();
         });
-        
+
         //Console bar
         //
         consoleButton.setOnAction(e -> {
             if(primaryVBox.getChildren().contains(consoleBar)){
             	primaryVBox.getChildren().remove(consoleBar);
             }
-            
+
             showConsoleBar = false;
             showConsoleWindow = true;
             updateStatusBarShadow();
-            
+
             consoleWindow.show();
             consoleWindow.getAlert().setX(consoleWindow.getAlert().getX() + DSCfgMainUI.consoleWindowXOffset);
 			consoleWindow.getAlert().setY(consoleWindow.getAlert().getY() + DSCfgMainUI.consoleWindowYOffset);
-            
+
             updateStatusBarShadow();
         });
-        
+
         //When exiting program:
         primaryStage.setOnCloseRequest(e -> {
         	DsMod.clearReadmeTempFile();
@@ -1117,7 +1130,7 @@ public class DSCfgMainUI {
             }
             System.exit(0);
         });
-        
+
         //When changing tabs:
         primaryTabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
                 @Override
@@ -1125,7 +1138,7 @@ public class DSCfgMainUI {
                     refreshUI();
                 }
             });
-        
+
         //All resizings based on window size will happen here
         primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
                 @Override
@@ -1134,7 +1147,7 @@ public class DSCfgMainUI {
                     consoleText.setPrefWidth(newWidth.doubleValue() - 115.0);
                 }
             });
-        
+
         primaryScene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth, Number newWidth) {
@@ -1144,7 +1157,7 @@ public class DSCfgMainUI {
             	updateStatusBarShadow();
             }
         });
-        
+
         primaryScene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight) {
@@ -1152,8 +1165,8 @@ public class DSCfgMainUI {
                 updateStatusBarShadow();
             }
         });
-        
-        
+
+
         directoryField.textProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observableValue,
@@ -1165,14 +1178,14 @@ public class DSCfgMainUI {
                     }else{
                         directoryField.pseudoClassStateChanged(INVALID_INPUT, false);
                     }
-                    
+
                 }
             });
     }
-    
+
     private void checkForDS(){
         printConsole(CHECKING_FOR_DS);
-        
+
         //Check for DARKSOULS.exe in current working directory
         boolean checkReg = true;
         String workingDir = Paths.get(".").toAbsolutePath().toString();
@@ -1186,7 +1199,7 @@ public class DSCfgMainUI {
                 dataFolder = null;
             }
         }
-        
+
         //Check for Steam install in registry, and use config.vdf to find games library directory
         File steamFolder;
         String line;
@@ -1233,7 +1246,7 @@ public class DSCfgMainUI {
                 break;
             }
         }
-        
+
         //Check for Dark Souls install in registry
         if(checkReg){
             printConsole(CHECKING_FOR_DS_REG_ENTRIES);
@@ -1278,9 +1291,9 @@ public class DSCfgMainUI {
                 }
             }
         }
-        
+
         checkDSVersion();
-        
+
         if(dataFolder != null && dataFolder.exists()){
             checkForDSFix();
             checkForDSPW();
@@ -1291,11 +1304,11 @@ public class DSCfgMainUI {
             setDSPWStatus(1);
         }
     }
-    
+
     private void checkForDSDefaultDirectories(){
         //Get user drive letter in case it's not C:
         char drive = System.getProperty("user.dir").charAt(0);
-        
+
         switch(drive){
             //Check current drive
             default:
@@ -1322,7 +1335,7 @@ public class DSCfgMainUI {
                 }
                 break;
         }
-        
+
         if(dataFolder != null && dataFolder.exists()){
             return;
         }else{
@@ -1330,24 +1343,30 @@ public class DSCfgMainUI {
             setDSFStatus(2);
         }
     }
-    
+
     public void checkDSVersion(){
         if(dataFolder == null){
             setDSVersion(DS_VER_ENUM_UNKNOWN);
         }
-        
+
         printConsole(DS_VERSION_CHECKING);
-        
-        File gameExecutable = new File(dataFolder.getPath() + "\\" + DS_EXE);
-        
-        if(!gameExecutable.exists()){
+
+        File gameExecutable = null;
+        if (dataFolder != null) {
+        	gameExecutable = new File(dataFolder.getPath() + "\\" + DS_EXE);
+        }
+
+        if(gameExecutable != null && !gameExecutable.exists()){
             setDSVersion(DS_VER_ENUM_UNKNOWN);
             printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_UNKNOWN] + DS_VERSION_DETECTED_MISSING);
         }
-        
-        long gameExecutableSize = gameExecutable.length();
-        
-        if(gameExecutableSize == DS_SIZES[DS_VER_ENUM_LATEST]){
+
+        long gameExecutableSize = (gameExecutable == null) ? 0L : gameExecutable.length();
+
+        if(MAIN_UI.getDataFolder() == null){
+        	setDSVersion(DS_VER_ENUM_UNKNOWN);
+        	printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_UNKNOWN] + " (Failed to locate DATA folder)");
+        }else if(gameExecutableSize == DS_SIZES[DS_VER_ENUM_LATEST]){
             setDSVersion(DS_VER_ENUM_LATEST);
             printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_LATEST]);
         }else if(gameExecutableSize == DS_SIZES[DS_VER_ENUM_BETA]){
@@ -1361,9 +1380,9 @@ public class DSCfgMainUI {
             printConsole(DS_VERSION_DETECTED[DS_VER_ENUM_UNKNOWN] + DS_VERSION_DETECTED_UNKNOWN);
         }
     }
-    
+
     public void checkForDSFix(){
-        
+
         if(dataFolder != null && dataFolder.exists()){
             printConsole(CHECKING_FOR_DSF);
 
@@ -1401,13 +1420,13 @@ public class DSCfgMainUI {
             setDSFStatus(2);
             checkForDS();
         }
-        
+
     }
-    
+
     public void checkForDSMFix(){
-        
+
         printConsole(CHECKING_FOR_DSM);
-        
+
         for(int i = 0; i < DSM_FILES.length; i++){
             File dsmCheck = new File(dataFolder + "\\" + DSM_FILES[i]);
             printConsole("Checking for file " + DSM_FILES[i]);
@@ -1421,20 +1440,20 @@ public class DSCfgMainUI {
                 printConsole(DSM_FOUND);
             }
         }
-        
+
     }
-    
+
     public void checkForDSPW(){
-        
+
         printConsole(CHECKING_FOR_DSPW);
-        
+
         for(int i = 0; i < DSPW_FILES.length; i++){
             if(i == 2){
                 //Ignore readme file
                 i++;
             }
             File dspwCheck = new File(dataFolder + "\\" + DSPW_FILES[i]);
-            if(!dspwCheck.exists()){ 
+            if(!dspwCheck.exists()){
                 setDSPWStatus(1);
                 printConsole(DSPW_FILES[i] + DSCUTIL_FILE_NOT_FOUND);
                 printConsole(DSPW_NOT_FOUND);
@@ -1444,12 +1463,12 @@ public class DSCfgMainUI {
                 printConsole(DSPW_FOUND);
             }
         }
-        
+
         enableAndDisableElements();
     }
-    
+
     public void refreshUI(){
-        
+
         //Check for data folder
         if(dataFolder == null){
             directoryField.pseudoClassStateChanged(INVALID_INPUT, true);
@@ -1459,14 +1478,14 @@ public class DSCfgMainUI {
             directoryField.setText(dataFolder.getPath());
             directoryField.pseudoClassStateChanged(INVALID_INPUT, false);
         }
-        
+
         //Check console status
         if(showConsoleBar || showConsoleWindow){
             toggleConsole.setText(TOGGLE_CONSOLE[1]);
         }else{
             toggleConsole.setText(TOGGLE_CONSOLE[0]);
         }
-        
+
         //Find selected pane and refresh it
         if(primaryTabPane != null){
         	switch(getCurrentTab()){
@@ -1506,21 +1525,21 @@ public class DSCfgMainUI {
                     dspwPane = new DSPWPane(this);
                     dspwTab.setContent(dspwPane);
                     break;
-                case 9: 
+                case 9:
                 	texModsPane = new DSFTextureModPane(this);
                     texModsTab.setContent(texModsPane);
                     break;
                 default:
                     break;
-                
+
             }
         }
-        
+
         enableAndDisableElements();
     }
-    
+
     public void enableAndDisableElements(){
-        
+
         //File menu
         if(config != null && dsfKeybinds != null){
             exportDSFIni.setDisable(false);
@@ -1531,7 +1550,7 @@ public class DSCfgMainUI {
             exportDSFKeybindsIni.setDisable(true);
             exportDSF.setDisable(true);
         }
-        
+
         //Dark Souls menu
         if(dataFolder != null){
             openDataFolder.setDisable(false);
@@ -1575,7 +1594,7 @@ public class DSCfgMainUI {
             openDataFolder.setDisable(true);
             dsVersionMenu.setDisable(true);
         }
-        
+
         //DSFix menu
         switch(dsfStatus){
             case 0:
@@ -1665,7 +1684,7 @@ public class DSCfgMainUI {
             default:
                 break;
         }
-        
+
         //DSMfix menu
         if(dsmStatus == 0){
             installDSM.setText(REINSTALL_DSM);
@@ -1682,7 +1701,7 @@ public class DSCfgMainUI {
             uninstallDSM.setDisable(true);
             configureDSM.setDisable(true);
         }
-        
+
         //DS PvP Watchdog Menu
         if(dataFolder != null){
             installDSPW.setDisable(false);
@@ -1712,7 +1731,7 @@ public class DSCfgMainUI {
                 dspwTab.setDisable(true);
             }
         }
-        
+
         //Dark Souls Connectivity Mod Menu
         if(dataFolder != null){
             launchDSCM.setDisable(false);
@@ -1726,18 +1745,18 @@ public class DSCfgMainUI {
             launchDSCM.setDisable(true);
             launchDSAndCM.setDisable(true);
         }
-        
+
         //Console bar
         /*if(showConsoleBar){
             consoleButton.setDisable(false);
         }else{
             consoleButton.setDisable(true);
         }*/
-        
+
         updateStatusBarShadow();
     }
-    
-    
+
+
     // Update the dimensions of the status bar's shadow
     public void updateStatusBarShadow(){
     	statusBarShadow.setWidth(primaryScene.getWidth() - scrollbarWidth);
@@ -1746,8 +1765,8 @@ public class DSCfgMainUI {
     		consoleBarOffset = consoleBarHeight;
         statusBarShadow.setY(primaryScene.getHeight() - consoleBarOffset - statusBar.getHeight() - statusBarShadow.getHeight());
     }
-    
-    
+
+
     public void disableElementsForSleeping(){
         graphicsPane.applySettingsButton.setDisable(true);
         hudPane.applySettingsButton.setDisable(true);
@@ -1764,7 +1783,7 @@ public class DSCfgMainUI {
         dspwMenu.setDisable(true);
         dscmMenu.setDisable(true);
     }
-    
+
     public void enableElementsForSleeping(){
         graphicsPane.applySettingsButton.setDisable(false);
         hudPane.applySettingsButton.setDisable(false);
@@ -1781,7 +1800,7 @@ public class DSCfgMainUI {
         dspwMenu.setDisable(false);
         dscmMenu.setDisable(false);
     }
-    
+
     public void applyDSFConfig(){
         if(invalidDSFInputsExist()){
             new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
@@ -1804,7 +1823,7 @@ public class DSCfgMainUI {
             wmPane.applySettingsButton.setDisable(false);
         }
     }
-    
+
     public void applyDSPWConfig(){
         if(dspwPane.hasInvalidInputs()){
             new AlertDialog(300.0, 80.0, DIALOG_TITLE_CFG_NOT_APPLIED,
@@ -1815,9 +1834,9 @@ public class DSCfgMainUI {
             dspwPane.applySettingsButton.setDisable(false);
         }
     }
-    
+
     public void printConsole(String message){
-        
+
         System.out.println(message);
         consoleText.setText(message);
         message += String.format("%n");
@@ -1825,70 +1844,70 @@ public class DSCfgMainUI {
         	try {
 				Files.write(Paths.get(LOG_FILE), message.getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
-				
+
 			}
         }
         consoleLog += message;
         consoleText.setAlignment(Pos.CENTER_LEFT);
         consoleText.setAlignment(Pos.CENTER);
-        
+
         if(consoleWindow != null){
             consoleWindow.setMessage(consoleLog);
         }
     }
-    
+
     //Getter/Accessor Methods
     public Stage getStage(){
         return primaryStage;
     }
-    
+
     public int getCurrentTab(){
         return primaryTabPane.getSelectionModel().getSelectedIndex();
     }
-    
+
     public File getDataFolder(){
         return this.dataFolder;
     }
-    
+
     public int getDSFStatus(){
         return dsfStatus;
     }
-    
+
     public int getDSPWStatus(){
         return dspwStatus;
     }
-    
+
     public DSFConfiguration getConfig(){
         return config;
     }
-    
+
     public DSFKeybindsConfiguration getDSFKeybinds(){
         return dsfKeybinds;
     }
-    
+
     public DSPWConfiguration getDSPWConfig(){
         return dspwConfig;
     }
-    
+
     public boolean invalidDSFInputsExist(){
         if(graphicsPane == null){
             return true;
         }else if(graphicsPane.hasInvalidInputs()){
             return true;
         }
-        
+
         if(hudPane == null){
             return true;
         }else if(hudPane.hasInvalidInputs()){
             return true;
         }
-        
+
         if(savesPane == null){
             return true;
         }else if(savesPane.hasInvalidInputs()){
             return true;
         }
-        
+
         if(unsafePane == null){
             return true;
         }else if(unsafePane.hasInvalidInputs()){
@@ -1896,13 +1915,13 @@ public class DSCfgMainUI {
         }
         return false;
     }
-    
+
     //Setter/Mutator Methods
     public void setDSVersion(int newVersion){
         dsVersion = newVersion;
         dsVersionLabel.setText(DS_VERSIONS[newVersion] + "      ");
         dsVersionLabel.getStyleClass().clear();
-        
+
         switch (newVersion) {
             case DS_VER_ENUM_LATEST: //Latest version of Dark Souls is installed
                 dsVersionLabel.getStyleClass().addAll("label", "translate_y_4",
@@ -1922,14 +1941,14 @@ public class DSCfgMainUI {
                 dsVersionLabel.setTooltip(new Tooltip(DS_VERSION_DESC));
                 break;
         }
-        
+
     }
-    
+
     public void setDSFStatus(int newStatus){
         dsfStatus = newStatus;
         dsfStatusLabel.setText(DSF_STATUS[newStatus] + "         ");
         dsfStatusLabel.getStyleClass().clear();
-        
+
         if(newStatus == 0){
             //DSFix is installed
             dsfStatusLabel.getStyleClass().addAll("label", "translate_y_4",
@@ -1941,14 +1960,14 @@ public class DSCfgMainUI {
                                                   "red_text");
             setDSMStatus(dsfStatus);
         }
-        
+
     }
-    
+
     public void setDSMStatus(int newStatus){
         dsmStatus = newStatus;
         dsmStatusLabel.setText(DSF_STATUS[newStatus] + "         ");
         dsmStatusLabel.getStyleClass().clear();
-        
+
         if(newStatus == 0){
             //DSFix is installed
             dsmStatusLabel.getStyleClass().addAll("label", "translate_y_4",
@@ -1958,15 +1977,15 @@ public class DSCfgMainUI {
             dsmStatusLabel.getStyleClass().addAll("label", "translate_y_4",
                                                   "red_text");
         }
-        
+
         refreshUI();
     }
-    
+
     public void setDSPWStatus(int newStatus){
         dspwStatus = newStatus;
         dspwStatusLabel.setText(DSF_STATUS[newStatus] + "         ");
         dspwStatusLabel.getStyleClass().clear();
-        
+
         if(newStatus == 0){
             //DSFix is installed
             dspwStatusLabel.getStyleClass().addAll("label", "translate_y_4",
@@ -1976,36 +1995,36 @@ public class DSCfgMainUI {
             dspwStatusLabel.getStyleClass().addAll("label", "translate_y_4",
                                                   "red_text");
         }
-        
+
         refreshUI();
     }
-    
+
     public void setDataFolder(String newPath){
         dataFolder = new File(newPath);
         checkForDSFix();
         checkForDSPW();
         refreshUI();
     }
-    
+
     public void setSelectedTab(int index){
         primaryTabPane.getSelectionModel().select(index);
     }
-    
+
     public void resetDSFConfigDefaults(){
         config = new DSFConfiguration(this, false);
         config.setWindowsResolution();
     }
-    
+
     public void showConsoleBar(boolean show){
         showConsoleBar = show;
     }
-    
+
     public void showConsoleWindow(boolean show){
         showConsoleWindow = show;
     }
-    
+
     public int getDSVersion(){
         return dsVersion;
     }
-    
+
 }

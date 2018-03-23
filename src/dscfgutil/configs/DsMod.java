@@ -74,75 +74,75 @@ import org.apache.commons.lang3.math.NumberUtils;
 import dscfgutil.FileIO.DSFixFileController;
 
 public class DsMod {
-	
+
 	// List of mod categories (used for grouping in the GUI)
 	public static ArrayList<String> categories = new ArrayList<String>(Arrays.asList(""));
-	
+
 	// Title of this mod
 	public String title = "";
-	
+
 	// Author of this mod
 	public String author = "";
-	
+
 	// Version of this mod
 	public String version = "";
-	
+
 	// Category of this mod (used for grouping in the GUI)
 	public int category = 0;
-	
+
 	// Summary of this mod (only one line)
 	public String summary = "";
-	
+
 	// Full description of this mod (one or more lines)
 	public ArrayList<String> description;
-	
+
 	// Website for this mod or author
 	public String website = "";
-	
+
 	// Unique ID number of this mod on the Dark Souls Nexus mod website
 	public int nexusId = -1;
-	
+
 	// Readme file for this mod (may not exist)
 	public String readme = ""; // Readme line in INFO.txt should be path to Readme file relative to mod folder passed to constructor
-	
+
 	// Subdirectory of the Dark Souls DATA folder where the files should be installed
 	public String installSubDir = "";
-	
+
 	// List of files/folders that aren't included in this mod's file list
 	public ArrayList<String> excludedFiles;
-	
+
 	// Mod directory (where this mod's files are stored)
 	public String storagePath = "";
-	
+
 	// Filenames of each mod file
 	public ArrayList<String> files;
-	
+
 	// Sizes (in bytes) of each mod file
 	public long fileSizes[];
-	
+
 	// SHA-1 checksums of each mod file
 	public ArrayList<String> hashes;
-	
-	
+
+
 	// Constructor
 	public DsMod(String mod_folder) throws FileNotFoundException, IOException {
 		// Trim whitespace
 		mod_folder = mod_folder.trim();
-		
+
 		// Remove trailing backslash, if it exists
 		while(mod_folder.charAt(mod_folder.length() - 1) == '\\'){
 			mod_folder = mod_folder.substring(0, mod_folder.length()).trim();
 		}
-		
+
 		// Initialize data structures
 		this.files = new ArrayList<String>();
 		this.hashes = new ArrayList<String>();
 		this.description = new ArrayList<String>();
 		this.excludedFiles = new ArrayList<String>(Arrays.asList(mod_folder + MOD_INFO_FILE));
-		
+
 		// Set storage path:
 		storagePath = mod_folder;
-		
+
 		// Check if mod folder exists
 		Path p = Paths.get(storagePath);
 		if (storagePath.length() < 1 || Files.notExists(p)) {
@@ -152,23 +152,23 @@ public class DsMod {
 			MAIN_UI.printConsole("ERROR: " + MOD_FOLDER_NOT_DIR);
 			throw new IOException(MOD_FOLDER_NOT_DIR);
 		}
-		
+
 		// Obtain list of all files in the mod folder
 		Collection<File> file_list = FileUtils.listFiles(new File(storagePath), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-		
+
 		this.readInfoFile();
-		
+
 		if(this.title.length() == 0){
 			// If title wasn't found, use folder name for mod title
 			this.title = storagePath.substring(storagePath.lastIndexOf("\\") + 1);
 		}
-		
+
 		// If title is blank, rename to unknown mod title preset
 		this.title = this.title.trim();
 		if(this.title.length() < 1){
 			this.title = UNKNOWN_MOD_TITLE;
 		}
-		
+
 		// If Readme entry wasn't found, search for a file with "Readme" in the filename
 		if(this.readme.length() <= 0){
 			for(File f : file_list){
@@ -181,35 +181,35 @@ public class DsMod {
 				}
 			}
 		}
-		
+
 		// Add Readme to excluded files
 		if(this.readme.length() > 0 && !this.excludedFiles.contains(this.readme)){
 			this.excludedFiles.add(this.readme);
 		}
-		
+
 		// Remove excluded files from file list
 		for(String fs : this.excludedFiles){
 			File f = new File(fs);
-			
+
 			if(f.isDirectory()){
 				file_list.removeIf((File fl) -> (fl.getAbsolutePath().startsWith(f.getAbsolutePath())));
 			}else{
 				file_list.removeIf((File fl) -> (fl.getAbsolutePath().equals(f.getAbsolutePath())));
 			}
 		}
-		
+
 		// Get other file data (paths, hashes, and file sizes)
 		File pathFile = new File(storagePath);
 		for(File f : file_list){
 			if(f.exists() && !f.isDirectory()){
 				// Save file name
 				this.files.add(f.getAbsolutePath().substring(pathFile.getAbsolutePath().length()));
-				
+
 				// Calculate SHA-1 hash
 				this.hashes.add(DSFixFileController.getSHA1Hash(f.getPath()));
 			}
 		}
-		
+
 		// Obtain file sizes
 		this.fileSizes = new long[this.files.size()];
 		int i = 0;
@@ -218,13 +218,13 @@ public class DsMod {
 			i++;
 		}
 	}
-	
+
 	// Return the number of files in this mod (not including excluded files)
 	public int fileCount(){
 		return this.files.size();
 	}
-	
-	
+
+
 	// Return the full mod description as a single String
 	public String getDescription(){
 		return this.getDescription("");
@@ -236,8 +236,8 @@ public class DsMod {
 		}
 		return desc;
 	}
-	
-	
+
+
 	// Return the Dark Souls Nexus mod site page for the mod (or the main Dark Souls Nexus page if this mod object has no nexusId)
 	public String getNexusUrl(){
 		if(this.nexusId > 0)
@@ -245,8 +245,8 @@ public class DsMod {
 		else
 			return GET_MODS_URL;
 	}
-	
-	
+
+
 	// Open the mod Readme file using the system default application
 	public void openReadme(){
 		try {
@@ -279,7 +279,7 @@ public class DsMod {
 				out.print(this.getDescription("    ") + String.format("%n"));
 				out.print(String.format("-------------------------------%n%n"));
 				out.print(README_NOT_EXIST + String.format("%n"));
-				
+
 			}
 			if(in != null)
 			{
@@ -287,16 +287,16 @@ public class DsMod {
 			}
 			fw.close();
 			out.close();
-			
+
 			// Open the temporary Readme file in the system resolver:
 			Desktop.getDesktop().open(new File(TEMP_README_FILE));
-			
+
 		} catch (IOException e) {
 			MAIN_UI.printConsole(README_NOT_OPENED_ERR + this.readme);
 		}
 	}
-	
-	
+
+
 	// Open the website of the author/mod
 	public void openWebsite(){
 		if(this.website.length() > 0){
@@ -315,8 +315,8 @@ public class DsMod {
 			MAIN_UI.printConsole(MOD_WEBSITE_NOT_EXIST);
 		}
 	}
-	
-	
+
+
 	// Open the Dark Souls Nexus site page for the mod (or the main Dark Souls Nexus page if this mod object has no nexusId)
 	public void openNexusPage(){
 		try {
@@ -325,8 +325,8 @@ public class DsMod {
 			MAIN_UI.printConsole(WEBSITE_CANT_ACCESS + this.getNexusUrl());
 		}
 	}
-	
-	
+
+
 	// Install the mod by copying all files into the Dark Souls DATA folder
 	public void install(){
 		boolean error = false;
@@ -349,7 +349,7 @@ public class DsMod {
 		}
 		MAIN_UI.printConsole(message);
 	}
-	
+
 	// Uninstall the mod by deleting all mod files from the Dark Souls DATA folder
 	public void uninstall(){
 		boolean error = false;
@@ -366,7 +366,7 @@ public class DsMod {
 					while(parent.indexOf("\\") > -1){
 						parent = parent.substring(0, parent.lastIndexOf("\\"));
 						File folder = new File(MAIN_UI.getDataFolder().getPath() + "\\" + parent);
-						
+
 						if(folder.exists() && folder.isDirectory() && FileUtils.listFiles(folder, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size() == 0){
 							try{
 								folder.delete();
@@ -389,10 +389,13 @@ public class DsMod {
 			MAIN_UI.printConsole(UNINSTALL_ERRORS + this.title + ".");
 		}
 	}
-	
+
 	// Check if the mod is installed in the Dark Souls directory
 	// @return Installed = 0, Not Installed = 1, Partially installed = 2
 	public int isInstalled(){
+		if (MAIN_UI.getDataFolder() == null) {
+			return MOD_ENUM_NOT_INSTALLED;
+		}
 		int filesFound = 0, filesChecked = 0;
 		for(String f : this.files){
 			File file = new File(MAIN_UI.getDataFolder().getPath() + "\\" + this.installSubDir + "\\" + f);
@@ -401,7 +404,7 @@ public class DsMod {
 			}
 			filesChecked++;
 		}
-		
+
 		if(filesFound > 0 && filesFound == filesChecked && filesFound == this.files.size()){
 			return MOD_ENUM_INSTALLED; // Installed
 		}else if(filesFound == 0){
@@ -409,13 +412,13 @@ public class DsMod {
 		}
 		return MOD_ENUM_PART_INSTALLED;
 	}
-	
+
 	// Delete the mod from the Config Utility files directory
 	public boolean delete(){
 		boolean error = false;
 		MAIN_UI.printConsole(PERM_DELETING + this.title + "...");
 		File file = new File(storagePath);
-		
+
 		// Delete all files
 		Collection<File> file_list = FileUtils.listFiles(file, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 		for(File f : file_list){
@@ -426,7 +429,7 @@ public class DsMod {
 				error = true;
 			}
 		}
-		
+
 		// Delete leftover subfolders (if any)
 		int deleted = -1; // Number of folders deleted in each pass
 		while(deleted != 0){ // Folders can only be deleted if empty, so do multiple passes until nothing's deleted
@@ -446,8 +449,8 @@ public class DsMod {
 				}
 			}
 		}
-		
-		
+
+
 		// Delete mod directory
 		try {
 			file.delete();
@@ -455,16 +458,16 @@ public class DsMod {
 			MAIN_UI.printConsole("ERROR - " + FAILED_FOLDER_DELETE_ERR + file.getAbsolutePath());
 			error = true;
 		}
-		
+
 		if(!error){
 			MAIN_UI.printConsole(this.title + DELETED_SUCCESS);
 		}else{
 			MAIN_UI.printConsole(DELETE_ERRORS + this.title);
 		}
-		
+
 		return !error;
 	}
-	
+
 	// Read the INFO file to determine member data (mod title, author, version, website, installation folder, etc)
 	public void readInfoFile() throws FileNotFoundException{
 		// Check for INFO.txt
@@ -476,15 +479,15 @@ public class DsMod {
 				if(Files.exists(Paths.get(file.getPath())) && !Files.isDirectory(Paths.get(file.getPath()))){
 					// Found info file
 					fileReader = new Scanner(DSFixFileController.readTextFile(file.getPath()));
-					
+
 					// Parse info file for mod info (title, author, version, readme)
 					while(fileReader.hasNextLine()){
 						String line = fileReader.nextLine().trim();
-						
+
 						if(line.length() > MOD_TITLE_KEY.length() && line.substring(0, MOD_TITLE_KEY.length()).toUpperCase().equals(MOD_TITLE_KEY.toUpperCase())){
 							// Found mod title
 							this.title = line.substring(MOD_TITLE_KEY.length()).trim();
-							
+
 						}else if(line.length() > MOD_README_KEY.length() && line.substring(0, MOD_README_KEY.length()).toUpperCase().equals(MOD_README_KEY.toUpperCase())){
 							// Found mod Readme
 							this.readme = storagePath + "\\" + line.substring(MOD_README_KEY.length()).trim().replace("/", "\\");
@@ -538,7 +541,7 @@ public class DsMod {
 								if(!excludedFiles.contains(storagePath + "\\" + line.substring(MOD_EXCLUDE_FILE_KEY.length()).trim())){
 									this.excludedFiles.add(storagePath + "\\" + line.substring(MOD_EXCLUDE_FILE_KEY.length()).trim());
 								}
-								
+
 								if(f.isDirectory()){
 									Collection<File> file_list = FileUtils.listFiles(f, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 									for(File folder_file : file_list){
@@ -556,25 +559,25 @@ public class DsMod {
 							}
 						}
 					}
-					
+
 					fileReader.close();
 					//break;
 				}
 			//}
 		//}
 	}
-	
+
 	// Write configurable data to the INFO file to determine member data more quickly in the future
 	public void writeInfoFile(){
 		File file = new File(storagePath + MOD_INFO_FILE);
-		
+
 		try {
 			FileWriter fw = new FileWriter(file.getAbsolutePath(), false);
 			fw.write("");
 			fw.close();
 			fw = new FileWriter(file.getAbsolutePath(), true);
 			PrintWriter out = new PrintWriter(fw);
-			
+
 			out.print(MOD_TITLE_KEY + this.title + String.format("%n"));
 			if(this.version.length() > 0)
 				out.print(MOD_VERSION_KEY + this.version + String.format("%n"));
@@ -607,7 +610,7 @@ public class DsMod {
 			if(this.nexusId > 0){
 				out.print(MOD_NEXUS_ID_KEY + this.nexusId + String.format("%n"));
 			}
-			
+
 			@SuppressWarnings("unchecked")
 			ArrayList<String> exFiles = (ArrayList<String>)this.excludedFiles.clone();
 			for(String f : this.excludedFiles){
@@ -628,18 +631,18 @@ public class DsMod {
 					out.print(MOD_EXCLUDE_FILE_KEY + relPath + String.format("%n"));
 				}
 			}
-			
+
 			out.print(String.format("%n"));
-			
+
 			fw.close();
 			out.close();
-			
+
 		} catch (IOException e) {
 			MAIN_UI.printConsole(INFO_NOT_WRITTEN_ERR + this.title);
 		}
 	}
-	
-	
+
+
 	// Clear the temporary Readme file (used to stop the user from editing a mod's Readme through the Config Utility)
 	public static void clearReadmeTempFile(){
 		FileWriter fw;
